@@ -22,4 +22,9 @@ describe("Study Historia learning state", () => {
     profile.xp = 0;
     expect(computedAchievements(profile, emptyAppConfig()).filter((item) => item.metric === "xp")).toHaveLength(0);
   });
+
+  it("preserves quiz attempt identity and answer flags during profile normalization", () => {
+    const normalized = normalizeProfile({ attempts: [{ id: "attempt-1", quizId: "quiz-1", completedAt: "2026-08-16T00:00:00.000Z", correct: 2, total: 3, accuracy: 67, durationSeconds: 42, answers: [{ questionId: "q1", answer: "A", flagged: true, correct: false }] }] });
+    expect(normalized.attempts).toEqual([{ id: "attempt-1", quizId: "quiz-1", completedAt: "2026-08-16T00:00:00.000Z", correct: 2, total: 3, accuracy: 67, durationSeconds: 42, answers: [{ questionId: "q1", answer: "A", flagged: true, correct: false }] }]);
+  });
 });

@@ -1,6 +1,12 @@
 import type { ProfileState } from "../../../shared/study";
 import { supabase } from "./supabase";
 
+export async function hasSupabaseSession() {
+  if (!supabase) return false;
+  const { data } = await supabase.auth.getSession();
+  return Boolean(data.session);
+}
+
 async function currentUser() {
   if (!supabase) return null;
   const { data, error } = await supabase.auth.getUser();
@@ -48,6 +54,13 @@ export async function saveSupabaseDeck(input: { title: string; subject?: string;
     cards: input.cards,
   }).select().single();
   return error ? null : data;
+}
+
+export async function listSupabaseQuizAttempts() {
+  const user = await currentUser();
+  if (!user || !supabase) return [];
+  const { data, error } = await supabase.from("quiz_attempts").select("id,title,subject,score,total_questions,duration_seconds,answers,created_at").eq("user_id", user.id).order("created_at", { ascending: false });
+  return error ? [] : data ?? [];
 }
 
 export async function saveSupabaseQuizAttempt(input: { title: string; subject?: string; score: number; totalQuestions: number; durationSeconds: number; answers: unknown[] }) {

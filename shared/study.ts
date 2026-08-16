@@ -47,9 +47,10 @@ export type QuizAttempt = {
   total: number;
   accuracy: number;
   durationSeconds: number;
+  answers?: unknown[];
 };
 
-export type CharacterTimeline = {
+type CharacterTimeline = {
   id: string;
   title: string;
   content: string;
@@ -326,7 +327,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     xp: Math.max(0, Number(source.xp) || 0),
     flashcardSets: Array.isArray(source.flashcardSets) ? source.flashcardSets : [],
     quizzes: Array.isArray(source.quizzes) ? source.quizzes : [],
-    attempts: Array.isArray(source.attempts) ? source.attempts : [],
+    attempts: Array.isArray(source.attempts) ? source.attempts.flatMap((value) => { const attempt = value && typeof value === "object" ? (value as Partial<QuizAttempt>) : null; if (!attempt?.id || !attempt.quizId) return []; return [{ id: String(attempt.id), quizId: String(attempt.quizId), completedAt: String(attempt.completedAt ?? new Date(0).toISOString()), correct: Math.max(0, Number(attempt.correct) || 0), total: Math.max(0, Number(attempt.total) || 0), accuracy: Math.max(0, Math.min(100, Number(attempt.accuracy) || 0)), durationSeconds: Math.max(0, Number(attempt.durationSeconds) || 0), answers: Array.isArray(attempt.answers) ? attempt.answers : [] }]; }) : [],
     fragments: source.fragments && typeof source.fragments === "object" ? source.fragments : {},
     unlockedAchievementIds: Array.isArray(source.unlockedAchievementIds) ? source.unlockedAchievementIds : [],
     ownedBadges: Array.isArray(source.ownedBadges) ? source.ownedBadges : [],

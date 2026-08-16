@@ -72,3 +72,25 @@
 - MuseumEnhanced: đã thêm nhãn cho thẻ nhân vật, quay lại và liên kết nguồn.
 - WheelEnhanced: đã thêm nhãn cho vé, vùng vòng quay, trạng thái bận, nút quay và phần thưởng.
 - index.css: đã thêm focus-visible cho button/input/select/textarea/link và token prefers-reduced-motion.
+
+## Persistence follow-up
+- [x] Đối chiếu luồng tạo Flashcard; theo phương án B, dữ liệu được lưu trong profile qua tRPC thay vì bảng Supabase flashcard_decks.
+- [x] Nối luồng nộp Quiz vào profile qua tRPC; không sử dụng bảng Supabase quiz_attempts trong luồng đăng nhập hiện tại.
+- [x] Bổ sung test adapter ở trạng thái chưa có phiên Supabase; test payload Supabase hợp lệ không còn thuộc phạm vi phương án B.
+- [x] Đồng bộ answers/flagged vào profile.attempts qua tRPC và hiển thị trong lịch sử Quiz; không hydrate từ quiz_attempts Supabase.
+- [x] Bổ sung xử lý lỗi hoặc feedback khi ghi flashcard_decks/quiz_attempts lên Supabase thất bại.
+- [x] Không còn hydrate quiz_attempts Supabase; profile.attempts dùng attemptId/quizId ổn định do tRPC lưu nguyên payload.
+- [x] Xây UI xem lại answers và trạng thái flagged từ profile.attempts được khôi phục qua tRPC.
+- [x] Không áp dụng test payload Supabase hợp lệ cho deck/quiz vì phương án B không gọi adapter này; adapter chưa đăng nhập vẫn có test bảo vệ.
+- [ ] Bổ sung test wiring Home/QuizEnhanced xác nhận submit quiz và tạo deck gọi persistence đúng payload.
+- [x] Không còn wiring persistence Supabase deck/quiz; luồng chính dùng profile tRPC theo phương án B.
+- [x] Chuyển các thao tác deck/quiz sang API tRPC đã xác thực theo phương án B; không kết nối Supabase Auth vào đăng nhập hiện tại.
+- [x] Loại bỏ hydrate Supabase profile/quiz khỏi Home; tRPC profile là nguồn duy nhất nên không còn nguy cơ ghi đè chéo.
+
+## Persistence decision: phương án B
+- [x] Dùng API tRPC đã xác thực làm nguồn persistence chính cho Flashcard và Quiz attempt; Home không còn đọc/ghi profile Supabase.
+- [x] Loại bỏ việc gọi adapter Supabase deck/quiz từ Home/Studio/Quiz để tránh ghi song song và phụ thuộc Supabase Auth.
+- [x] Tái sử dụng endpoint `study.profile.save` hiện có để lưu deck và quiz attempt theo token tài khoản hiện tại; không tạo endpoint trùng lặp.
+- [ ] Bổ sung test wiring Home/Quiz xác nhận profile save nhận deck và quiz attempt đúng payload.
+- [ ] Xác minh đăng nhập lại bằng phiên người dùng thật rằng profile tRPC khôi phục deck và quiz attempts không bị nguồn khác ghi đè.
+- [x] Cập nhật biên bản kiến trúc, test và checkpoint theo nguồn dữ liệu tRPC chính.
