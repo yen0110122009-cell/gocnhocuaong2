@@ -305,7 +305,7 @@
 - [x] Mở hồ sơ nhân vật độc lập sau khi hoàn thành, gồm thông tin cơ bản, ảnh, tiểu sử, timeline và nguồn kiểm chứng.
 - [x] Chuẩn hóa schema nhân vật có characterId, characterName, coverImage, imageSource, biography, timeline, sources, totalPieces, pieces và unlockStatus.
 - [x] Chuẩn hóa schema nguồn ảnh và nguồn tư liệu: tên, URL/thông tin sách, loại, tác giả, ngày xuất bản, ngày truy cập, chú thích và trạng thái xác minh.
-- [ ] Mở rộng Admin thêm/sửa/xóa/ẩn-hiện/sao chép/preview nhân vật, tải ảnh JPG/PNG/WebP và cảnh báo thiếu nguồn.
-- [ ] Cho phép Admin dán tư liệu, gắn nguồn và đánh dấu đã có nguồn/chưa kiểm chứng/thiếu nguồn; không tự coi nội dung thiếu nguồn là đã xác minh.
+- [x] Mở rộng Admin thêm/sửa/xóa/ẩn-hiện/sao chép/preview nhân vật, tải ảnh JPG/PNG/WebP và cảnh báo thiếu nguồn.
+- [x] Cho phép Admin dán tư liệu, gắn nguồn và đánh dấu đã có nguồn/chưa kiểm chứng/thiếu nguồn; không tự coi nội dung thiếu nguồn là đã xác minh.
 - [x] Bảo đảm dữ liệu nhân vật có thể dùng chung nhưng mảnh, tiến trình, trạng thái ghép và mở khóa được cô lập theo từng thành viên.
 - [x] Viết đặc tả vận hành và test để AI/lập trình viên sau này không nhầm mảnh là vật trang trí hoặc mở khóa theo nhóm nhân vật.
