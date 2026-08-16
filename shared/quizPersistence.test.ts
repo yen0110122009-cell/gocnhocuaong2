@@ -37,7 +37,7 @@ describe("quiz persistence helpers", () => {
       now: "2026-08-16T01:02:00.000Z",
       id: "attempt-1",
     });
-    expect(attempt).toMatchObject({ id: "attempt-1", quizId: quiz.id, correct: 1, total: 2, accuracy: 50, durationSeconds: 37 });
+    expect(attempt).toMatchObject({ id: "attempt-1", quizId: quiz.id, completedAt: "2026-08-16T01:02:00.000Z", correct: 1, total: 2, accuracy: 50, durationSeconds: 37 });
     expect(attempt.answers).toEqual([
       { questionId: quiz.questions[0].id, answer: "Năm 1284", flagged: false, correct: true },
       { questionId: quiz.questions[1].id, answer: "", flagged: true, correct: false },

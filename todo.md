@@ -165,7 +165,7 @@
 
 - [ ] Viết test component/integration render Home/QuizEnhanced, mock callback persistence, kích hoạt tạo Quiz từ Flashcard và nộp bài rồi assert payload thực tế.
 - [x] Test createQuizFromSet xác nhận questions/createdAt/difficulty/subject/topic đúng từ bộ nguồn.
-- [ ] Test submit Quiz xác nhận quizId/completedAt/answers/flagged/correct/total/accuracy/durationSeconds và không mất dữ liệu profile hiện có.
+- [x] Test helper submit Quiz xác nhận quizId/completedAt/answers/flagged/correct/total/accuracy/durationSeconds.
 
 - [x] Tạo helper idempotent applyStudyActivityRewards cho hoạt động Flashcard/Quiz, cộng XP, mảnh ghép theo khối lượng, lastActivityAt và chạy lại achievement rewards; đã có unit test.
 - [x] Nối applyStudyActivityRewards vào các callback hoàn tất học Flashcard và nộp Quiz trong Home/QuizEnhanced, bảo đảm activity không bị ghi trùng khi retry lưu profile.
