@@ -335,3 +335,19 @@
 - [x] Thêm bộ lọc biểu đồ tiến bộ theo khoảng thời gian, môn học và chế độ làm đề.
 - [x] Thêm nút xuất báo cáo tiến bộ bằng bản in/PDF, chỉ dùng dữ liệu lịch sử thật của thành viên hiện tại.
 - [x] Viết test cho tạo Flashcard, bộ lọc và luồng print/PDF; kiểm tra responsive/accessibility và lưu checkpoint.
+
+
+## Rà soát giao diện theo đặc tả pasted_content_9
+- [ ] Đối chiếu phạm vi module và điều hướng, loại bỏ nhãn/khối có cảm giác quản lý công việc hoặc dashboard doanh nghiệp nếu còn hiển thị.
+- [ ] Căn chỉnh palette đỏ–xanh lá–kem; giữ vàng mật ong làm màu nhấn và bảo đảm contrast ở light/dark mode.
+- [ ] Căn chỉnh sidebar desktop, mobile navigation, header Trang chủ và card tiến trình theo đặc tả Ong.
+- [ ] Rà soát giao diện AI, Flashcard, Đề web, Đề giấy, Hiểu tận gốc, Tiến trình, Thành tích và Mảnh ghép theo các điều kiện đã ghi nhận.
+- [ ] Kiểm tra responsive/accessibility bằng test và preview desktop/mobile; cập nhật tài liệu và checkpoint.
+
+
+## UI audit theo pasted_content_9 — kết quả
+- [x] Đã đối chiếu phạm vi module và giữ điều hướng theo học tập lịch sử, không thêm Todo/Habit/Journal/Schedule.
+- [x] Đã căn chỉnh palette đỏ–xanh lá–kem, giữ vàng mật ong làm điểm nhấn và cập nhật trạng thái dark mode.
+- [x] Đã sửa nền màn hình đăng nhập về kem/trắng; nút hành động dùng đỏ, trạng thái/hướng dẫn dùng xanh lá.
+- [x] Đã rà soát sidebar, header, dashboard, AI Studio, Flashcard, ba chế độ Làm đề, Tiến trình, Thành tích và Mảnh ghép theo các component đang được route thực tế sử dụng.
+- [x] Đã kiểm tra desktop 1280×720 và mobile 390×844; TypeScript sạch, 32 file với 94 test passed.
