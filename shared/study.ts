@@ -375,6 +375,23 @@ export function applyAchievementRewards(profile: ProfileState, config: AppConfig
   return { profile: next, newlyUnlocked };
 }
 
+export function applyStudyActivityRewards(profile: ProfileState, activity: StudyActivity, config: AppConfig) {
+  if (profile.studyActivity.some((item) => item.id === activity.id)) return { profile, added: false, newlyUnlocked: [] as Achievement[] };
+  const quantity = Math.max(0, Math.floor(activity.quantity));
+  const xpEarned = Math.max(0, Math.floor(activity.xpEarned));
+  const fragmentReward = Math.max(0, Math.floor(quantity / 10));
+  const next: ProfileState = {
+    ...profile,
+    xp: profile.xp + xpEarned,
+    level: levelForXp(profile.xp + xpEarned),
+    studyActivity: [...profile.studyActivity, { ...activity, quantity, xpEarned }],
+    fragments: fragmentReward ? { ...profile.fragments, general: (profile.fragments.general ?? 0) + fragmentReward } : profile.fragments,
+    lastActivityAt: activity.occurredAt,
+  };
+  const rewarded = applyAchievementRewards(next, config);
+  return { profile: rewarded.profile, added: true, newlyUnlocked: rewarded.newlyUnlocked };
+}
+
 export function normalizeProfile(value: unknown): ProfileState {
   const source = value && typeof value === "object" ? (value as Partial<ProfileState>) : {};
   const base = emptyProfile();

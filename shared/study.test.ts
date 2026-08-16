@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyAchievementRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile } from "./study";
+import { applyAchievementRewards, applyStudyActivityRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile } from "./study";
 
 describe("Study Historia learning state", () => {
   it("generates exactly 900 structured achievements", () => {
@@ -80,5 +80,18 @@ describe("Study Historia learning state", () => {
       { id: "broken", kind: "reading" },
     ] });
     expect(normalized.studyActivity).toEqual([{ id: "activity-1", occurredAt: "2026-08-16T00:00:00.000Z", kind: "quiz", quantity: 8, durationSeconds: 600, xpEarned: 84, correct: 7, total: 8 }]);
+  });
+
+  it("awards activity XP and fragments once for flashcard or quiz activity", () => {
+    const activity = { id: "activity-new", occurredAt: "2026-08-16T02:00:00.000Z", kind: "flashcard" as const, quantity: 20, durationSeconds: 90, xpEarned: 30 };
+    const first = applyStudyActivityRewards(emptyProfile(), activity, emptyAppConfig());
+    expect(first.added).toBe(true);
+    expect(first.profile.xp).toBe(30);
+    expect(first.profile.fragments.general).toBe(2);
+    expect(first.profile.lastActivityAt).toBe(activity.occurredAt);
+    const duplicate = applyStudyActivityRewards(first.profile, activity, emptyAppConfig());
+    expect(duplicate.added).toBe(false);
+    expect(duplicate.profile.xp).toBe(30);
+    expect(duplicate.profile.fragments.general).toBe(2);
   });
 });
