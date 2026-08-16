@@ -141,5 +141,34 @@ drop policy if exists "characters_authenticated_read" on public.history_characte
 create policy "characters_authenticated_read" on public.history_characters for select to authenticated using (true);
 
 create index if not exists flashcard_decks_user_id_idx on public.flashcard_decks(user_id);
+
+-- Automatically provision isolated app rows for Supabase Auth users.
+create or replace function public.handle_new_study_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  requested_code text := nullif(new.raw_user_meta_data->>'account_code', '');
+  safe_code text := coalesce(requested_code, 'SB-' || upper(substr(replace(new.id::text, '-', ''), 1, 10)));
+  requested_role text := coalesce(new.raw_user_meta_data->>'role', 'Member');
+  safe_role text := case when requested_role in ('Member', 'Admin', 'Founder') then requested_role else 'Member' end;
+begin
+  insert into public.study_accounts (user_id, account_code, display_name, role)
+  values (new.id, safe_code, coalesce(new.raw_user_meta_data->>'display_name', ''), safe_role)
+  on conflict (user_id) do nothing;
+
+  insert into public.study_profiles (user_id, display_name)
+  values (new.id, coalesce(new.raw_user_meta_data->>'display_name', ''))
+  on conflict (user_id) do nothing;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_study on auth.users;
+create trigger on_auth_user_created_study
+after insert on auth.users
+for each row execute procedure public.handle_new_study_user();
 create index if not exists quiz_attempts_user_id_idx on public.quiz_attempts(user_id);
 create index if not exists character_progress_user_id_idx on public.user_character_progress(user_id);
