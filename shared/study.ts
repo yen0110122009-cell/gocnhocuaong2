@@ -53,7 +53,7 @@ export type QuizAttempt = {
 export type StudyActivity = {
   id: string;
   occurredAt: string;
-  kind: "flashcard" | "quiz" | "wheel";
+  kind: "flashcard" | "quiz" | "wheel" | "pomodoro";
   quantity: number;
   durationSeconds: number;
   xpEarned: number;
@@ -117,7 +117,7 @@ export type CustomAchievement = {
   id: string;
   name: string;
   description: string;
-  metric: "xp" | "learnedCards" | "completedQuizzes" | "completedSets";
+  metric: "xp" | "learnedCards" | "completedQuizzes" | "completedSets" | "pomodoroSessions";
   threshold: number;
   rewardXp: number;
   rewardFragments: number;
@@ -171,6 +171,20 @@ export type ProfileState = {
   bestStreak: number;
   streakShields: number;
   aiImportHistory: AiImportRecord[];
+  pomodoroHistory: PomodoroSession[];
+};
+
+export type PomodoroSession = {
+  id: string;
+  startedAt: string;
+  endedAt: string;
+  durationMinutes: number;
+  subject: string;
+  topic: string;
+  sessionNumber: number;
+  totalSessions: number;
+  mode: "focus" | "shortBreak" | "longBreak";
+  status: "completed" | "abandoned" | "skipped";
 };
 
 export type StudyAccount = {
@@ -188,7 +202,7 @@ export type StudySession = {
   account: StudyAccount;
 };
 
-export type AchievementMetric = "xp" | "learnedCards" | "completedQuizzes" | "completedSets" | "fragments";
+export type AchievementMetric = "xp" | "learnedCards" | "completedQuizzes" | "completedSets" | "fragments" | "pomodoroSessions";
 
 export type Achievement = {
   id: string;
@@ -232,6 +246,7 @@ export const emptyProfile = (): ProfileState => ({
   bestStreak: 0,
   streakShields: 0,
   aiImportHistory: [],
+  pomodoroHistory: [],
 });
 
 export const emptyAppConfig = (): AppConfig => ({
@@ -257,6 +272,7 @@ export const statsForProfile = (profile: ProfileState) => {
     (set) => set.cards.length > 0 && set.cards.every((card) => card.status === "known"),
   ).length;
   const fragments = Object.values(profile.fragments).reduce((sum, value) => sum + Math.max(0, value), 0);
+  const pomodoroSessions = profile.pomodoroHistory.filter((session) => session.status === "completed").length;
   const studySeconds = profile.studyActivity.reduce((sum, item) => sum + Math.max(0, item.durationSeconds), 0)
     || profile.attempts.reduce((sum, attempt) => sum + Math.max(0, attempt.durationSeconds), 0);
   return {
@@ -265,6 +281,7 @@ export const statsForProfile = (profile: ProfileState) => {
     completedSets,
     completedQuizzes: profile.attempts.length,
     fragments,
+    pomodoroSessions,
     studySeconds,
   };
 };
@@ -287,6 +304,7 @@ const metricLabels: Record<AchievementMetric, string> = {
   completedQuizzes: "đề đã hoàn thành",
   completedSets: "bộ Flashcard đã hoàn thành",
   fragments: "mảnh ghép đang sở hữu",
+  pomodoroSessions: "phiên Pomodoro hoàn thành",
 };
 
 const titleSeeds = [
@@ -303,14 +321,14 @@ const titleQualifiers = ["Khởi Sắc", "Bền Chí", "Tiến Hóa", "Tinh Anh"
 const titleMeaning = (seed: string, qualifier: string, specialIndex: number) => `Danh hiệu ${qualifier.toLowerCase()} #${specialIndex + 1}, dành cho người mang tinh thần ${seed.toLowerCase()} và biết biến từng lần ôn tập thành một bước tiến riêng.`;
 
 export function generateAchievements(): Achievement[] {
-  const metrics: AchievementMetric[] = ["learnedCards", "completedQuizzes", "xp", "completedSets", "fragments"];
+  const metrics: AchievementMetric[] = ["learnedCards", "completedQuizzes", "xp", "completedSets", "fragments", "pomodoroSessions"];
   const result: Achievement[] = [];
   ranks.forEach(([icon, rankName, difficulty], rank) => {
     for (let withinRank = 0; withinRank < 100; withinRank += 1) {
       const index = rank * 100 + withinRank;
       const metric = metrics[index % metrics.length];
       const growth = Math.pow(1.055, withinRank) * Math.pow(rank + 1, 1.55);
-      const base = metric === "xp" ? 250 : metric === "learnedCards" ? 10 : metric === "completedQuizzes" ? 3 : metric === "completedSets" ? 2 : 3;
+      const base = metric === "xp" ? 250 : metric === "learnedCards" ? 10 : metric === "completedQuizzes" ? 3 : metric === "completedSets" ? 2 : metric === "pomodoroSessions" ? 10 : 3;
       const specialIndex = index - 500;
       const specialStep = Math.floor(Math.max(0, specialIndex) / metrics.length);
       const threshold = index >= 500 ? Math.max(1, Math.round(base * Math.pow(1.055, specialStep)) + specialStep) : Math.max(1, Math.round(base * growth));
@@ -437,7 +455,8 @@ export function applyStudyActivityRewards(profile: ProfileState, activity: Study
   if (profile.studyActivity.some((item) => item.id === activity.id)) return { profile, added: false, newlyUnlocked: [] as Achievement[] };
   const quantity = Math.max(0, Math.floor(activity.quantity));
   const xpEarned = Math.max(0, Math.floor(activity.xpEarned));
-  const rawFragmentReward = Math.max(0, Math.floor(quantity / 10));
+  const previousPomodoros = profile.pomodoroHistory.filter((session) => session.status === "completed").length;
+  const rawFragmentReward = activity.kind === "pomodoro" ? ((previousPomodoros + 1) % 10 === 0 ? 1 : 0) : Math.max(0, Math.floor(quantity / 10));
   const dayKey = activity.occurredAt.slice(0, 10);
   const fragmentsToday = profile.studyActivity.filter((item) => item.occurredAt.slice(0, 10) === dayKey).reduce((sum, item) => sum + Math.max(0, Math.floor(item.quantity / 10)), 0);
   const fragmentReward = Math.max(0, Math.min(rawFragmentReward, Math.max(0, Number(config.dailyFragmentCap ?? 10) - fragmentsToday)));
@@ -464,7 +483,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     flashcardSets: Array.isArray(source.flashcardSets) ? source.flashcardSets : [],
     quizzes: Array.isArray(source.quizzes) ? source.quizzes : [],
     attempts: Array.isArray(source.attempts) ? source.attempts.flatMap((value) => { const attempt = value && typeof value === "object" ? (value as Partial<QuizAttempt>) : null; if (!attempt?.id || !attempt.quizId) return []; return [{ id: String(attempt.id), quizId: String(attempt.quizId), completedAt: String(attempt.completedAt ?? new Date(0).toISOString()), correct: Math.max(0, Number(attempt.correct) || 0), total: Math.max(0, Number(attempt.total) || 0), accuracy: Math.max(0, Math.min(100, Number(attempt.accuracy) || 0)), durationSeconds: Math.max(0, Number(attempt.durationSeconds) || 0), answers: Array.isArray(attempt.answers) ? attempt.answers : [] }]; }) : [],
-    studyActivity: Array.isArray(source.studyActivity) ? source.studyActivity.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<StudyActivity>) : null; if (!item?.id || (item.kind !== "flashcard" && item.kind !== "quiz" && item.kind !== "wheel")) return []; return [{ id: String(item.id), occurredAt: String(item.occurredAt ?? new Date(0).toISOString()), kind: item.kind, quantity: Math.max(0, Number(item.quantity) || 0), durationSeconds: Math.max(0, Number(item.durationSeconds) || 0), xpEarned: Math.max(0, Number(item.xpEarned) || 0), correct: item.correct === undefined ? undefined : Math.max(0, Number(item.correct) || 0), total: item.total === undefined ? undefined : Math.max(0, Number(item.total) || 0) }]; }) : [],
+    studyActivity: Array.isArray(source.studyActivity) ? source.studyActivity.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<StudyActivity>) : null; if (!item?.id || (item.kind !== "flashcard" && item.kind !== "quiz" && item.kind !== "wheel" && item.kind !== "pomodoro")) return []; return [{ id: String(item.id), occurredAt: String(item.occurredAt ?? new Date(0).toISOString()), kind: item.kind, quantity: Math.max(0, Number(item.quantity) || 0), durationSeconds: Math.max(0, Number(item.durationSeconds) || 0), xpEarned: Math.max(0, Number(item.xpEarned) || 0), correct: item.correct === undefined ? undefined : Math.max(0, Number(item.correct) || 0), total: item.total === undefined ? undefined : Math.max(0, Number(item.total) || 0) }]; }) : [],
     fragments: source.fragments && typeof source.fragments === "object" ? source.fragments : {},
     unlockedAchievementIds: Array.isArray(source.unlockedAchievementIds) ? source.unlockedAchievementIds : [],
     ownedBadges: Array.isArray(source.ownedBadges) ? source.ownedBadges : [],
@@ -473,6 +492,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     currentStreak: Math.max(0, Number(source.currentStreak) || 0),
     bestStreak: Math.max(0, Number(source.bestStreak) || 0),
     streakShields: Math.max(0, Math.min(3, Number(source.streakShields) || 0)),
+    pomodoroHistory: Array.isArray(source.pomodoroHistory) ? source.pomodoroHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<PomodoroSession>) : null; if (!item?.id) return []; return [{ id: String(item.id), startedAt: String(item.startedAt ?? new Date(0).toISOString()), endedAt: String(item.endedAt ?? new Date(0).toISOString()), durationMinutes: Math.max(1, Number(item.durationMinutes) || 1), subject: String(item.subject ?? ""), topic: String(item.topic ?? ""), sessionNumber: Math.max(1, Number(item.sessionNumber) || 1), totalSessions: Math.max(1, Number(item.totalSessions) || 1), mode: item.mode === "shortBreak" || item.mode === "longBreak" ? item.mode : "focus", status: item.status === "abandoned" || item.status === "skipped" ? item.status : "completed" }]; }) : [],
     aiImportHistory: Array.isArray(source.aiImportHistory) ? source.aiImportHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<AiImportRecord>) : null; if (!item?.id || !item.title) return []; return [{ id: String(item.id), title: String(item.title), createdAt: String(item.createdAt ?? new Date(0).toISOString()), target: item.target === "quiz" || item.target === "both" || item.target === "practice" ? item.target : "flashcards", questionCount: Math.max(0, Number(item.questionCount) || 0), flashcardCount: Math.max(0, Number(item.flashcardCount) || 0), prompt: String(item.prompt ?? ""), rawData: String(item.rawData ?? ""), quizId: item.quizId ? String(item.quizId) : undefined, flashcardSetId: item.flashcardSetId ? String(item.flashcardSetId) : undefined }]; }) : [],
   };
   merged.level = levelForXp(merged.xp);

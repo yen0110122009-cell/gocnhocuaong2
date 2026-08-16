@@ -272,3 +272,17 @@
 - [x] Loại bỏ mọi hướng dẫn hiển thị mã 111 khỏi website chính và bản standalone.
 - [x] Thay placeholder và thông báo đăng nhập bằng “Nhập mã thành viên được cấp”.
 - [x] Rà soát chuỗi hiển thị, chạy test và lưu checkpoint sau khi xác nhận không còn lộ mã quản trị.
+
+
+## Nâng Pomodoro thành module chính trong Tiến trình học tập
+- [x] Đưa Pomodoro thành mục chính trong khu vực Tiến trình học tập và giữ liên kết điều hướng rõ ràng.
+- [x] Bổ sung đồng hồ lớn, chế độ Học/Nghỉ ngắn/Nghỉ dài, preset 25/5, 50/10, 60/15, thời lượng tùy chỉnh và số phiên.
+- [x] Bổ sung điều khiển bắt đầu, tạm dừng, bắt đầu lại, bỏ qua phiên, kết thúc và tự động/chuyển thủ công.
+- [x] Lưu lịch sử từng phiên gồm ngày, thời gian bắt đầu/kết thúc, thời lượng, môn học, nội dung, số thứ tự và trạng thái hoàn thành.
+- [x] Kết nối phiên hoàn thành với XP, tiến trình, điều kiện thành tích và cơ hội nhận mảnh ghép theo ngưỡng xa, không tạo thành tích cho từng phiên.
+- [x] Liên kết trực tiếp từ Pomodoro sang Flashcard và Đề kiểm tra nhưng giữ hai module đó độc lập.
+- [x] Bổ sung thống kê tổng phiên, tổng phút, hoàn thành/bỏ dở, trung bình, môn học nổi bật, hôm nay/tuần/tháng và chuỗi ngày.
+- [x] Bổ sung biểu đồ phút theo ngày và thời gian theo môn học.
+- [x] Bổ sung popup hoàn thành phiên/toàn bộ chuỗi với thông tin XP và mảnh ghép nếu có.
+- [x] Bổ sung khu vực âm thanh Pomodoro: bật/tắt, âm lượng, nghe thử, đặt mặc định và âm thanh tùy chọn nếu phù hợp persistence hiện tại.
+- [x] Viết/cập nhật Vitest cho luật phiên, persistence, phần thưởng theo ngưỡng và các liên kết điều hướng; kiểm tra responsive/accessibility.
