@@ -102,7 +102,7 @@
 - Chưa có xác minh phiên đăng nhập lại thật hoặc test component wiring trực tiếp; hai mục này vẫn chờ.
 
 ## Căn chỉnh theo đặc tả website mới
-- [ ] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
+- [x] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
 - [x] Hoàn thiện AI Studio theo luồng nhập yêu cầu, mục đích học, tài liệu/dán văn bản, prompt có thể sao chép/tạo lại/chỉnh sửa và chọn tạo Flashcard, Quiz hoặc cả hai.
 - [ ] Bổ sung quản lý bộ Flashcard: lọc theo môn/chủ đề/ngày, đổi tên, sao chép, xóa, tạo đề từ bộ và bốn chế độ học có báo cáo cuối phiên.
 - [x] Hoàn thiện kết quả đề độc lập với điểm theo thang 10, đúng/sai/bỏ qua, giải thích, gợi ý làm lại và tạo Flashcard từ các câu sai; đã kiểm thử báo cáo, tạo bộ ôn lại và nút Làm lại khởi tạo phiên mới đúng đề.
@@ -138,3 +138,7 @@
 - [x] Thêm trường Mục đích học riêng trong AI Studio React/standalone và đưa vào prompt gửi LLM.
 - [x] Cho phép chỉnh sửa trực tiếp prompt trước khi sao chép hoặc tạo tài liệu, kèm nút tạo lại prompt từ các trường biểu mẫu.
 - [x] Bổ sung contract test xác nhận mode both, mục đích học và prompt editing/regeneration không hồi quy.
+
+- [ ] Audit lại toàn bộ client/src/pages, đặc biệt Cards trong Home.tsx, loại bỏ mọi token blue/violet/cyan còn sót.
+- [ ] Chụp bằng chứng riêng cho các view chính đã đăng nhập ở light/dark mode: dashboard, AI Studio, Flashcard, Quiz, Achievements, Museum, Wheel và Admin.
+- [ ] Xác nhận mascot Ong và dark mode nâu ấm hiện diện nhất quán trong các view chính trước checkpoint giao diện.
