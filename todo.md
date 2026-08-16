@@ -286,3 +286,12 @@
 - [x] Bổ sung popup hoàn thành phiên/toàn bộ chuỗi với thông tin XP và mảnh ghép nếu có.
 - [x] Bổ sung khu vực âm thanh Pomodoro: bật/tắt, âm lượng, nghe thử, đặt mặc định và âm thanh tùy chọn nếu phù hợp persistence hiện tại.
 - [x] Viết/cập nhật Vitest cho luật phiên, persistence, phần thưởng theo ngưỡng và các liên kết điều hướng; kiểm tra responsive/accessibility.
+
+
+## Cách nhận mảnh ghép
+- [x] Đối chiếu và chuẩn hóa các nguồn nhận mảnh: Flashcard, Quiz, Pomodoro, Thành tích, chuỗi học, mục tiêu, ôn câu sai, thử thách, vòng quay, chương học, thành tích đặc biệt và sự kiện.
+- [x] Hiển thị hướng dẫn Cách nhận mảnh ghép trong khu vực Mảnh ghép, phân biệt mảnh thường/hiếm/đặc biệt/sự kiện và nhấn mạnh các mốc đủ xa.
+- [x] Bảo đảm luật không thưởng một mảnh cho mỗi thẻ hoặc mỗi Pomodoro; giữ phần thưởng theo mốc, theo kết quả và theo giới hạn tài khoản.
+- [x] Bổ sung/kiểm tra phần thưởng theo chuỗi học, mục tiêu, ôn câu sai, challenge, chapter và các nguồn đặc biệt phù hợp dữ liệu hiện có.
+- [x] Hiển thị animation/feedback khi nhận mảnh và liên kết tới Bộ sưu tập → Nhân vật → Tiến trình ghép hình.
+- [x] Viết test cho mốc thưởng, độ hiếm, giới hạn tần suất, persistence và cô lập dữ liệu thành viên; cập nhật tài liệu và checkpoint.

@@ -76,7 +76,7 @@ function Views({ view, account, profile, config, token, onView, onProfile, onCon
   if (view === "flashcards") return <Cards profile={profile} config={config} onProfile={onProfile} />;
   if (view === "quizzes") return <QuizEnhanced profile={profile} config={config} onProfile={onProfile} />;
   if (view === "achievements") return <Achievements profile={profile} config={config} />;
-  if (view === "museum") return <MuseumEnhanced account={account} profile={profile} config={config} />;
+  if (view === "museum") return <MuseumEnhanced account={account} profile={profile} config={config} onView={onView} />;
   if (view === "wheel") return <WheelEnhanced profile={profile} config={config} onProfile={onProfile} />;
   if (view === "account") return <Account account={account} profile={profile} onProfile={onProfile} onLogout={onLogout} />;
   return <AdminEnhanced account={account} config={config} onConfig={onConfig} />;
