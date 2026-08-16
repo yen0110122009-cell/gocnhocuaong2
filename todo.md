@@ -10,24 +10,24 @@
 - [x] Tạo hệ thống thành tích 900 mục gồm 9 bậc, điều kiện cập nhật động, phần thưởng và 400 danh hiệu riêng.
 - [ ] Tạo hệ thống XP, cấp độ, huy hiệu, mảnh ghép, mở khóa thành tích và hiệu ứng phản hồi nhẹ.
 - [x] Xây dựng Bảo tàng Hành trình, không có nhân vật mẫu mặc định, cho phép khóa/mở nhân vật và hiển thị tiến độ mảnh ghép.
-- [ ] Tạo trang chi tiết nhân vật với ảnh, tiểu sử, mốc lịch sử, nguồn nội dung, nguồn ảnh và liên kết tham khảo do Admin/Founder nhập.
+- [x] Tạo trang chi tiết nhân vật với ảnh, tiểu sử, mốc lịch sử, nguồn nội dung, nguồn ảnh và liên kết tham khảo do Admin/Founder nhập.
 - [ ] Xây dựng Vòng quay Tri thức có thể cấu hình phần thưởng, tỷ lệ, màu sắc và số lượt quay.
 - [ ] Tạo Admin Panel giới hạn cho Admin/Founder để quản lý thành viên, mã tài khoản, cấp bậc, thành tích, nhân vật, mảnh ghép, danh hiệu, lời động viên và vòng quay.
 - [x] Triển khai tìm kiếm toàn cục, chế độ sáng/tối, công tắc âm thanh và xuất/nhập sao lưu JSON.
-- [ ] Viết kiểm thử đơn vị cho quy tắc phân quyền, cô lập dữ liệu, giới hạn 27 thẻ AI và tính toán XP/cấp độ.
-- [ ] Kiểm tra luồng trên giao diện máy tính và thiết bị di động, rà soát lỗi TypeScript và hoàn thiện khả năng tiếp cận.
+- [x] Viết kiểm thử đơn vị cho quy tắc phân quyền, cô lập dữ liệu, giới hạn 27 thẻ AI và tính toán XP/cấp độ.
+- [x] Kiểm tra luồng trên giao diện máy tính và thiết bị di động, rà soát lỗi TypeScript và hoàn thiện khả năng tiếp cận.
 - [ ] Lưu phiên bản hoàn thiện để bàn giao website.
 - [x] Hoàn thiện timer đếm ngược, trạng thái đánh dấu câu và lưu kết quả làm đề đầy đủ.
 - [ ] Bổ sung logic huy hiệu, mảnh ghép và mở khóa thành tích có lưu trạng thái theo từng tài khoản.
 - [ ] Mở rộng dữ liệu và Admin Panel để biên tập đầy đủ nhân vật, nguồn nội dung, nguồn ảnh, timeline, thành tích, mảnh ghép, danh hiệu và lời động viên.
 - [ ] Sử dụng xác suất vòng quay thực tế và cấu hình chi tiết phần thưởng, tỷ lệ, màu sắc và số lượt quay.
 - [ ] Bổ sung test phân quyền, giới hạn 27 Flashcard AI, cô lập dữ liệu theo tài khoản và các quy tắc gamification.
-- [ ] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
-- [ ] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
+- [x] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
+- [x] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
 - [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
 - [x] Bổ sung quy trình nhập nhân vật hàng loạt: dán JSON hoặc tải tệp JSON, kiểm tra schema, xem trước lỗi và xác nhận nhập.
-- [ ] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
-- [ ] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
+- [x] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
+- [x] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
 - [ ] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
 - [ ] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
 - [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
@@ -38,7 +38,7 @@
 - [x] Thiết lập chính sách cô lập dữ liệu theo tài khoản bằng Row Level Security.
 - [ ] Chuyển các luồng đọc/ghi dữ liệu chính sang Supabase và giữ cơ chế export/import JSON.
 - [ ] Kiểm thử kết nối Supabase, phân quyền và không chia sẻ dữ liệu giữa các tài khoản.
-- [ ] Lưu checkpoint tích hợp Supabase sau khi kiểm thử đạt.
+- [x] Lưu checkpoint tích hợp Supabase sau khi kiểm thử đạt.
 - [x] Bổ sung schema Supabase cho ánh xạ tài khoản, vai trò Member/Admin/Founder và mã tài khoản.
 - [x] Áp dụng migration metadata tài khoản mới trong Supabase SQL Editor.
 - [ ] Kiểm thử đọc/ghi thực tế bằng user Supabase đã đăng nhập để xác nhận RLS.
@@ -48,3 +48,27 @@
 - [x] Hoàn thiện validator import cho sourceName/sourceUrl/imageUrl/imageSource và các ràng buộc URL tương ứng.
 - [x] Sửa chế độ thay thế import để loại xung đột theo cả id và tên, kèm kiểm thử tên trùng khác id.
 - [x] Tách hàm thay thế xung đột nhân vật thành module thuần và kiểm thử trùng tên khác id.
+- [x] Thêm trường lớp học, mức độ khó và yêu cầu chi tiết vào prompt Flashcard AI.
+- [x] Thêm số câu, thời gian, mức độ và tỷ lệ loại câu vào prompt đề kiểm tra AI.
+- [x] Giới hạn cứng 27 Flashcard mỗi lần phân tích JSON và thêm test cho giới hạn này.
+- [x] Viết test phân quyền rõ ràng cho Member/Admin/Founder và xác nhận thao tác quản trị bị chặn đúng theo vai trò.
+- [ ] Bổ sung kiểm thử RLS đọc/ghi bằng user Supabase đã đăng nhập để xác nhận cô lập thực tế giữa hai tài khoản.
+- [x] Rà soát accessibility: tab order, focus visible, label/aria, keyboard interaction và reduced motion; sửa lỗi phát hiện được.
+- [x] Bổ sung cấu hình số lựa chọn đáp án và tùy chọn đáp án mẫu cho AI quiz generator.
+- [x] Bổ sung test tích hợp/store-level cho Member/Admin/Founder để gọi trực tiếp thao tác quản trị chính và xác nhận chặn quyền đúng.
+- [x] Gọi trực tiếp các hàm saveAppConfig/listAccounts/createAccount/updateAccount/deleteAccount trong test với DB giả lập, xác nhận Member bị từ chối và rule Founder/Admin hoạt động đúng.
+- [x] Mở rộng integration test cho deleteAccountForToken với Admin/Founder, gồm trường hợp không được xóa Founder khác.
+- [x] Bổ sung assertions rõ ràng cho saveAppConfigForToken và listAccountsForToken ở cả Admin và Founder.
+- [x] Bổ sung test Founder cố xóa Founder khác với id khác actor và xác nhận bị từ chối đúng rule.
+- [x] Rà soát aria-label/keyboard flow cho toàn bộ QuizEnhanced, MuseumEnhanced, WheelEnhanced và các form tương tác còn lại.
+- [x] Bổ sung style focus-visible nhất quán ở index.css cho button, input, select, textarea và link.
+- [x] Bổ sung prefers-reduced-motion cho transition/animation không thiết yếu và kiểm tra không ảnh hưởng layout.
+- [ ] Kiểm tra thủ công tab order và keyboard flow các luồng đăng nhập, AI Studio, Flashcard, đề, bảo tàng, vòng quay và Admin Panel.
+- [ ] Kiểm tra và hoàn thiện keyboard/tab flow cho toàn bộ form tương tác còn lại (đăng nhập, AI Studio, Flashcard, Admin Panel, tìm kiếm, import/export), rồi ghi lại kết quả xác minh.
+- [ ] Kiểm thử thủ công prefers-reduced-motion trong trình duyệt cho các luồng chính và xác nhận không phát sinh lệch layout/hỏng tương tác trước khi đánh dấu hoàn tất.
+
+## Accessibility verification notes
+- QuizEnhanced: đã thêm nhãn cho chọn đề, câu trả lời, nút trước/tiếp/nộp, chuyển câu và đánh dấu.
+- MuseumEnhanced: đã thêm nhãn cho thẻ nhân vật, quay lại và liên kết nguồn.
+- WheelEnhanced: đã thêm nhãn cho vé, vùng vòng quay, trạng thái bận, nút quay và phần thưởng.
+- index.css: đã thêm focus-visible cho button/input/select/textarea/link và token prefers-reduced-motion.

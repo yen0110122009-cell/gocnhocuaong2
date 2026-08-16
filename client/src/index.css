@@ -6,6 +6,12 @@
   --font-display: "Space Grotesk", "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
+:root {
+  --motion-fast: 160ms;
+  --motion-standard: 240ms;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+}
+
 @layer base {
   * { @apply border-slate-200; }
   html { @apply bg-[#f5f8ff]; }
@@ -13,7 +19,8 @@
   body:has(#root > main) main { background: radial-gradient(circle at 15% 10%, rgba(34, 211, 238, .32), transparent 25%), radial-gradient(circle at 85% 85%, rgba(124, 58, 237, .38), transparent 30%), #071226 !important; }
   button, input, select, textarea { font: inherit; }
   button { cursor: pointer; }
-  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { @apply outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-white dark:ring-offset-slate-950; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { @apply outline-none ring-2 ring-cyan-400 ring-offset-2 ring-offset-white dark:ring-offset-slate-950; }
+  a:focus-visible { text-decoration: underline; }
 }
 
 @utility font-display { font-family: var(--font-display); }
@@ -33,5 +40,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+  :root { --motion-fast: 0ms; --motion-standard: 0ms; --ease-out: linear; }
+  .animate-spin { animation: none !important; }
+}
+
+@media (forced-colors: active) {
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { outline: 2px solid CanvasText; outline-offset: 3px; }
 }

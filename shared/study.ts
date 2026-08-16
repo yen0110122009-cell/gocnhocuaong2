@@ -335,3 +335,7 @@ export function normalizeProfile(value: unknown): ProfileState {
   merged.level = levelForXp(merged.xp);
   return merged;
 }
+
+export function limitFlashcards<T>(cards: T[], limit = 27): T[] {
+  return cards.slice(0, Math.max(0, Math.min(27, limit)));
+}

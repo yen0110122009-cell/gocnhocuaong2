@@ -2,6 +2,7 @@ import { and, eq, gt } from "drizzle-orm";
 import { randomBytes, scryptSync, timingSafeEqual, createHash, randomUUID } from "node:crypto";
 import { studyAccounts, studyProfiles, studySessions, studySettings } from "../drizzle/schema";
 import { emptyAppConfig, emptyProfile, normalizeProfile, type AppConfig, type ProfileState, type StudyAccount, type StudyRole } from "../shared/study";
+import { canAssignRole, canManageMembers, canModifyAccount } from "../shared/permissions";
 import { getDb } from "./db";
 
 const SESSION_HOURS = 12;
@@ -155,8 +156,16 @@ export async function getAppConfig() {
   return jsonFromText<AppConfig>(rows[0].data, emptyAppConfig);
 }
 
+export function assertAdminOperation(account: Pick<StudyAccount, "role">) {
+  if (!canManageMembers(account.role)) throw new Error("Chức năng này chỉ dành cho Admin hoặc Founder.");
+}
+
+export function assertRoleAssignment(actor: Pick<StudyAccount, "role">, target: StudyRole) {
+  if (!canAssignRole(actor.role, target)) throw new Error("Chỉ Founder được cấp quyền Founder.");
+}
+
 function requireAdmin(account: StudyAccount) {
-  if (account.role !== "Admin" && account.role !== "Founder") throw new Error("Chức năng này chỉ dành cho Admin hoặc Founder.");
+  assertAdminOperation(account);
 }
 
 export async function saveAppConfigForToken(token: string, value: unknown) {
@@ -179,7 +188,7 @@ export async function listAccountsForToken(token: string) {
 export async function createAccountForToken(token: string, input: { name: string; code: string; role: StudyRole }) {
   const { account: actor } = await getStudySession(token);
   requireAdmin(actor);
-  if (actor.role !== "Founder" && input.role === "Founder") throw new Error("Chỉ Founder được cấp quyền Founder.");
+  assertRoleAssignment(actor, input.role);
   const name = input.name.trim();
   const code = input.code.trim().toUpperCase();
   if (!name || !code) throw new Error("Tên và mã tài khoản là bắt buộc.");
@@ -203,8 +212,8 @@ export async function updateAccountForToken(token: string, input: { id: string; 
   const db = await database();
   const target = (await db.select().from(studyAccounts).where(eq(studyAccounts.id, input.id)).limit(1))[0];
   if (!target) throw new Error("Không tìm thấy tài khoản.");
-  if (target.role === "Founder" && actor.id !== target.id) throw new Error("Không thể thay đổi tài khoản Founder khác.");
-  if (input.role === "Founder" && actor.role !== "Founder") throw new Error("Chỉ Founder được cấp quyền Founder.");
+  if (!canModifyAccount(actor.role, target.role, actor.id === target.id)) throw new Error("Không thể thay đổi tài khoản này với vai trò hiện tại.");
+  if (input.role && !canAssignRole(actor.role, input.role)) throw new Error("Chỉ Founder được cấp quyền Founder.");
   const values: Partial<typeof studyAccounts.$inferInsert> = { updatedAt: new Date() };
   if (input.role) values.role = input.role;
   if (typeof input.locked === "boolean") values.locked = input.locked;
