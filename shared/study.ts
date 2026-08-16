@@ -19,6 +19,19 @@ export type FlashcardSet = {
   cards: Flashcard[];
 };
 
+export type DeepExplanation = {
+  knowledge?: string;
+  formula?: string;
+  givenData?: string;
+  solutionSteps?: string[];
+  whyThisMethod?: string;
+  commonMistakes?: string[];
+  alternativeSolution?: string;
+  deepQuestions?: Array<{ question: string; answer?: string; explanation?: string }>;
+  variationExplanation?: string;
+  needsVerification?: boolean;
+};
+
 export type QuizQuestion = {
   id: string;
   type: "multiple" | "boolean" | "short";
@@ -26,6 +39,7 @@ export type QuizQuestion = {
   options?: string[];
   answer: string;
   explanation?: string;
+  deepExplanation?: DeepExplanation;
 };
 
 export type Quiz = {
@@ -48,6 +62,27 @@ export type QuizAttempt = {
   accuracy: number;
   durationSeconds: number;
   answers?: unknown[];
+  mode?: "quick" | "deep" | "paper";
+  certainty?: Record<string, "certain" | "unsure" | "wrong" | "blank">;
+  thoughts?: Record<string, string>;
+};
+
+export type PaperQuizSession = {
+  id: string;
+  quizId?: string;
+  title: string;
+  subject: string;
+  questionCount: number;
+  durationMinutes: number;
+  startedAt: string;
+  endedAt?: string;
+  elapsedSeconds: number;
+  goal?: string;
+  status: "running" | "paused" | "completed" | "abandoned";
+  allowPause: boolean;
+  certainty: Record<string, "certain" | "unsure" | "wrong" | "blank">;
+  results?: Record<string, "correct" | "wrong" | "unsure" | "blank">;
+  notes?: string;
 };
 
 export type StudyActivity = {
@@ -227,6 +262,7 @@ export type ProfileState = {
   streakShields: number;
   aiImportHistory: AiImportRecord[];
   pomodoroHistory: PomodoroSession[];
+  paperQuizSessions?: PaperQuizSession[];
   characterProgress: Record<string, CharacterProgress>;
 };
 

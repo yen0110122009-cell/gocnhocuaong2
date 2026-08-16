@@ -14,6 +14,19 @@ export type AiImportOptions = {
   extraRequest?: string;
 };
 
+export type DeepImportExplanation = {
+  knowledge?: string;
+  formula?: string;
+  givenData?: string;
+  solutionSteps?: string[];
+  whyThisMethod?: string;
+  commonMistakes?: string[];
+  alternativeSolution?: string;
+  deepQuestions?: Array<{ question: string; answer?: string; explanation?: string }>;
+  variationExplanation?: string;
+  needsVerification?: boolean;
+};
+
 export type NormalizedImportQuestion = {
   id: string;
   type: Exclude<ImportQuestionType, "mixed">;
@@ -22,6 +35,7 @@ export type NormalizedImportQuestion = {
   answer: string;
   explanation?: string;
   source?: string;
+  deepExplanation?: DeepImportExplanation;
 };
 
 export type ImportValidation = {
@@ -47,12 +61,14 @@ export function buildExternalAiPrompt(options: AiImportOptions): string {
   return [
     "Bạn là AI phân tích tài liệu. Hãy đọc toàn bộ tài liệu được cung cấp và chỉ sử dụng thông tin có trong tài liệu.",
     "Xác định nội dung kiến thức, câu hỏi, đáp án, giải thích và nguồn. Nếu tài liệu có đáp án sẵn, đối chiếu từng câu với đáp án tương ứng, giữ nguyên đáp án, không tự ý sửa; nếu có mâu thuẫn, thêm cảnh báo.",
+    "Mỗi câu bắt buộc có explanation và deepExplanation gồm knowledge, formula (hoặc Không sử dụng công thức.), givenData, solutionSteps theo từng bước, whyThisMethod, commonMistakes, alternativeSolution, deepQuestions có đáp án/giải thích, variationExplanation và needsVerification.",
+    "Nếu tài liệu không đủ căn cứ để xác định đáp án hoặc lời giải, đặt needsVerification=true và ghi rõ cần xác minh; tuyệt đối không tự bịa.",
     "Không tự tạo thêm thông tin ngoài tài liệu nếu không được yêu cầu. Sau khi phân tích, hãy xuất dữ liệu theo JSON hợp lệ mà website có thể kiểm tra.",
     `Mục tiêu: ${target}. Loại câu: ${type}. Số lượng: ${quantity}.`,
     `Chủ đề: ${clean(options.topic) || "theo tài liệu"}. Môn: ${clean(options.subject) || "theo tài liệu"}.`,
     clean(options.title) ? `Tên nguồn/tài liệu: ${clean(options.title)}.` : "",
     clean(options.extraRequest) ? `Yêu cầu bổ sung: ${clean(options.extraRequest)}.` : "",
-    "Schema bắt buộc: {\"questions\":[{\"type\":\"multiple|boolean|short\",\"question\":\"...\",\"options\":[\"...\"],\"answer\":\"...\",\"explanation\":\"...\",\"source\":\"...\"}]}. Với multiple phải có options và answer khớp một lựa chọn; boolean dùng answer Đúng hoặc Sai; short dùng answer ngắn gọn.",
+    "Schema bắt buộc: {\"questions\":[{\"type\":\"multiple|boolean|short\",\"question\":\"...\",\"options\":[\"...\"],\"answer\":\"...\",\"explanation\":\"...\",\"source\":\"...\",\"deepExplanation\":{\"knowledge\":\"...\",\"formula\":\"...\",\"givenData\":\"...\",\"solutionSteps\":[\"Bước 1...\"],\"whyThisMethod\":\"...\",\"commonMistakes\":[\"...\"],\"alternativeSolution\":\"...\",\"deepQuestions\":[{\"question\":\"...\",\"answer\":\"...\",\"explanation\":\"...\"}],\"variationExplanation\":\"...\",\"needsVerification\":false}}]}. Với multiple phải có options và answer khớp một lựa chọn; boolean dùng answer Đúng hoặc Sai; short dùng answer ngắn gọn.",
     "Chỉ trả về JSON, không bọc bằng Markdown và không thêm lời bình ngoài JSON.",
   ].filter(Boolean).join("\n\n");
 }
@@ -102,6 +118,20 @@ export function validateExternalAiData(raw: string, maxFlashcards = 27): ImportV
     const type = normalizeType(item.type);
     const answer = clean(item.answer ?? item.correctAnswer);
     const explanation = clean(item.explanation) || undefined;
+    const rawDeep = item.deepExplanation && typeof item.deepExplanation === "object" ? item.deepExplanation as Record<string, unknown> : {};
+    const deepExplanation: DeepImportExplanation = {
+      knowledge: clean(rawDeep.knowledge) || undefined,
+      formula: clean(rawDeep.formula) || undefined,
+      givenData: clean(rawDeep.givenData) || undefined,
+      solutionSteps: Array.isArray(rawDeep.solutionSteps) ? rawDeep.solutionSteps.map(clean).filter(Boolean) : undefined,
+      whyThisMethod: clean(rawDeep.whyThisMethod) || undefined,
+      commonMistakes: Array.isArray(rawDeep.commonMistakes) ? rawDeep.commonMistakes.map(clean).filter(Boolean) : undefined,
+      alternativeSolution: clean(rawDeep.alternativeSolution) || undefined,
+      deepQuestions: Array.isArray(rawDeep.deepQuestions) ? rawDeep.deepQuestions.map((entry) => { const q = entry && typeof entry === "object" ? entry as Record<string, unknown> : {}; return { question: clean(q.question), answer: clean(q.answer) || undefined, explanation: clean(q.explanation) || undefined }; }).filter((entry) => entry.question) : undefined,
+      variationExplanation: clean(rawDeep.variationExplanation) || undefined,
+      needsVerification: rawDeep.needsVerification === true,
+    };
+    const hasDeepData = Object.entries(deepExplanation).some(([key, value]) => key !== "needsVerification" && (Array.isArray(value) ? value.length > 0 : Boolean(value)));
     const sourceName = clean(item.source) || undefined;
     const options = Array.isArray(item.options) ? item.options.map(clean).filter(Boolean) : [];
     if (!prompt) errors.push(`${label} thiếu câu hỏi.`);
@@ -114,8 +144,10 @@ export function validateExternalAiData(raw: string, maxFlashcards = 27): ImportV
     if (seen.has(duplicateKey)) errors.push(`${label} bị trùng nội dung câu hỏi.`);
     seen.add(duplicateKey);
     if (!explanation) warnings.push(`${label} chưa có giải thích.`);
+    if (!hasDeepData) warnings.push(`${label} chưa có dữ liệu Hiểu tận gốc.`);
+    if (deepExplanation.needsVerification) warnings.push(`${label} được đánh dấu cần xác minh.`);
     if (!sourceName) warnings.push(`${label} chưa có nguồn tham khảo.`);
-    if (type) questions.push({ id: `import-${index + 1}`, type, prompt, options: type === "multiple" ? options : undefined, answer, explanation, source: sourceName });
+    if (type) questions.push({ id: `import-${index + 1}`, type, prompt, options: type === "multiple" ? options : undefined, answer, explanation, source: sourceName, deepExplanation: hasDeepData ? deepExplanation : undefined });
   });
   if (questions.length > maxFlashcards) warnings.push(`Có ${questions.length} câu; khi tạo Flashcard mỗi lần import chỉ dùng tối đa ${maxFlashcards} thẻ.`);
   return { valid: errors.length === 0, errors, warnings, questions };
@@ -127,6 +159,6 @@ export function convertImportToFlashcards(validation: ImportValidation, metadata
 }
 
 export function convertImportToQuiz(validation: ImportValidation, metadata: { title: string; subject: string; topic: string; difficulty?: Quiz["difficulty"]; durationMinutes?: number }, now = new Date().toISOString()): Quiz {
-  const questions: QuizQuestion[] = validation.questions.map((question) => ({ id: question.id, type: question.type, prompt: question.prompt, options: question.options, answer: question.answer, explanation: question.explanation }));
+  const questions: QuizQuestion[] = validation.questions.map((question) => ({ id: question.id, type: question.type, prompt: question.prompt, options: question.options, answer: question.answer, explanation: question.explanation, deepExplanation: question.deepExplanation }));
   return { id: `quiz-${Date.parse(now) || Date.now()}`, title: metadata.title, subject: metadata.subject, topic: metadata.topic, difficulty: metadata.difficulty ?? "Trung bình", durationMinutes: metadata.durationMinutes ?? 30, createdAt: now, questions };
 }

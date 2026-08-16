@@ -309,3 +309,14 @@
 - [x] Cho phép Admin dán tư liệu, gắn nguồn và đánh dấu đã có nguồn/chưa kiểm chứng/thiếu nguồn; không tự coi nội dung thiếu nguồn là đã xác minh.
 - [x] Bảo đảm dữ liệu nhân vật có thể dùng chung nhưng mảnh, tiến trình, trạng thái ghép và mở khóa được cô lập theo từng thành viên.
 - [x] Viết đặc tả vận hành và test để AI/lập trình viên sau này không nhầm mảnh là vật trang trí hoặc mở khóa theo nhóm nhân vật.
+
+
+## Hệ thống Làm đề — 3 chế độ
+- [x] Chuẩn hóa ba chế độ độc lập: Làm đề nhanh trên web, Hiểu tận gốc trên web và Tự làm đề–Tập trung trên giấy.
+- [x] Làm đề nhanh: câu hỏi, trả lời, đúng/sai, điểm, timer, thống kê và giải thích theo cài đặt.
+- [x] Hiểu tận gốc: bổ sung cách tôi suy nghĩ, kiến thức, dữ kiện, công thức, lời giải từng bước, vì sao, lỗi, cách khác, câu hỏi đào sâu và 5 tầng hiểu.
+- [x] Tự làm đề–Tập trung: không hiển thị câu hỏi, timer/focus mode, mục tiêu, âm thanh, tạm dừng tùy phiên, đánh dấu chắc chắn/không chắc/sai/bỏ trống, nhập kết quả sau phiên và bản đồ lỗi.
+- [x] Lưu lịch sử phiên đề giấy gồm thời gian, kết quả, ghi chú, cách suy nghĩ, câu cần học lại và ảnh bài làm nếu được hỗ trợ an toàn.
+- [x] Cập nhật prompt AI hai lớp: bộ câu hỏi + dữ liệu giải thích sâu; thiếu căn cứ phải đánh dấu cần xác minh, không tự bịa.
+- [x] Tạo giao diện chọn chế độ và điều hướng riêng, không gộp đề giấy với đề online.
+- [x] Viết test cho mode, payload giải thích, timer đề giấy, trạng thái chắc chắn và persistence lịch sử.

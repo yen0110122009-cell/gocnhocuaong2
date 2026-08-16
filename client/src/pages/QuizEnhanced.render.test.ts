@@ -32,7 +32,7 @@ describe("QuizEnhanced render integration", () => {
     const html = renderToStaticMarkup(React.createElement(QuizEnhanced, { profile, config: emptyAppConfig(), onProfile: vi.fn() }));
     expect(html).toContain("Quiz phục hồi render");
     expect(html).toContain("Lịch sử làm bài");
-    expect(html).toContain("Bắt đầu đề Quiz phục hồi render");
+    expect(html).toContain("Bắt đầu làm đề nhanh Quiz phục hồi render");
     expect(html).toContain("Tìm đề kiểm tra");
     expect(html).toContain("quiz-history-title");
   });
