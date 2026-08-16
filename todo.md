@@ -30,8 +30,8 @@
 - [x] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
 - [x] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
 - [x] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
-- [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
-- [ ] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
+- [x] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
+- [x] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
 - [x] Bảo đảm website không chứa các chức năng TODO, habit, nhật ký, lịch, Pomodoro hoặc quản lý sinh hoạt hằng ngày.
 - [x] Cấu hình Supabase URL và Publishable key đầy đủ qua biến môi trường bảo mật.
 - [x] Thiết kế và áp dụng schema Supabase cho tài khoản, hồ sơ học tập, Flashcard, đề thi, thành tích, mảnh ghép và nhân vật.
@@ -104,7 +104,7 @@
 ## Căn chỉnh theo đặc tả website mới
 - [x] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
 - [x] Hoàn thiện AI Studio theo luồng nhập yêu cầu, mục đích học, tài liệu/dán văn bản, prompt có thể sao chép/tạo lại/chỉnh sửa và chọn tạo Flashcard, Quiz hoặc cả hai.
-- [ ] Bổ sung quản lý bộ Flashcard: lọc theo môn/chủ đề/ngày, đổi tên, sao chép, xóa, tạo đề từ bộ và bốn chế độ học có báo cáo cuối phiên.
+- [x] Bổ sung quản lý bộ Flashcard: lọc theo môn/chủ đề/ngày, đổi tên, sao chép, xóa, tạo đề từ bộ và bốn chế độ học có báo cáo cuối phiên.
 - [x] Hoàn thiện kết quả đề độc lập với điểm theo thang 10, đúng/sai/bỏ qua, giải thích, gợi ý làm lại và tạo Flashcard từ các câu sai; đã kiểm thử báo cáo, tạo bộ ôn lại và nút Làm lại khởi tạo phiên mới đúng đề.
 - [x] Xây trang Tiến trình từ nhật ký hoạt động thật: lượt học ngày/tuần, thời lượng Quiz đã ghi nhận, độ chính xác 7 ngày và tổng Flashcard/Quiz/XP; không tạo số liệu giả cho dữ liệu chưa được lưu.
 - [x] Hoàn thiện động cơ thành tích 900 mục, phần thưởng một lần, 9 bậc/100 mục, khoảng cách tăng dần và 400 danh hiệu riêng cho 4 bậc cuối; Admin có thể bổ sung/quản lý các mốc tùy chỉnh.
@@ -173,3 +173,13 @@
 - [x] Nối applyStudyActivityRewards vào callback hoàn tất Flashcard; activity Flashcard dùng ID ổn định theo bộ/thẻ/ngày để không ghi trùng khi retry lưu profile.
 - [x] Nối applyStudyActivityRewards vào callback nộp Quiz trong QuizEnhanced, bảo đảm attempt và activity cùng được lưu một lần trong một phiên nộp bài.
 - [x] Truyền AppConfig thật vào Cards/QuizEnhanced khi tính reward, không dùng emptyAppConfig để không bỏ qua cấu hình vé quay/danh hiệu của Admin.
+
+- [x] Hoàn thiện logic riêng cho Flashcard mode trắc nghiệm: sinh lựa chọn, chấm đáp án và gọi reward đúng một lần.
+- [x] Hoàn thiện logic riêng cho Flashcard mode tốc độ: đếm giờ/đếm phiên, giới hạn thời gian và trạng thái kết thúc.
+- [x] Hoàn thiện báo cáo cuối phiên Flashcard cho cả bốn mode, gồm đúng/sai, XP, mảnh ghép, thành tích mở khóa và nút học lại.
+
+- [x] Thêm contract test cho Cards React xác nhận selector flip/choice/write/rapid, lựa chọn trắc nghiệm, đồng hồ tốc độ, báo cáo phiên và nút học lại.
+
+- [x] Nối và kiểm thử quy tắc thưởng mảnh ghép đầy đủ cho Wheel và các activity khác ngoài Flashcard/Quiz/Achievement bằng test end-to-end.
+- [ ] Bổ sung/kiểm chứng code/test cho hiệu ứng mở khóa thành tích, ghép mảnh và hoàn thành bài theo accessible + reduced-motion ở các view liên quan.
+- [x] Hoàn thiện Flashcard write mode bằng chấm đáp án thực sự; rapid mode có giới hạn thời gian, trạng thái kết thúc và báo cáo cuối phiên; thêm test cho cả 4 mode.

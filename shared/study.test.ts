@@ -94,4 +94,14 @@ describe("Study Historia learning state", () => {
     expect(duplicate.profile.xp).toBe(30);
     expect(duplicate.profile.fragments.general).toBe(2);
   });
+
+  it("awards wheel fragment activity idempotently", () => {
+    const activity = { id: "wheel-activity-1", occurredAt: "2026-08-16T03:00:00.000Z", kind: "wheel" as const, quantity: 50, durationSeconds: 0, xpEarned: 0 };
+    const first = applyStudyActivityRewards(emptyProfile(), activity, emptyAppConfig());
+    expect(first.added).toBe(true);
+    expect(first.profile.fragments.general).toBe(5);
+    const duplicate = applyStudyActivityRewards(first.profile, activity, emptyAppConfig());
+    expect(duplicate.added).toBe(false);
+    expect(duplicate.profile.fragments.general).toBe(5);
+  });
 });
