@@ -8,6 +8,7 @@ import Pomodoro from "./Pomodoro";
 import KnowledgeMap from "./KnowledgeMap";
 import StudyHistory from "./StudyHistory";
 import ExamPrep from "./ExamPrep";
+import AIDataImport from "./AIDataImport";
 import { cn } from "@/lib/utils";
 import { Award, BarChart3, BookOpen, BrainCircuit, Check, ChevronLeft, ChevronRight, CircleHelp, Clock3, Dices, Download, FileUp, Flag, GraduationCap, History, LayoutDashboard, LockKeyhole, Menu, Moon, Plus, Search, ShieldCheck, Sparkles, Sun, Trophy, UsersRound, Volume2, VolumeX, WandSparkles, X } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
@@ -15,12 +16,12 @@ import { toast } from "sonner";
 import { applyStudyActivityRewards, computedAchievements, emptyAppConfig, validateGeneratedCards, validateGeneratedQuestions, emptyProfile, generateAchievements, levelForXp, normalizeProfile, statsForProfile, xpForNextLevel, limitFlashcards, type AppConfig, type Flashcard, type FlashcardSet, type ProfileState, type Quiz, type QuizQuestion, type StudyAccount, type StudySession } from "../../../shared/study";
 import { createQuizFromFlashcardSet } from "../../../shared/quizPersistence";
 
-type View = "dashboard" | "focus" | "pomodoro" | "knowledge" | "history" | "exam" | "progress" | "studio" | "flashcards" | "quizzes" | "achievements" | "museum" | "wheel" | "account" | "admin";
+type View = "dashboard" | "focus" | "pomodoro" | "knowledge" | "history" | "exam" | "progress" | "studio" | "ai-import" | "flashcards" | "quizzes" | "achievements" | "museum" | "wheel" | "account" | "admin";
 const SESSION_KEY = "study_historia_session_v1";
 const uid = () => crypto.randomUUID();
 const isAdmin = (a: StudyAccount) => a.role === "Admin" || a.role === "Founder";
 const nav: { id: View; label: string; icon: typeof LayoutDashboard; admin?: boolean }[] = [
-  { id: "dashboard", label: "Trang chủ", icon: LayoutDashboard }, { id: "focus", label: "Ôn tập thông minh", icon: Sparkles }, { id: "pomodoro", label: "Pomodoro", icon: Clock3 }, { id: "knowledge", label: "Bản đồ kiến thức", icon: BarChart3 }, { id: "history", label: "Lịch sử học", icon: History }, { id: "exam", label: "Tôi sắp kiểm tra", icon: Flag }, { id: "progress", label: "Tiến trình", icon: BarChart3 }, { id: "studio", label: "AI Studio", icon: BrainCircuit }, { id: "flashcards", label: "Flashcard", icon: BookOpen }, { id: "quizzes", label: "Đề kiểm tra", icon: CircleHelp }, { id: "achievements", label: "Thành tích", icon: Trophy }, { id: "museum", label: "Bảo tàng hành trình", icon: History }, { id: "wheel", label: "Vòng quay tri thức", icon: Dices }, { id: "account", label: "Tài khoản", icon: UsersRound }, { id: "admin", label: "Admin Panel", icon: ShieldCheck, admin: true },
+  { id: "dashboard", label: "Trang chủ", icon: LayoutDashboard }, { id: "focus", label: "Ôn tập thông minh", icon: Sparkles }, { id: "ai-import", label: "Nhập dữ liệu AI", icon: FileUp }, { id: "pomodoro", label: "Pomodoro", icon: Clock3 }, { id: "knowledge", label: "Bản đồ kiến thức", icon: BarChart3 }, { id: "history", label: "Lịch sử học", icon: History }, { id: "exam", label: "Tôi sắp kiểm tra", icon: Flag }, { id: "progress", label: "Tiến trình", icon: BarChart3 }, { id: "studio", label: "AI Studio", icon: BrainCircuit }, { id: "flashcards", label: "Flashcard", icon: BookOpen }, { id: "quizzes", label: "Đề kiểm tra", icon: CircleHelp }, { id: "achievements", label: "Thành tích", icon: Trophy }, { id: "museum", label: "Bảo tàng hành trình", icon: History }, { id: "wheel", label: "Vòng quay tri thức", icon: Dices }, { id: "account", label: "Tài khoản", icon: UsersRound }, { id: "admin", label: "Admin Panel", icon: ShieldCheck, admin: true },
 ];
 
 function storedSession(): StudySession | null { try { const item = sessionStorage.getItem(SESSION_KEY); return item ? JSON.parse(item) as StudySession : null; } catch { return null; } }
@@ -71,6 +72,7 @@ function Views({ view, account, profile, config, token, onView, onProfile, onCon
   if (view === "exam") return <ExamPrep profile={profile} onView={onView} />;
   if (view === "progress") return <LearningProgress profile={profile} />;
   if (view === "studio") return <Studio profile={profile} onProfile={onProfile} onView={onView} token={token} />;
+  if (view === "ai-import") return <AIDataImport profile={profile} onProfile={onProfile} onView={onView} />;
   if (view === "flashcards") return <Cards profile={profile} config={config} onProfile={onProfile} />;
   if (view === "quizzes") return <QuizEnhanced profile={profile} config={config} onProfile={onProfile} />;
   if (view === "achievements") return <Achievements profile={profile} config={config} />;

@@ -218,3 +218,17 @@
 
 - [x] Lưu checkpoint/final handoff mới sau QuizEnhanced.render.test.ts, import React cho SSR render test, manual notes và todo cập nhật; version handoff: 22c77d0e.
 - [x] Giữ minh bạch rằng reduced-motion đã được kiểm tra qua CSS/Preview và contract test; media emulation trực tiếp chưa được thực hiện vì công cụ không hỗ trợ.
+
+## AI Data Import — mô hình AI bên ngoài
+
+- [x] Tạo khu vực riêng “AI Data Import / Nhập dữ liệu bằng AI”, tách rõ vai trò AI ngoài và bộ chuyển đổi học tập của website.
+- [x] Tạo bộ sinh prompt AI cho PDF/Word/Excel/ảnh/văn bản/đề cũ/nội dung bài học, cho phép chọn mục tiêu Đề thi, Flashcard, Đề + Flashcard hoặc bộ câu hỏi ôn tập.
+- [x] Cho phép cấu hình loại câu trắc nghiệm, đúng/sai, trả lời ngắn, kết hợp; số lượng tự động/10/20/30/tùy chỉnh; yêu cầu giữ nguyên đáp án và cảnh báo mâu thuẫn nguồn.
+- [x] Thêm nút sao chép và tạo lại prompt AI theo yêu cầu mới, không tự gửi tài liệu sang AI ngoài từ website.
+- [x] Thêm textarea “Dán dữ liệu AI”, parser cho cấu trúc chuẩn QUESTION hoặc JSON tương thích, và không tự suy diễn nội dung ngoài dữ liệu đã dán.
+- [x] Validation dữ liệu dán: thiếu câu hỏi/đáp án, loại câu sai, lựa chọn không hợp lệ, đáp án không xác định, câu trùng, giải thích/nguồn tùy chọn và danh sách lỗi có thể sửa/xóa.
+- [x] Preview dữ liệu hợp lệ theo tổng số câu, phân bố loại câu, tỷ lệ có đáp án/giải thích và cảnh báo trước khi tạo nội dung.
+- [x] Chuyển dữ liệu chuẩn hợp lệ thành Quiz, Flashcard hoặc cả hai; hỗ trợ ánh xạ câu hỏi–đáp án–giải thích và lưu vào profile hiện tại.
+- [x] Bảo đảm giới hạn tối đa 27 Flashcard cho mỗi lần AI import nhưng không giới hạn số bộ và tổng số thẻ trong hệ thống.
+- [x] Thêm lịch sử nhập AI theo tài liệu/ngày/mục tiêu/số lượng/prompt/dữ liệu/Quiz/Flashcard, có xem/nạp lại, sao chép prompt và xóa.
+- [x] Thêm contract/domain tests cho prompt, parser, validation, preview, conversion, giới hạn 27 và không có dữ liệu mẫu mặc định.

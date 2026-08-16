@@ -137,6 +137,19 @@ export type AppConfig = {
   updatedAt: string;
 };
 
+export type AiImportRecord = {
+  id: string;
+  title: string;
+  createdAt: string;
+  target: "quiz" | "flashcards" | "both" | "practice";
+  questionCount: number;
+  flashcardCount: number;
+  prompt: string;
+  rawData: string;
+  quizId?: string;
+  flashcardSetId?: string;
+};
+
 export type ProfileState = {
   xp: number;
   level: number;
@@ -157,6 +170,7 @@ export type ProfileState = {
   currentStreak: number;
   bestStreak: number;
   streakShields: number;
+  aiImportHistory: AiImportRecord[];
 };
 
 export type StudyAccount = {
@@ -217,6 +231,7 @@ export const emptyProfile = (): ProfileState => ({
   currentStreak: 0,
   bestStreak: 0,
   streakShields: 0,
+  aiImportHistory: [],
 });
 
 export const emptyAppConfig = (): AppConfig => ({
@@ -458,6 +473,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     currentStreak: Math.max(0, Number(source.currentStreak) || 0),
     bestStreak: Math.max(0, Number(source.bestStreak) || 0),
     streakShields: Math.max(0, Math.min(3, Number(source.streakShields) || 0)),
+    aiImportHistory: Array.isArray(source.aiImportHistory) ? source.aiImportHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<AiImportRecord>) : null; if (!item?.id || !item.title) return []; return [{ id: String(item.id), title: String(item.title), createdAt: String(item.createdAt ?? new Date(0).toISOString()), target: item.target === "quiz" || item.target === "both" || item.target === "practice" ? item.target : "flashcards", questionCount: Math.max(0, Number(item.questionCount) || 0), flashcardCount: Math.max(0, Number(item.flashcardCount) || 0), prompt: String(item.prompt ?? ""), rawData: String(item.rawData ?? ""), quizId: item.quizId ? String(item.quizId) : undefined, flashcardSetId: item.flashcardSetId ? String(item.flashcardSetId) : undefined }]; }) : [],
   };
   merged.level = levelForXp(merged.xp);
   return merged;
