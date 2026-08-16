@@ -351,3 +351,12 @@
 - [x] Đã sửa nền màn hình đăng nhập về kem/trắng; nút hành động dùng đỏ, trạng thái/hướng dẫn dùng xanh lá.
 - [x] Đã rà soát sidebar, header, dashboard, AI Studio, Flashcard, ba chế độ Làm đề, Tiến trình, Thành tích và Mảnh ghép theo các component đang được route thực tế sử dụng.
 - [x] Đã kiểm tra desktop 1280×720 và mobile 390×844; TypeScript sạch, 32 file với 94 test passed.
+
+
+## Pomodoro Web 1 — kết quả rà soát
+- [x] Đã tái cấu trúc màn hình chính theo hướng tối giản, đặt đồng hồ và trạng thái làm trọng tâm.
+- [x] Đã bổ sung trạng thái Sẵn sàng/Đang tập trung/Đang nghỉ/Hoàn thành/Tạm dừng, xác nhận reset và kết thúc sớm.
+- [x] Đã chuẩn hóa preset, chu kỳ 4 phiên, nghỉ dài, metadata hoạt động học và liên kết Flashcard/Quiz.
+- [x] Đã bổ sung Audio Center, tùy chọn âm báo, thống kê/lịch sử và responsive mobile.
+- [x] TypeScript sạch; 32 file với 94 test passed; screenshot mobile không overflow ở màn hình đăng nhập.
+- [x] Đã ghi nhận giới hạn: preview hiện không có phiên đăng nhập nên chưa chụp được màn hình Pomodoro sau đăng nhập trong môi trường này.
