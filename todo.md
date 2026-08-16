@@ -328,3 +328,10 @@
 - [x] Thêm luồng tạo, xem, lưu và dùng lại giải thích sâu AI từ câu sai.
 - [x] Thêm biểu đồ tiến bộ theo chế độ Làm đề và theo chủ đề/môn học dựa trên dữ liệu lịch sử thật.
 - [x] Viết test, kiểm tra responsive/accessibility và lưu checkpoint cho chuỗi thay đổi.
+
+
+## Nâng cấp báo cáo và ôn tập từ giải thích câu sai
+- [x] Thêm nút tạo Flashcard trực tiếp từ phần giải thích sâu của từng câu sai, dùng persistence profile hiện tại.
+- [x] Thêm bộ lọc biểu đồ tiến bộ theo khoảng thời gian, môn học và chế độ làm đề.
+- [x] Thêm nút xuất báo cáo tiến bộ bằng bản in/PDF, chỉ dùng dữ liệu lịch sử thật của thành viên hiện tại.
+- [x] Viết test cho tạo Flashcard, bộ lọc và luồng print/PDF; kiểm tra responsive/accessibility và lưu checkpoint.

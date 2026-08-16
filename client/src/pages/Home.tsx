@@ -8,6 +8,7 @@ import Pomodoro from "./Pomodoro";
 import KnowledgeMap from "./KnowledgeMap";
 import StudyHistory from "./StudyHistory";
 import ExamPrep from "./ExamPrep";
+import ProgressReports from "./ProgressReports";
 import AIDataImport from "./AIDataImport";
 import { cn } from "@/lib/utils";
 import { Award, BarChart3, BookOpen, BrainCircuit, Check, ChevronLeft, ChevronRight, CircleHelp, Clock3, Dices, Download, FileUp, Flag, GraduationCap, History, LayoutDashboard, LockKeyhole, Menu, Moon, Plus, Search, ShieldCheck, Sparkles, Sun, Trophy, UsersRound, Volume2, VolumeX, WandSparkles, X } from "lucide-react";
@@ -70,7 +71,7 @@ function Views({ view, account, profile, config, token, onView, onProfile, onCon
   if (view === "knowledge") return <KnowledgeMap profile={profile} onView={onView} />;
   if (view === "history") return <StudyHistory profile={profile} />;
   if (view === "exam") return <ExamPrep profile={profile} onView={onView} />;
-  if (view === "progress") return <LearningProgress profile={profile} onView={onView} />;
+  if (view === "progress") return <><LearningProgress profile={profile} onView={onView} /><ProgressReports profile={profile} /></>;
   if (view === "studio") return <Studio profile={profile} onProfile={onProfile} onView={onView} token={token} />;
   if (view === "ai-import") return <AIDataImport profile={profile} onProfile={onProfile} onView={onView} />;
   if (view === "flashcards") return <Cards profile={profile} config={config} onProfile={onProfile} />;
