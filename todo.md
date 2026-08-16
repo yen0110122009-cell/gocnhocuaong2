@@ -24,11 +24,11 @@
 - [x] Bổ sung test phân quyền, giới hạn 27 Flashcard AI, cô lập dữ liệu theo tài khoản và các quy tắc gamification.
 - [x] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
 - [x] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
-- [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
+- [x] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
 - [x] Bổ sung quy trình nhập nhân vật hàng loạt: dán JSON hoặc tải tệp JSON, kiểm tra schema, xem trước lỗi và xác nhận nhập.
 - [x] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
 - [x] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
-- [ ] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
+- [x] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
 - [x] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
 - [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
 - [ ] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
@@ -147,3 +147,6 @@
 - [x] Bổ sung cấu hình/quản trị số lượt quay hoặc cơ chế cấp vé quay rõ ràng, kèm test rule.
 - [x] Mở rộng Admin Panel chỉnh sửa trực tiếp nhân vật, nguồn, ảnh, timeline và quản trị mảnh ghép/danh hiệu như thực thể riêng.
 - [x] Thêm test/biên bản end-to-end cho persistence gamification: XP, fragments, badges và unlocked achievements.
+
+- [x] Bổ sung/kiểm chứng UI lịch sử làm đề hiển thị rõ số câu sai, số câu bỏ qua, đáp án từng câu và trạng thái đánh dấu từ profile.attempts.
+- [x] Nối lời động viên cấu hình bởi quản trị viên vào màn hình lịch sử/xem lại bài và thêm test hoặc code evidence sau đăng nhập lại.
