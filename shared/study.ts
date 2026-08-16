@@ -296,6 +296,27 @@ export function computedAchievements(profile: ProfileState, config: AppConfig): 
   return [...standard, ...customs];
 }
 
+export function applyAchievementRewards(profile: ProfileState, config: AppConfig) {
+  const newlyUnlocked = computedAchievements(profile, config).filter(
+    (achievement) => !profile.unlockedAchievementIds.includes(achievement.id),
+  );
+  if (!newlyUnlocked.length) return { profile, newlyUnlocked };
+  const rewardXp = newlyUnlocked.reduce((sum, achievement) => sum + achievement.rewardXp, 0);
+  const rewardFragments = newlyUnlocked.reduce((sum, achievement) => sum + achievement.rewardFragments, 0);
+  const titles = newlyUnlocked.map((achievement) => achievement.title).filter((title): title is string => Boolean(title));
+  const next: ProfileState = {
+    ...profile,
+    xp: profile.xp + rewardXp,
+    level: levelForXp(profile.xp + rewardXp),
+    fragments: rewardFragments ? { ...profile.fragments, general: (profile.fragments.general ?? 0) + rewardFragments } : profile.fragments,
+    unlockedAchievementIds: [...profile.unlockedAchievementIds, ...newlyUnlocked.map((achievement) => achievement.id)],
+    ownedBadges: Array.from(new Set([...profile.ownedBadges, ...newlyUnlocked.map((achievement) => achievement.icon)])),
+    activeTitle: titles.at(-1) ?? profile.activeTitle,
+    wheelTickets: profile.wheelTickets + newlyUnlocked.filter((achievement) => achievement.rewardFragments > 0).length,
+  };
+  return { profile: next, newlyUnlocked };
+}
+
 export function normalizeProfile(value: unknown): ProfileState {
   const source = value && typeof value === "object" ? (value as Partial<ProfileState>) : {};
   const base = emptyProfile();

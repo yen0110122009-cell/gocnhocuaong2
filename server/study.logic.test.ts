@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile, statsForProfile } from "../shared/study";
+import { applyAchievementRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile, statsForProfile } from "../shared/study";
 
 describe("quy tắc Study Historia", () => {
   it("tạo chính xác 900 thành tích với 400 danh hiệu từ nửa sau", () => {
@@ -29,5 +29,17 @@ describe("quy tắc Study Historia", () => {
     config.customAchievements = [{ id: "personal-xp", name: "Bắt đầu", description: "", metric: "xp", threshold: 100, rewardXp: 20, rewardFragments: 0, enabled: true }];
     expect(computedAchievements(profileA, config).some((item) => item.id === "personal-xp")).toBe(true);
     expect(computedAchievements(profileB, config).some((item) => item.id === "personal-xp")).toBe(false);
+  });
+
+  it("chỉ cấp phần thưởng thành tích một lần cho mỗi hồ sơ", () => {
+    const profile = emptyProfile();
+    profile.xp = 120;
+    const config = emptyAppConfig();
+    config.customAchievements = [{ id: "reward-once", name: "Bắt đầu", description: "", metric: "xp", threshold: 100, rewardXp: 30, rewardFragments: 1, enabled: true }];
+    const first = applyAchievementRewards(profile, config);
+    expect(first.newlyUnlocked.map((item) => item.id)).toContain("reward-once");
+    expect(first.profile.xp).toBeGreaterThan(120);
+    const second = applyAchievementRewards(first.profile, config);
+    expect(second.newlyUnlocked.some((item) => item.id === "reward-once")).toBe(false);
   });
 });

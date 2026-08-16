@@ -25,3 +25,20 @@
 - [ ] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
 - [ ] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
 - [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
+- [ ] Bổ sung quy trình nhập nhân vật hàng loạt: dán JSON hoặc tải tệp JSON, kiểm tra schema, xem trước lỗi và xác nhận nhập.
+- [ ] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
+- [ ] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
+- [ ] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
+- [ ] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
+- [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
+- [ ] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
+- [ ] Bảo đảm website không chứa các chức năng TODO, habit, nhật ký, lịch, Pomodoro hoặc quản lý sinh hoạt hằng ngày.
+- [x] Cấu hình Supabase URL và Publishable key đầy đủ qua biến môi trường bảo mật.
+- [x] Thiết kế và áp dụng schema Supabase cho tài khoản, hồ sơ học tập, Flashcard, đề thi, thành tích, mảnh ghép và nhân vật.
+- [x] Thiết lập chính sách cô lập dữ liệu theo tài khoản bằng Row Level Security.
+- [ ] Chuyển các luồng đọc/ghi dữ liệu chính sang Supabase và giữ cơ chế export/import JSON.
+- [ ] Kiểm thử kết nối Supabase, phân quyền và không chia sẻ dữ liệu giữa các tài khoản.
+- [ ] Lưu checkpoint tích hợp Supabase sau khi kiểm thử đạt.
+- [x] Bổ sung schema Supabase cho ánh xạ tài khoản, vai trò Member/Admin/Founder và mã tài khoản.
+- [x] Áp dụng migration metadata tài khoản mới trong Supabase SQL Editor.
+- [ ] Kiểm thử đọc/ghi thực tế bằng user Supabase đã đăng nhập để xác nhận RLS.
