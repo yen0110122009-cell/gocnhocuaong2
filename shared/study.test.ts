@@ -6,7 +6,26 @@ describe("Study Historia learning state", () => {
     const achievements = generateAchievements();
     expect(achievements).toHaveLength(900);
     expect(new Set(achievements.map((item) => item.id)).size).toBe(900);
-    expect(achievements.filter((item) => item.title).length).toBe(400);
+    const titles = achievements.filter((item) => item.title);
+    expect(titles).toHaveLength(400);
+    expect(new Set(titles.map((item) => item.title)).size).toBe(400);
+    expect(new Set(titles.map((item) => item.titleMeaning)).size).toBe(400);
+    for (const metric of ["xp", "learnedCards", "completedQuizzes", "completedSets", "fragments"] as const) {
+      const thresholds = titles.filter((item) => item.metric === metric).map((item) => item.threshold);
+      expect(thresholds.every((value, index) => index === 0 || value > thresholds[index - 1])).toBe(true);
+    }
+    expect(achievements.slice(0, 100).every((item) => item.rankName === "Khởi Đầu")).toBe(true);
+    expect(achievements.slice(500).every((item) => item.titleMeaning && item.rewardXp > 0)).toBe(true);
+    expect(achievements[899].title).toBe("Người Giữ Ngọn Lửa Tri Thức");
+  });
+
+  it("keeps previously stored learning data when catalog metadata evolves", () => {
+    const normalized = normalizeProfile({ xp: 420, activeTitle: "Danh hiệu cũ", unlockedAchievementIds: ["rank-1-1"], flashcardSets: [{ id: "set-1", title: "Lịch sử", subject: "Sử", topic: "Việt Nam", difficulty: "Cơ bản", createdAt: "2026-08-16T00:00:00.000Z", studyCount: 2, cards: [{ id: "card-1", front: "A", back: "B", status: "known", starred: false }] }] });
+    expect(normalized.xp).toBe(420);
+    expect(normalized.activeTitle).toBe("Danh hiệu cũ");
+    expect(normalized.unlockedAchievementIds).toEqual(["rank-1-1"]);
+    expect(normalized.achievementUnlockDates).toEqual({});
+    expect(normalized.flashcardSets[0].cards).toHaveLength(1);
   });
 
   it("derives the level from XP instead of accepting a hard-coded level", () => {

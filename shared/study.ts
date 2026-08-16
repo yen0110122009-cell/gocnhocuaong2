@@ -146,6 +146,7 @@ export type ProfileState = {
   activeTitle: string | null;
   wheelTickets: number;
   inventory: string[];
+  achievementUnlockDates: Record<string, string>;
   soundEnabled: boolean;
   theme: "light" | "dark";
   lastActivityAt: string | null;
@@ -180,6 +181,13 @@ export type Achievement = {
   rewardXp: number;
   rewardFragments: number;
   title: string | null;
+  titleMeaning: string | null;
+  difficulty: "Dễ" | "Bình thường" | "Khó" | "Rất khó" | "Cực khó" | "Huyền thoại";
+  badgeLabel: string;
+  encouragement: string;
+  progress: number;
+  animation: "spark" | "glow" | "legendary";
+  unlockedAt: string | null;
 };
 
 export const emptyProfile = (): ProfileState => ({
@@ -195,6 +203,7 @@ export const emptyProfile = (): ProfileState => ({
   activeTitle: null,
   wheelTickets: 0,
   inventory: [],
+  achievementUnlockDates: {},
   soundEnabled: true,
   theme: "light",
   lastActivityAt: null,
@@ -234,15 +243,15 @@ export const statsForProfile = (profile: ProfileState) => {
 };
 
 const ranks = [
-  ["🌱", "Khởi Đầu"],
-  ["🌿", "Tiến Bước"],
-  ["🔥", "Bứt Phá"],
-  ["⚔️", "Chinh Phục"],
-  ["🏔️", "Vượt Giới Hạn"],
-  ["👑", "Tinh Anh"],
-  ["🌌", "Huyền Thoại"],
-  ["✨", "Truyền Thuyết"],
-  ["♾️", "Vô Cực"],
+  ["🌱", "Khởi Đầu", "Dễ"],
+  ["🌿", "Tiến Bước", "Dễ"],
+  ["⭐", "Bứt Phá", "Bình thường"],
+  ["🔥", "Thử Thách", "Khó"],
+  ["💎", "Cao Cấp", "Khó"],
+  ["👑", "Tinh Anh", "Rất khó"],
+  ["⚡", "Vô Cực", "Cực khó"],
+  ["🌌", "Truyền Thuyết", "Cực khó"],
+  ["🐝", "Huyền Thoại", "Huyền thoại"],
 ] as const;
 
 const metricLabels: Record<AchievementMetric, string> = {
@@ -254,21 +263,34 @@ const metricLabels: Record<AchievementMetric, string> = {
 };
 
 const titleSeeds = [
-  "Người Giữ Lửa", "Bền Chí Vững Tâm", "Vượt Sóng Vươn Xa", "Mở Lối Tri Thức",
-  "Tâm Sáng Đường Xa", "Người Học Không Mỏi", "Gieo Mầm Khát Vọng", "Chí Lớn Mỗi Ngày",
-];
+  "Người Bắt Đầu Con Đường", "Bước Chân Đầu Tiên", "Mầm Tri Thức", "Người Gieo Hạt", "Ánh Sáng Đầu Ngày",
+  "Người Không Bỏ Cuộc", "Kẻ Bền Chí", "Người Rèn Ý Chí", "Bước Chậm Mà Chắc", "Người Đi Đến Cùng",
+  "Ong Chăm Chỉ", "Ong Góp Nhặt Tri Thức", "Người Thợ Xây Tổ", "Người Gom Từng Giọt Mật", "Ong Không Ngừng Bay",
+  "Người Giữ Ngọn Đèn", "Lửa Học Bền Lâu", "Ánh Đèn Bên Trang Sách", "Người Soi Đường", "Đốm Sáng Không Tàn",
+  "Có Công Mài Sắt", "Kiến Tha Lâu Đầy Tổ", "Nước Chảy Đá Mòn", "Học Thầy Học Bạn", "Góp Gió Thành Bão",
+  "Người Vượt Dốc", "Kẻ Băng Qua Mưa Gió", "Người Mở Lối", "Bản Lĩnh Đường Xa", "Người Vươn Tới",
+  "Hạt Mầm Vươn Cành", "Cánh Chim Tri Thức", "Dòng Sông Kiến Văn", "Ngọn Núi Bền Gan", "Vầng Trăng Học Hỏi",
+  "Người Dệt Mạng Hiểu Biết", "Kẻ Thuần Hóa Thử Thách", "Người Chạm Chân Trời", "Bậc Thầy Tích Lũy", "Người Gọi Bình Minh",
+] as const;
+const titleQualifiers = ["Khởi Sắc", "Bền Chí", "Tiến Hóa", "Tinh Anh", "Cao Quý", "Vô Cực", "Truyền Thuyết", "Huyền Thoại", "Rạng Danh", "Tối Thượng"] as const;
+const titleMeaning = (seed: string, qualifier: string, specialIndex: number) => `Danh hiệu ${qualifier.toLowerCase()} #${specialIndex + 1}, dành cho người mang tinh thần ${seed.toLowerCase()} và biết biến từng lần ôn tập thành một bước tiến riêng.`;
 
 export function generateAchievements(): Achievement[] {
   const metrics: AchievementMetric[] = ["learnedCards", "completedQuizzes", "xp", "completedSets", "fragments"];
   const result: Achievement[] = [];
-  ranks.forEach(([icon, rankName], rank) => {
+  ranks.forEach(([icon, rankName, difficulty], rank) => {
     for (let withinRank = 0; withinRank < 100; withinRank += 1) {
       const index = rank * 100 + withinRank;
       const metric = metrics[index % metrics.length];
-      const growth = Math.pow(1.055, withinRank) * (rank + 1);
-      const base = metric === "xp" ? 180 : metric === "learnedCards" ? 5 : metric === "completedQuizzes" ? 1 : 1;
-      const threshold = Math.max(1, Math.round(base * growth));
-      const title = index >= 500 ? `${titleSeeds[index % titleSeeds.length]} · ${index - 499}` : null;
+      const growth = Math.pow(1.055, withinRank) * Math.pow(rank + 1, 1.55);
+      const base = metric === "xp" ? 250 : metric === "learnedCards" ? 10 : metric === "completedQuizzes" ? 3 : metric === "completedSets" ? 2 : 3;
+      const specialIndex = index - 500;
+      const specialStep = Math.floor(Math.max(0, specialIndex) / metrics.length);
+      const threshold = index >= 500 ? Math.max(1, Math.round(base * Math.pow(1.055, specialStep)) + specialStep) : Math.max(1, Math.round(base * growth));
+      const titleSeed = titleSeeds[specialIndex % titleSeeds.length];
+      const qualifier = titleQualifiers[Math.floor(specialIndex / titleSeeds.length) % titleQualifiers.length];
+      const title = index === 899 ? "Người Giữ Ngọn Lửa Tri Thức" : index >= 500 ? `${titleSeed} · ${qualifier}` : null;
+      const difficultyLabel = rank === 8 ? "Huyền thoại" : difficulty;
       result.push({
         id: `rank-${rank + 1}-${withinRank + 1}`,
         rank: rank + 1,
@@ -281,6 +303,13 @@ export function generateAchievements(): Achievement[] {
         rewardXp: 20 + rank * 25 + Math.floor(withinRank / 10) * 5,
         rewardFragments: withinRank % 20 === 19 ? 1 : 0,
         title,
+        titleMeaning: title ? index === 899 ? "Danh hiệu tối thượng dành cho người đã đi hết hành trình, giữ lửa học tập và truyền cảm hứng cho những chặng đường tiếp theo." : titleMeaning(titleSeed, qualifier, specialIndex) : null,
+        difficulty: difficultyLabel,
+        badgeLabel: `${rankName} · Huy hiệu ${withinRank + 1}`,
+        encouragement: index === 899 ? "Ong đã đi hết hành trình 900 mốc — không phải vì con đường kết thúc, mà vì bạn đã chứng minh mình có thể đi rất xa." : title ? "Ong đã bay thêm một chặng dài trên hành trình tri thức." : "Mỗi bước học đều làm nền cho bước tiến tiếp theo.",
+        progress: 0,
+        animation: index === 899 ? "legendary" : rank >= 7 ? "glow" : "spark",
+        unlockedAt: null,
       });
     }
   });
@@ -291,7 +320,7 @@ export function computedAchievements(profile: ProfileState, config: AppConfig): 
   const stats = statsForProfile(profile) as Record<AchievementMetric, number>;
   const overrides = new Map(config.achievementOverrides.map((item) => [item.achievementId, item]));
   const standard = generateAchievements()
-    .map((achievement) => ({ ...achievement, ...overrides.get(achievement.id) }))
+    .map((achievement) => ({ ...achievement, ...overrides.get(achievement.id), progress: Math.min(100, Math.round((stats[achievement.metric] / achievement.threshold) * 100)), unlockedAt: profile.achievementUnlockDates[achievement.id] ?? null }))
     .filter((achievement) => achievement.enabled !== false)
     .filter((achievement) => stats[achievement.metric] >= achievement.threshold);
   const customs: Achievement[] = config.customAchievements
@@ -309,6 +338,13 @@ export function computedAchievements(profile: ProfileState, config: AppConfig): 
       rewardXp: item.rewardXp,
       rewardFragments: item.rewardFragments,
       title: null,
+      titleMeaning: null,
+      difficulty: "Khó",
+      badgeLabel: "Thành tích tùy chỉnh",
+      encouragement: "Một cột mốc riêng đang được mở khóa.",
+      progress: Math.min(100, Math.round(((stats[item.metric] ?? 0) / item.threshold) * 100)),
+      animation: "spark",
+      unlockedAt: profile.achievementUnlockDates[item.id] ?? null,
     }));
   return [...standard, ...customs];
 }
@@ -327,6 +363,7 @@ export function applyAchievementRewards(profile: ProfileState, config: AppConfig
     level: levelForXp(profile.xp + rewardXp),
     fragments: rewardFragments ? { ...profile.fragments, general: (profile.fragments.general ?? 0) + rewardFragments } : profile.fragments,
     unlockedAchievementIds: [...profile.unlockedAchievementIds, ...newlyUnlocked.map((achievement) => achievement.id)],
+    achievementUnlockDates: { ...profile.achievementUnlockDates, ...Object.fromEntries(newlyUnlocked.map((achievement) => [achievement.id, new Date().toISOString()])) },
     ownedBadges: Array.from(new Set([...profile.ownedBadges, ...newlyUnlocked.map((achievement) => achievement.icon)])),
     activeTitle: titles.at(-1) ?? profile.activeTitle,
     wheelTickets: profile.wheelTickets + newlyUnlocked.filter((achievement) => achievement.rewardFragments > 0).length,
@@ -349,6 +386,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     unlockedAchievementIds: Array.isArray(source.unlockedAchievementIds) ? source.unlockedAchievementIds : [],
     ownedBadges: Array.isArray(source.ownedBadges) ? source.ownedBadges : [],
     inventory: Array.isArray(source.inventory) ? source.inventory : [],
+    achievementUnlockDates: source.achievementUnlockDates && typeof source.achievementUnlockDates === "object" ? source.achievementUnlockDates : {},
   };
   merged.level = levelForXp(merged.xp);
   return merged;

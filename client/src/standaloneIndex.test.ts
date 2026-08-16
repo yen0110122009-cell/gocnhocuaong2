@@ -30,6 +30,20 @@ describe("index.html standalone learning contracts", () => {
     expect(standalone).toContain("[data-flash-choice],#check-typed,#check-match");
   });
 
+  it("defines the complete 900-achievement and title collection contract", () => {
+    expect(standalone).toContain("Array.from({length:900}");
+    expect(standalone).toContain("Người Giữ Ngọn Lửa Tri Thức");
+    expect(standalone).toContain("standaloneTitleRanks");
+    expect(standalone).toContain("id=\"ach-search\"");
+    expect(standalone).toContain("id=\"ach-status\"");
+    expect(standalone).toContain("id=\"ach-title\"");
+    expect(standalone).toContain("id=\"ach-difficulty\"");
+    expect(standalone).toContain("id=\"ach-fragments\"");
+    expect(standalone).toContain("window._achDifficulty");
+    expect(standalone).toContain("window._achFragmentOnly");
+    expect(standalone).not.toContain(".slice(0,120)");
+  });
+
   it("discloses the standalone local-storage limitation to the learner", () => {
     expect(standalone).toContain("lưu dữ liệu cục bộ trên thiết bị này");
     expect(standalone).toContain("không đồng bộ máy chủ");

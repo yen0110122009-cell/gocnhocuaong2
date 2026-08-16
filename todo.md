@@ -119,3 +119,13 @@
 - [x] Bổ sung test hồi quy cho index.html xác nhận event binding của cả hai nút báo cáo Quiz, không chỉ sự tồn tại của helper.
 - [x] Thêm kiểm thử hồi quy hợp đồng cho index.html: Quiz render kết quả, học lại câu sai, bốn chế độ Flashcard và thông báo lưu trữ cục bộ (4 kiểm thử).
 - [x] Thêm kiểm thử hồi quy hợp đồng cho index.html: Quiz render kết quả, học lại câu sai, bốn chế độ Flashcard và thông báo lưu trữ cục bộ (mục trùng, đã hoàn thành tại dòng trên).
+
+- [x] Đối chiếu đặc tả pasted_content_3.txt với mô hình achievement hiện tại và giữ nguyên profile cũ.
+- [x] Bổ sung metadata đầy đủ cho 900 thành tích: biểu tượng, mô tả, điều kiện, độ khó, tiến trình, phần thưởng, mảnh ghép, danh hiệu, lời động viên, ngày mở khóa và animation.
+- [x] Bảo đảm 400 thành tích từ #501 đến #900 có 400 danh hiệu riêng biệt, ý nghĩa riêng và điều kiện tăng dần; #900 là danh hiệu tối thượng.
+- [x] Bổ sung bộ lọc/tìm kiếm thành tích theo trạng thái, độ khó, có danh hiệu và có mảnh ghép; hiển thị thẻ danh hiệu khi đã mở khóa.
+- [x] Bổ sung kiểm thử catalog 900 mục, 400 danh hiệu duy nhất, phần thưởng và khả năng normalize không làm mất profile cũ.
+
+- [x] Bổ sung metadata tiến trình theo từng thành tích, ngày mở khóa và animation mở khóa; hiển thị an toàn mà không thay đổi profile cũ.
+- [x] Tạo ý nghĩa thực sự khác nhau cho 400 danh hiệu và kiểm thử uniqueness của ý nghĩa cùng điều kiện tăng dần.
+- [x] Đưa bộ lọc độ khó và có mảnh ghép vào standalone, đồng bộ với React.
