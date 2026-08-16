@@ -53,7 +53,7 @@ export const studyRouter = router({
   }),
   ai: router({
     generateFromDocument: publicProcedure.input(tokenInput.extend({
-      mode: z.enum(["cards", "quiz"]),
+      mode: z.enum(["cards", "quiz", "both"]),
       prompt: z.string().min(20).max(30000),
       fileName: z.string().max(160).optional(),
       contentType: z.enum(["text/plain", "text/markdown", "application/pdf"]).optional(),
@@ -72,8 +72,8 @@ export const studyRouter = router({
           if (input.contentType === "application/pdf") parts.push({ type: "file_url", file_url: { url: stored.url, mime_type: "application/pdf" } });
           else parts.push({ type: "text", text: `Nội dung tệp ${input.fileName}:\\n${bytes.toString("utf8").slice(0, 120000)}` });
         }
-        const schema = input.mode === "cards" ? { type: "object", properties: { cards: { type: "array", maxItems: 27, items: { type: "object", properties: { front: { type: "string" }, back: { type: "string" }, note: { type: "string" } }, required: ["front", "back"], additionalProperties: false } } }, required: ["cards"], additionalProperties: false } : { type: "object", properties: { questions: { type: "array", maxItems: 27, items: { type: "object", properties: { type: { type: "string", enum: ["multiple", "boolean", "short"] }, prompt: { type: "string" }, options: { type: "array", items: { type: "string" } }, answer: { type: "string" }, explanation: { type: "string" } }, required: ["type", "prompt", "answer"], additionalProperties: false } } }, required: ["questions"], additionalProperties: false };
-        const response = await invokeLLM({ messages: [{ role: "system", content: "Bạn là trợ lý biên soạn học tập lịch sử bằng tiếng Việt. Chỉ trả về JSON đúng schema, không thêm markdown." }, { role: "user", content: parts }], response_format: { type: "json_schema", json_schema: { name: input.mode === "cards" ? "flashcards" : "quiz", strict: true, schema } }, maxTokens: 6000 });
+        const cardsSchema = { type: "array", maxItems: 27, items: { type: "object", properties: { front: { type: "string" }, back: { type: "string" }, note: { type: "string" } }, required: ["front", "back"], additionalProperties: false } }; const questionsSchema = { type: "array", maxItems: 27, items: { type: "object", properties: { type: { type: "string", enum: ["multiple", "boolean", "short"] }, prompt: { type: "string" }, options: { type: "array", items: { type: "string" } }, answer: { type: "string" }, explanation: { type: "string" } }, required: ["type", "prompt", "answer"], additionalProperties: false } }; const schema = input.mode === "cards" ? { type: "object", properties: { cards: cardsSchema }, required: ["cards"], additionalProperties: false } : input.mode === "quiz" ? { type: "object", properties: { questions: questionsSchema }, required: ["questions"], additionalProperties: false } : { type: "object", properties: { cards: cardsSchema, questions: questionsSchema }, required: ["cards", "questions"], additionalProperties: false };
+        const response = await invokeLLM({ messages: [{ role: "system", content: "Bạn là trợ lý biên soạn học tập lịch sử bằng tiếng Việt. Chỉ trả về JSON đúng schema, không thêm markdown." }, { role: "user", content: parts }], response_format: { type: "json_schema", json_schema: { name: input.mode === "cards" ? "flashcards" : input.mode === "quiz" ? "quiz" : "flashcards_and_quiz", strict: true, schema } }, maxTokens: 6000 });
         const content = response.choices?.[0]?.message?.content;
         const text = typeof content === "string" ? content : JSON.stringify(content ?? {});
         return { content: text, mode: input.mode };

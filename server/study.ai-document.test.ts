@@ -6,7 +6,7 @@ describe("AI Studio document generation contract", () => {
   const source = readFileSync(join(process.cwd(), "server/routers/study.ts"), "utf8");
 
   it("accepts supported documents with bounded input and stores bytes outside the database", () => {
-    expect(source).toContain('mode: z.enum(["cards", "quiz"])');
+    expect(source).toContain('mode: z.enum(["cards", "quiz", "both"])');
     expect(source).toContain('application/pdf');
     expect(source).toContain('bytes.length > 5 * 1024 * 1024');
     expect(source).toContain('storagePut(`study-historia/documents/');
@@ -17,5 +17,7 @@ describe("AI Studio document generation contract", () => {
     expect(source).toContain('mime_type: "application/pdf"');
     expect(source).toContain('response_format: { type: "json_schema"');
     expect(source).toContain('maxItems: 27');
+    expect(source).toContain('name: input.mode === "cards" ? "flashcards" : input.mode === "quiz" ? "quiz" : "flashcards_and_quiz"');
+    expect(source).toContain('required: ["cards", "questions"]');
   });
 });

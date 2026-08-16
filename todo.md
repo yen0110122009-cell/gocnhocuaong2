@@ -103,7 +103,7 @@
 
 ## Căn chỉnh theo đặc tả website mới
 - [ ] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
-- [ ] Hoàn thiện AI Studio theo luồng nhập yêu cầu, mục đích học, tài liệu/dán văn bản, prompt có thể sao chép/tạo lại/chỉnh sửa và chọn tạo Flashcard, Quiz hoặc cả hai.
+- [x] Hoàn thiện AI Studio theo luồng nhập yêu cầu, mục đích học, tài liệu/dán văn bản, prompt có thể sao chép/tạo lại/chỉnh sửa và chọn tạo Flashcard, Quiz hoặc cả hai.
 - [ ] Bổ sung quản lý bộ Flashcard: lọc theo môn/chủ đề/ngày, đổi tên, sao chép, xóa, tạo đề từ bộ và bốn chế độ học có báo cáo cuối phiên.
 - [x] Hoàn thiện kết quả đề độc lập với điểm theo thang 10, đúng/sai/bỏ qua, giải thích, gợi ý làm lại và tạo Flashcard từ các câu sai; đã kiểm thử báo cáo, tạo bộ ôn lại và nút Làm lại khởi tạo phiên mới đúng đề.
 - [x] Xây trang Tiến trình từ nhật ký hoạt động thật: lượt học ngày/tuần, thời lượng Quiz đã ghi nhận, độ chính xác 7 ngày và tổng Flashcard/Quiz/XP; không tạo số liệu giả cho dữ liệu chưa được lưu.
@@ -132,3 +132,9 @@
 
 - [x] Bổ sung chọn tệp TXT/MD/PDF trong AI Studio React và standalone; TXT/MD được đọc trực tiếp, PDF được gửi server qua storage/file_url để LLM trích xuất và có contract test.
 - [x] Nâng cấp xử lý PDF phía server/LLM để trích xuất nội dung PDF thật sự thay vì chỉ truyền tên tệp trong prompt.
+
+- [x] Bổ sung lựa chọn AI Studio tạo đồng thời Flashcard và Quiz, với kết quả JSON tách biệt và lưu cả hai loại dữ liệu vào cùng hồ sơ.
+
+- [x] Thêm trường Mục đích học riêng trong AI Studio React/standalone và đưa vào prompt gửi LLM.
+- [x] Cho phép chỉnh sửa trực tiếp prompt trước khi sao chép hoặc tạo tài liệu, kèm nút tạo lại prompt từ các trường biểu mẫu.
+- [x] Bổ sung contract test xác nhận mode both, mục đích học và prompt editing/regeneration không hồi quy.
