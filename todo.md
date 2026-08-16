@@ -25,7 +25,7 @@
 - [ ] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
 - [ ] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
 - [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
-- [ ] Bổ sung quy trình nhập nhân vật hàng loạt: dán JSON hoặc tải tệp JSON, kiểm tra schema, xem trước lỗi và xác nhận nhập.
+- [x] Bổ sung quy trình nhập nhân vật hàng loạt: dán JSON hoặc tải tệp JSON, kiểm tra schema, xem trước lỗi và xác nhận nhập.
 - [ ] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
 - [ ] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
 - [ ] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
@@ -42,3 +42,9 @@
 - [x] Bổ sung schema Supabase cho ánh xạ tài khoản, vai trò Member/Admin/Founder và mã tài khoản.
 - [x] Áp dụng migration metadata tài khoản mới trong Supabase SQL Editor.
 - [ ] Kiểm thử đọc/ghi thực tế bằng user Supabase đã đăng nhập để xác nhận RLS.
+- [x] Tăng cường validator schema import nhân vật cho đầy đủ trường, timeline, nguồn, ảnh, fragmentTotal và categories.
+- [x] Hiển thị xem trước riêng danh sách hợp lệ và lỗi chi tiết theo từng nhân vật/trường.
+- [x] Xử lý trùng id hoặc tên nhân vật khi nhập, có lựa chọn bỏ qua hoặc thay thế an toàn.
+- [x] Hoàn thiện validator import cho sourceName/sourceUrl/imageUrl/imageSource và các ràng buộc URL tương ứng.
+- [x] Sửa chế độ thay thế import để loại xung đột theo cả id và tên, kèm kiểm thử tên trùng khác id.
+- [x] Tách hàm thay thế xung đột nhân vật thành module thuần và kiểm thử trùng tên khác id.
