@@ -295,3 +295,17 @@
 - [x] Bổ sung/kiểm tra phần thưởng theo chuỗi học, mục tiêu, ôn câu sai, challenge, chapter và các nguồn đặc biệt phù hợp dữ liệu hiện có.
 - [x] Hiển thị animation/feedback khi nhận mảnh và liên kết tới Bộ sưu tập → Nhân vật → Tiến trình ghép hình.
 - [x] Viết test cho mốc thưởng, độ hiếm, giới hạn tần suất, persistence và cô lập dữ liệu thành viên; cập nhật tài liệu và checkpoint.
+
+
+## Đặc tả quy trình mảnh ghép và dữ liệu nhân vật có nguồn
+- [x] Chuẩn hóa state machine: học → nhận mảnh → mảnh vào kho → chọn nhân vật → dùng mảnh → đủ mảnh → ghép hình → mở khóa nhân vật → đọc lịch sử.
+- [x] Phân biệt rõ mảnh đã nhận, mảnh đang sở hữu, mảnh đã dùng để ghép và trạng thái nhân vật theo từng tài khoản.
+- [x] Hiển thị tiến trình từng nhân vật: ảnh che mảnh, số đã có/còn thiếu, phần trăm, độ hiếm, cách nhận tiếp theo và nút ghép hình khi đủ mảnh.
+- [x] Thêm animation/feedback cho nhận mảnh, dùng mảnh, ghép hoàn chỉnh và mở khóa; hỗ trợ reduced-motion.
+- [x] Mở hồ sơ nhân vật độc lập sau khi hoàn thành, gồm thông tin cơ bản, ảnh, tiểu sử, timeline và nguồn kiểm chứng.
+- [x] Chuẩn hóa schema nhân vật có characterId, characterName, coverImage, imageSource, biography, timeline, sources, totalPieces, pieces và unlockStatus.
+- [x] Chuẩn hóa schema nguồn ảnh và nguồn tư liệu: tên, URL/thông tin sách, loại, tác giả, ngày xuất bản, ngày truy cập, chú thích và trạng thái xác minh.
+- [ ] Mở rộng Admin thêm/sửa/xóa/ẩn-hiện/sao chép/preview nhân vật, tải ảnh JPG/PNG/WebP và cảnh báo thiếu nguồn.
+- [ ] Cho phép Admin dán tư liệu, gắn nguồn và đánh dấu đã có nguồn/chưa kiểm chứng/thiếu nguồn; không tự coi nội dung thiếu nguồn là đã xác minh.
+- [x] Bảo đảm dữ liệu nhân vật có thể dùng chung nhưng mảnh, tiến trình, trạng thái ghép và mở khóa được cô lập theo từng thành viên.
+- [x] Viết đặc tả vận hành và test để AI/lập trình viên sau này không nhầm mảnh là vật trang trí hoặc mở khóa theo nhóm nhân vật.

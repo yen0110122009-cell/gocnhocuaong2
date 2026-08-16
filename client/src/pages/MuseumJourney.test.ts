@@ -10,7 +10,9 @@ describe("Museum fragment accessibility effects", () => {
     expect(source).toContain("achievement-card--unlocked");
     expect(source).toContain("mảnh ghép đã thu thập");
     expect(source).toContain("fragment-assembly--${stage}");
-    expect(source).toContain("Giai đoạn 3 · Hoàn thành");
+    expect(source).toContain("Giai đoạn 4 · Sẵn sàng ghép");
+    expect(source).toContain("Ghép hình hoàn chỉnh");
+    expect(source).toContain("Đọc lịch sử");
   });
 
   it("documents the 12 fragment earning paths and direct learning links", () => {

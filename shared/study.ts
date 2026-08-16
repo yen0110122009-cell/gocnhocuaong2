@@ -61,11 +61,58 @@ export type StudyActivity = {
   total?: number;
 };
 
-type CharacterTimeline = {
+export type FragmentRarity = "common" | "rare" | "special" | "legendary";
+export type SourceVerificationStatus = "verified" | "unverified" | "missing";
+export type CharacterUnlockStatus = "locked" | "assembling" | "ready" | "unlocked";
+
+export type CharacterTimeline = {
   id: string;
   title: string;
   content: string;
   requiredFragments: number;
+  occurredAt?: string;
+  location?: string;
+  imageUrl?: string;
+  sourceIds?: string[];
+};
+
+export type CharacterSource = {
+  id: string;
+  name: string;
+  url?: string;
+  type: "encyclopedia" | "press" | "government" | "book" | "archive" | "other";
+  author?: string;
+  publishedAt?: string;
+  accessedAt?: string;
+  note?: string;
+  verificationStatus: SourceVerificationStatus;
+};
+
+export type CharacterImage = {
+  id: string;
+  url: string;
+  caption?: string;
+  sourceName?: string;
+  sourceUrl?: string;
+  verificationStatus: SourceVerificationStatus;
+};
+
+export type FragmentPiece = {
+  id: string;
+  characterId: string;
+  position: number;
+  rarity: FragmentRarity;
+  collectedAt?: string;
+  usedAt?: string;
+};
+
+export type CharacterProgress = {
+  characterId: string;
+  collectedPieceIds: string[];
+  usedPieceIds: string[];
+  status: CharacterUnlockStatus;
+  assembledAt: string | null;
+  unlockedAt: string | null;
 };
 
 export type HistoricalCharacter = {
@@ -86,6 +133,14 @@ export type HistoricalCharacter = {
   fragmentTotal: number;
   timeline: CharacterTimeline[];
   updatedAt: string;
+  coverImage?: string;
+  images?: CharacterImage[];
+  sources?: CharacterSource[];
+  pastedBiography?: string;
+  verificationStatus?: SourceVerificationStatus;
+  visibility?: "visible" | "hidden";
+  pieces?: FragmentPiece[];
+  unlockContent?: string;
 };
 
 export type Encouragement = {
@@ -172,6 +227,7 @@ export type ProfileState = {
   streakShields: number;
   aiImportHistory: AiImportRecord[];
   pomodoroHistory: PomodoroSession[];
+  characterProgress: Record<string, CharacterProgress>;
 };
 
 export type PomodoroSession = {
@@ -247,6 +303,7 @@ export const emptyProfile = (): ProfileState => ({
   streakShields: 0,
   aiImportHistory: [],
   pomodoroHistory: [],
+  characterProgress: {},
 });
 
 export const emptyAppConfig = (): AppConfig => ({
@@ -492,6 +549,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     currentStreak: Math.max(0, Number(source.currentStreak) || 0),
     bestStreak: Math.max(0, Number(source.bestStreak) || 0),
     streakShields: Math.max(0, Math.min(3, Number(source.streakShields) || 0)),
+    characterProgress: source.characterProgress && typeof source.characterProgress === "object" ? Object.fromEntries(Object.entries(source.characterProgress).flatMap(([characterId, value]) => { const item = value && typeof value === "object" ? (value as Partial<CharacterProgress>) : {}; if (!characterId) return []; const collected = Array.isArray(item.collectedPieceIds) ? item.collectedPieceIds.map(String) : []; const used = Array.isArray(item.usedPieceIds) ? item.usedPieceIds.map(String) : []; const status: CharacterUnlockStatus = item.status === "unlocked" || item.status === "ready" || item.status === "assembling" ? item.status : collected.length ? "assembling" : "locked"; return [[characterId, { characterId, collectedPieceIds: Array.from(new Set(collected)), usedPieceIds: Array.from(new Set(used)), status, assembledAt: item.assembledAt ? String(item.assembledAt) : null, unlockedAt: item.unlockedAt ? String(item.unlockedAt) : null } as CharacterProgress]]; })) : {},
     pomodoroHistory: Array.isArray(source.pomodoroHistory) ? source.pomodoroHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<PomodoroSession>) : null; if (!item?.id) return []; return [{ id: String(item.id), startedAt: String(item.startedAt ?? new Date(0).toISOString()), endedAt: String(item.endedAt ?? new Date(0).toISOString()), durationMinutes: Math.max(1, Number(item.durationMinutes) || 1), subject: String(item.subject ?? ""), topic: String(item.topic ?? ""), sessionNumber: Math.max(1, Number(item.sessionNumber) || 1), totalSessions: Math.max(1, Number(item.totalSessions) || 1), mode: item.mode === "shortBreak" || item.mode === "longBreak" ? item.mode : "focus", status: item.status === "abandoned" || item.status === "skipped" ? item.status : "completed" }]; }) : [],
     aiImportHistory: Array.isArray(source.aiImportHistory) ? source.aiImportHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<AiImportRecord>) : null; if (!item?.id || !item.title) return []; return [{ id: String(item.id), title: String(item.title), createdAt: String(item.createdAt ?? new Date(0).toISOString()), target: item.target === "quiz" || item.target === "both" || item.target === "practice" ? item.target : "flashcards", questionCount: Math.max(0, Number(item.questionCount) || 0), flashcardCount: Math.max(0, Number(item.flashcardCount) || 0), prompt: String(item.prompt ?? ""), rawData: String(item.rawData ?? ""), quizId: item.quizId ? String(item.quizId) : undefined, flashcardSetId: item.flashcardSetId ? String(item.flashcardSetId) : undefined }]; }) : [],
   };
