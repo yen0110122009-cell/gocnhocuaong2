@@ -1,0 +1,27 @@
+# Project TODO
+
+- [x] Thống nhất hướng thiết kế trực quan, bảng màu và phong cách tương tác của Study Historia.
+- [x] Thiết kế dữ liệu tài khoản với ba vai trò Member, Admin và Founder; cô lập hoàn toàn dữ liệu cá nhân theo từng tài khoản.
+- [x] Triển khai màn hình đăng nhập tên, mật khẩu và mã tài khoản, đồng thời lưu phiên đăng nhập theo phiên trình duyệt.
+- [x] Xây dựng dashboard hiển thị lời chào, XP, cấp độ, hoạt động học, thành tích và mảnh ghép của thành viên hiện tại.
+- [x] Xây dựng AI Studio tạo prompt chuẩn, nhập phản hồi AI và phân tích tối đa 27 Flashcard cho mỗi lần tạo.
+- [x] Triển khai quản lý bộ Flashcard, chế độ học lật thẻ, đánh dấu nhớ/chưa nhớ và thống kê tiến độ.
+- [x] Triển khai trình tạo đề, làm đề, đếm ngược, đánh dấu câu, chấm điểm và xem lại kết quả.
+- [x] Tạo hệ thống thành tích 900 mục gồm 9 bậc, điều kiện cập nhật động, phần thưởng và 400 danh hiệu riêng.
+- [ ] Tạo hệ thống XP, cấp độ, huy hiệu, mảnh ghép, mở khóa thành tích và hiệu ứng phản hồi nhẹ.
+- [x] Xây dựng Bảo tàng Hành trình, không có nhân vật mẫu mặc định, cho phép khóa/mở nhân vật và hiển thị tiến độ mảnh ghép.
+- [ ] Tạo trang chi tiết nhân vật với ảnh, tiểu sử, mốc lịch sử, nguồn nội dung, nguồn ảnh và liên kết tham khảo do Admin/Founder nhập.
+- [ ] Xây dựng Vòng quay Tri thức có thể cấu hình phần thưởng, tỷ lệ, màu sắc và số lượt quay.
+- [ ] Tạo Admin Panel giới hạn cho Admin/Founder để quản lý thành viên, mã tài khoản, cấp bậc, thành tích, nhân vật, mảnh ghép, danh hiệu, lời động viên và vòng quay.
+- [x] Triển khai tìm kiếm toàn cục, chế độ sáng/tối, công tắc âm thanh và xuất/nhập sao lưu JSON.
+- [ ] Viết kiểm thử đơn vị cho quy tắc phân quyền, cô lập dữ liệu, giới hạn 27 thẻ AI và tính toán XP/cấp độ.
+- [ ] Kiểm tra luồng trên giao diện máy tính và thiết bị di động, rà soát lỗi TypeScript và hoàn thiện khả năng tiếp cận.
+- [ ] Lưu phiên bản hoàn thiện để bàn giao website.
+- [x] Hoàn thiện timer đếm ngược, trạng thái đánh dấu câu và lưu kết quả làm đề đầy đủ.
+- [ ] Bổ sung logic huy hiệu, mảnh ghép và mở khóa thành tích có lưu trạng thái theo từng tài khoản.
+- [ ] Mở rộng dữ liệu và Admin Panel để biên tập đầy đủ nhân vật, nguồn nội dung, nguồn ảnh, timeline, thành tích, mảnh ghép, danh hiệu và lời động viên.
+- [ ] Sử dụng xác suất vòng quay thực tế và cấu hình chi tiết phần thưởng, tỷ lệ, màu sắc và số lượt quay.
+- [ ] Bổ sung test phân quyền, giới hạn 27 Flashcard AI, cô lập dữ liệu theo tài khoản và các quy tắc gamification.
+- [ ] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
+- [ ] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
+- [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
