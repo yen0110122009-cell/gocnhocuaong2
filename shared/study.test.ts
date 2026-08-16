@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile } from "./study";
+import { applyAchievementRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile } from "./study";
 
 describe("Study Historia learning state", () => {
   it("generates exactly 900 structured achievements", () => {
@@ -31,6 +31,33 @@ describe("Study Historia learning state", () => {
   it("derives the level from XP instead of accepting a hard-coded level", () => {
     expect(levelForXp(0)).toBe(1);
     expect(normalizeProfile({ xp: 900, level: 999 }).level).toBe(levelForXp(900));
+  });
+
+  it("persists achievement rewards across profile normalization", () => {
+    const profile = emptyProfile();
+    profile.xp = 250;
+    const config = { ...emptyAppConfig(), wheelTicketsPerAchievement: 3 };
+    const rewarded = applyAchievementRewards(profile, config);
+    expect(rewarded.newlyUnlocked.length).toBeGreaterThan(0);
+    expect(rewarded.profile.wheelTickets).toBe(rewarded.newlyUnlocked.filter((item) => item.rewardFragments > 0).length * 3);
+    expect(rewarded.profile.xp).toBeGreaterThan(profile.xp);
+    expect(rewarded.profile.unlockedAchievementIds.length).toBe(rewarded.newlyUnlocked.length);
+    expect(rewarded.profile.ownedBadges.length).toBeGreaterThan(0);
+    expect(Object.keys(rewarded.profile.achievementUnlockDates)).toHaveLength(rewarded.newlyUnlocked.length);
+    const restored = normalizeProfile(rewarded.profile);
+    expect(restored.unlockedAchievementIds).toEqual(rewarded.profile.unlockedAchievementIds);
+    expect(restored.ownedBadges).toEqual(rewarded.profile.ownedBadges);
+    expect(restored.achievementUnlockDates).toEqual(rewarded.profile.achievementUnlockDates);
+  });
+
+  it("supports custom achievement titles and fragment rewards", () => {
+    const profile = emptyProfile();
+    profile.xp = 100;
+    const config = { ...emptyAppConfig(), customAchievements: [{ id: "custom-1", name: "Người giữ sử liệu", description: "Đạt mốc", metric: "xp" as const, threshold: 100, rewardXp: 20, rewardFragments: 2, title: "Người Giữ Sử Liệu", titleMeaning: "Biết trân trọng ký ức lịch sử.", enabled: true }] };
+    const achievements = computedAchievements(profile, config);
+    expect(achievements[0]?.title).toBe("Người Giữ Sử Liệu");
+    expect(achievements[0]?.titleMeaning).toContain("trân trọng");
+    expect(achievements[0]?.rewardFragments).toBe(2);
   });
 
   it("re-evaluates an achievement when learning data decreases", () => {

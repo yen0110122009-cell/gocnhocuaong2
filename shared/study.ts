@@ -121,6 +121,8 @@ export type CustomAchievement = {
   threshold: number;
   rewardXp: number;
   rewardFragments: number;
+  title?: string;
+  titleMeaning?: string;
   enabled: boolean;
 };
 
@@ -128,6 +130,7 @@ export type AppConfig = {
   characters: HistoricalCharacter[];
   encouragements: Encouragement[];
   wheelRewards: WheelReward[];
+  wheelTicketsPerAchievement: number;
   achievementOverrides: AchievementOverride[];
   customAchievements: CustomAchievement[];
   updatedAt: string;
@@ -213,6 +216,7 @@ export const emptyAppConfig = (): AppConfig => ({
   characters: [],
   encouragements: [],
   wheelRewards: [],
+  wheelTicketsPerAchievement: 1,
   achievementOverrides: [],
   customAchievements: [],
   updatedAt: new Date().toISOString(),
@@ -337,8 +341,8 @@ export function computedAchievements(profile: ProfileState, config: AppConfig): 
       threshold: item.threshold,
       rewardXp: item.rewardXp,
       rewardFragments: item.rewardFragments,
-      title: null,
-      titleMeaning: null,
+      title: item.title?.trim() || null,
+      titleMeaning: item.titleMeaning?.trim() || null,
       difficulty: "Khó",
       badgeLabel: "Thành tích tùy chỉnh",
       encouragement: "Một cột mốc riêng đang được mở khóa.",
@@ -366,7 +370,7 @@ export function applyAchievementRewards(profile: ProfileState, config: AppConfig
     achievementUnlockDates: { ...profile.achievementUnlockDates, ...Object.fromEntries(newlyUnlocked.map((achievement) => [achievement.id, new Date().toISOString()])) },
     ownedBadges: Array.from(new Set([...profile.ownedBadges, ...newlyUnlocked.map((achievement) => achievement.icon)])),
     activeTitle: titles.at(-1) ?? profile.activeTitle,
-    wheelTickets: profile.wheelTickets + newlyUnlocked.filter((achievement) => achievement.rewardFragments > 0).length,
+    wheelTickets: profile.wheelTickets + newlyUnlocked.filter((achievement) => achievement.rewardFragments > 0).length * Math.max(0, Number(config.wheelTicketsPerAchievement) || 0),
   };
   return { profile: next, newlyUnlocked };
 }

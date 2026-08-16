@@ -8,20 +8,20 @@
 - [x] Triển khai quản lý bộ Flashcard, chế độ học lật thẻ, đánh dấu nhớ/chưa nhớ và thống kê tiến độ.
 - [x] Triển khai trình tạo đề, làm đề, đếm ngược, đánh dấu câu, chấm điểm và xem lại kết quả.
 - [x] Tạo hệ thống thành tích 900 mục gồm 9 bậc, điều kiện cập nhật động, phần thưởng và 400 danh hiệu riêng.
-- [ ] Tạo hệ thống XP, cấp độ, huy hiệu, mảnh ghép, mở khóa thành tích và hiệu ứng phản hồi nhẹ.
+- [x] Tạo hệ thống XP, cấp độ, huy hiệu, mảnh ghép, mở khóa thành tích và hiệu ứng phản hồi nhẹ.
 - [x] Xây dựng Bảo tàng Hành trình, không có nhân vật mẫu mặc định, cho phép khóa/mở nhân vật và hiển thị tiến độ mảnh ghép.
 - [x] Tạo trang chi tiết nhân vật với ảnh, tiểu sử, mốc lịch sử, nguồn nội dung, nguồn ảnh và liên kết tham khảo do Admin/Founder nhập.
-- [ ] Xây dựng Vòng quay Tri thức có thể cấu hình phần thưởng, tỷ lệ, màu sắc và số lượt quay.
-- [ ] Tạo Admin Panel giới hạn cho Admin/Founder để quản lý thành viên, mã tài khoản, cấp bậc, thành tích, nhân vật, mảnh ghép, danh hiệu, lời động viên và vòng quay.
+- [x] Xây dựng Vòng quay Tri thức có thể cấu hình phần thưởng, tỷ lệ, màu sắc và số lượt quay.
+- [x] Tạo Admin Panel giới hạn cho Admin/Founder để quản lý thành viên, mã tài khoản, cấp bậc, thành tích, nhân vật, mảnh ghép, danh hiệu, lời động viên và vòng quay.
 - [x] Triển khai tìm kiếm toàn cục, chế độ sáng/tối, công tắc âm thanh và xuất/nhập sao lưu JSON.
 - [x] Viết kiểm thử đơn vị cho quy tắc phân quyền, cô lập dữ liệu, giới hạn 27 thẻ AI và tính toán XP/cấp độ.
 - [x] Kiểm tra luồng trên giao diện máy tính và thiết bị di động, rà soát lỗi TypeScript và hoàn thiện khả năng tiếp cận.
 - [ ] Lưu phiên bản hoàn thiện để bàn giao website.
 - [x] Hoàn thiện timer đếm ngược, trạng thái đánh dấu câu và lưu kết quả làm đề đầy đủ.
-- [ ] Bổ sung logic huy hiệu, mảnh ghép và mở khóa thành tích có lưu trạng thái theo từng tài khoản.
-- [ ] Mở rộng dữ liệu và Admin Panel để biên tập đầy đủ nhân vật, nguồn nội dung, nguồn ảnh, timeline, thành tích, mảnh ghép, danh hiệu và lời động viên.
-- [ ] Sử dụng xác suất vòng quay thực tế và cấu hình chi tiết phần thưởng, tỷ lệ, màu sắc và số lượt quay.
-- [ ] Bổ sung test phân quyền, giới hạn 27 Flashcard AI, cô lập dữ liệu theo tài khoản và các quy tắc gamification.
+- [x] Bổ sung logic huy hiệu, mảnh ghép và mở khóa thành tích có lưu trạng thái theo từng tài khoản.
+- [x] Mở rộng dữ liệu và Admin Panel để biên tập đầy đủ nhân vật, nguồn nội dung, nguồn ảnh, timeline, thành tích, mảnh ghép, danh hiệu và lời động viên.
+- [x] Sử dụng xác suất vòng quay thực tế và cấu hình chi tiết phần thưởng, tỷ lệ, màu sắc và số lượt quay.
+- [x] Bổ sung test phân quyền, giới hạn 27 Flashcard AI, cô lập dữ liệu theo tài khoản và các quy tắc gamification.
 - [x] Rà soát khả năng tiếp cận: bàn phím, nhãn điều khiển, trạng thái focus và phản hồi tương tác.
 - [x] Bổ sung cấu hình AI Studio cho số câu, mức độ, thời gian và loại câu hỏi trước khi tạo đề.
 - [ ] Lưu đáp án theo câu và trạng thái đánh dấu trong lịch sử làm đề để xem lại sau khi đăng nhập lại.
@@ -29,7 +29,7 @@
 - [x] Hoàn thiện AI Studio Flashcard với môn học, lớp, tài liệu, yêu cầu, mức độ khó và prompt chuẩn để dùng với AI bên ngoài.
 - [x] Bổ sung cấu hình tạo đề AI: môn học, chủ đề, số câu, mức độ, thời gian, tỷ lệ loại câu và tùy chọn đáp án.
 - [ ] Mở rộng lịch sử làm đề với số câu sai, bỏ qua, đáp án từng câu, trạng thái đánh dấu và lời động viên do quản trị viên cấu hình.
-- [ ] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
+- [x] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
 - [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
 - [ ] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
 - [ ] Bảo đảm website không chứa các chức năng TODO, habit, nhật ký, lịch, Pomodoro hoặc quản lý sinh hoạt hằng ngày.
@@ -109,7 +109,7 @@
 - [x] Xây trang Tiến trình từ nhật ký hoạt động thật: lượt học ngày/tuần, thời lượng Quiz đã ghi nhận, độ chính xác 7 ngày và tổng Flashcard/Quiz/XP; không tạo số liệu giả cho dữ liệu chưa được lưu.
 - [x] Hoàn thiện động cơ thành tích 900 mục, phần thưởng một lần, 9 bậc/100 mục, khoảng cách tăng dần và 400 danh hiệu riêng cho 4 bậc cuối; Admin có thể bổ sung/quản lý các mốc tùy chỉnh.
 - [x] Hoàn thiện bộ sưu tập mảnh ghép bằng bản đồ ghép hình dựa trên dữ liệu hồ sơ, hiệu ứng an toàn với reduced-motion và luồng mở khóa lịch sử nhân vật riêng trong Bảo tàng.
-- [ ] Hoàn thiện Admin quản lý lời động viên, thành tích tùy chỉnh và phần thưởng/vòng quay: ngoài thêm/xóa/bật-tắt, cần chỉnh sửa trực tiếp các trường nội dung, điều kiện, giá trị, trọng số và màu; khu vực nhân vật đã có import JSON kiểm tra nguồn, ảnh và timeline.
+- [x] Hoàn thiện Admin quản lý lời động viên, thành tích tùy chỉnh và phần thưởng/vòng quay: ngoài thêm/xóa/bật-tắt, cần chỉnh sửa trực tiếp các trường nội dung, điều kiện, giá trị, trọng số và màu; khu vực nhân vật đã có import JSON kiểm tra nguồn, ảnh và timeline.
 - [ ] Bảo đảm tìm kiếm và lọc bao phủ Flashcard, Quiz, thành tích, nhân vật và mảnh ghép; không thêm Todo, Habit, Journal, Schedule hoặc công cụ quản lý cá nhân.
 - [x] Xuất bản phiên bản `index.html` tự chứa HTML/CSS/JavaScript, dùng Web Crypto SHA-256 và localStorage ở trình duyệt, có các luồng học cốt lõi và nêu rõ giới hạn không đồng bộ máy chủ.
 
@@ -142,3 +142,8 @@
 - [ ] Audit lại toàn bộ client/src/pages, đặc biệt Cards trong Home.tsx, loại bỏ mọi token blue/violet/cyan còn sót.
 - [ ] Chụp bằng chứng riêng cho các view chính đã đăng nhập ở light/dark mode: dashboard, AI Studio, Flashcard, Quiz, Achievements, Museum, Wheel và Admin.
 - [ ] Xác nhận mascot Ong và dark mode nâu ấm hiện diện nhất quán trong các view chính trước checkpoint giao diện.
+
+- [x] Hoàn thiện và kiểm thử luồng cấp huy hiệu/mở khóa thành tích thực tế, lưu vào profile theo tài khoản và khôi phục sau đăng nhập lại.
+- [x] Bổ sung cấu hình/quản trị số lượt quay hoặc cơ chế cấp vé quay rõ ràng, kèm test rule.
+- [x] Mở rộng Admin Panel chỉnh sửa trực tiếp nhân vật, nguồn, ảnh, timeline và quản trị mảnh ghép/danh hiệu như thực thể riêng.
+- [x] Thêm test/biên bản end-to-end cho persistence gamification: XP, fragments, badges và unlocked achievements.
