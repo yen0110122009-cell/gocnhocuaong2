@@ -338,11 +338,11 @@
 
 
 ## Rà soát giao diện theo đặc tả pasted_content_9
-- [ ] Đối chiếu phạm vi module và điều hướng, loại bỏ nhãn/khối có cảm giác quản lý công việc hoặc dashboard doanh nghiệp nếu còn hiển thị.
-- [ ] Căn chỉnh palette đỏ–xanh lá–kem; giữ vàng mật ong làm màu nhấn và bảo đảm contrast ở light/dark mode.
-- [ ] Căn chỉnh sidebar desktop, mobile navigation, header Trang chủ và card tiến trình theo đặc tả Ong.
-- [ ] Rà soát giao diện AI, Flashcard, Đề web, Đề giấy, Hiểu tận gốc, Tiến trình, Thành tích và Mảnh ghép theo các điều kiện đã ghi nhận.
-- [ ] Kiểm tra responsive/accessibility bằng test và preview desktop/mobile; cập nhật tài liệu và checkpoint.
+- [x] Đối chiếu phạm vi module và điều hướng, loại bỏ nhãn/khối có cảm giác quản lý công việc hoặc dashboard doanh nghiệp nếu còn hiển thị.
+- [x] Căn chỉnh palette đỏ–xanh lá–kem; giữ vàng mật ong làm màu nhấn và bảo đảm contrast ở light/dark mode.
+- [x] Căn chỉnh sidebar desktop, mobile navigation, header Trang chủ và card tiến trình theo đặc tả Ong.
+- [x] Rà soát giao diện AI, Flashcard, Đề web, Đề giấy, Hiểu tận gốc, Tiến trình, Thành tích và Mảnh ghép theo các điều kiện đã ghi nhận.
+- [x] Kiểm tra responsive/accessibility bằng test và preview desktop/mobile; cập nhật tài liệu và checkpoint.
 
 
 ## UI audit theo pasted_content_9 — kết quả
