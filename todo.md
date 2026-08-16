@@ -241,3 +241,22 @@
 - [x] Chuẩn hóa nhận diện mascot Ong qua logo, trạng thái học và phản hồi tích cực, không dùng emoji cho icon chức năng.
 - [x] Tinh chỉnh card Flashcard/Quiz/AI Data Import theo khoảng trắng, bo góc, đổ bóng và animation nhẹ đúng đặc tả.
 - [x] Kiểm tra responsive desktop/tablet/mobile cùng focus-visible và reduced-motion sau khi cập nhật giao diện.
+
+## Xuất bản standalone một tệp HTML
+
+- [x] Kiểm kê index.html hiện có và lập ma trận các luồng bắt buộc cho bản HTML độc lập.
+- [x] Hợp nhất xác thực cục bộ, hồ sơ theo tài khoản, import/export JSON và localStorage vào một file HTML.
+- [x] Bảo đảm Flashcard bốn chế độ, Quiz nhiều loại câu, báo cáo, lịch sử attempt và ôn lại hoạt động thực tế trong file HTML.
+- [x] Bảo đảm thành tích, XP, streak, vòng quay, mảnh ghép, bảo tàng nhân vật và lịch sử học hoạt động thực tế trong file HTML.
+- [x] Bảo đảm AI Data Import cục bộ có sinh prompt, parser JSON/QUESTION, validation, preview, chuyển đổi và lịch sử import trong file HTML.
+- [x] Nhúng toàn bộ CSS/JavaScript, không phụ thuộc CDN/runtime/server và kiểm thử bằng mở trực tiếp tệp qua file://.
+- [x] Xuất tệp HTML hoàn chỉnh kèm ghi chú giới hạn rõ ràng: dữ liệu chỉ lưu localStorage của trình duyệt.
+
+## Nhập/tải JSON nhiều nhân vật trong standalone
+
+- [x] Cho phép dán JSON hoặc chọn tệp `.json` chứa một mảng nhiều nhân vật.
+- [x] Kiểm tra schema bắt buộc: name, sourceName, sourceUrl, summary và fragmentTotal; kiểm tra URL, số mảnh và timeline tùy chọn.
+- [x] Hiển thị preview số bản ghi hợp lệ/lỗi, lỗi theo nhân vật/trường và không tự nhập dữ liệu không hợp lệ.
+- [x] Xử lý nhân vật trùng id/tên với lựa chọn bỏ qua hoặc thay thế, không làm mất dữ liệu khác.
+- [x] Lưu toàn bộ nhân vật hợp lệ vào localStorage, cập nhật Bảo tàng và hỗ trợ xuất lại JSON.
+- [x] Kiểm thử trực tiếp bằng file:// với dữ liệu nhiều nhân vật và bàn giao tệp standalone cập nhật.

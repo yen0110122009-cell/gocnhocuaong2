@@ -38,3 +38,16 @@ Admin Panel keyboard bước 1: sau khi mở Admin Panel, Tab đầu tiên đưa
 Admin Panel keyboard bước 2: sau ô tìm kiếm, Tab chuyển vào tab Thành viên; thứ tự DOM tiếp tục qua Nhân vật, Vòng quay, tên thành viên, mã tài khoản, vai trò, Cấp mã tài khoản, Làm mới, các control quản lý thành viên, rồi lời động viên, thành tích tùy chỉnh, cấu hình vé và phần thưởng vòng quay. Nhãn/aria hint của control được lộ rõ.
 
 Sau relogin Ong/111, Flashcard hiển thị lại bộ “Fixture phục hồi 111”, 1 thẻ, topic Lịch sử Việt Nam, các thao tác quản lý và bốn mode. Đề kiểm tra hiển thị “Quiz phục hồi 111”, 1 câu/5 phút và lịch sử làm bài với đáp án, điểm, thời lượng. Đây là xác minh hydrate trực tiếp sau relogin.
+
+
+## Kiểm thử standalone: nhập hàng loạt nhân vật JSON
+
+Ngày kiểm thử: 2026-08-16.
+
+Đã mở trực tiếp `/home/ubuntu/Study-Historia-Standalone.html` bằng `file://` trong phiên Founder Kiểm thử. Tại **Quản trị → Nhân vật**, giao diện hiển thị đầy đủ textarea JSON, input **Tải tệp JSON**, phần xem trước và nút **Kiểm tra và nhập**.
+
+Đã tải tệp kiểm thử gồm hai nhân vật hợp lệ là **Lý Thường Kiệt** và **Nguyễn Trãi**. Sau khi tải, JSON được đọc tự động vào textarea; thao tác kiểm tra và nhập hiển thị thông báo “Đã nhập 2 nhân vật; bỏ qua 0 bản ghi trùng”, đồng thời danh sách quản trị hiển thị cả hai bản ghi cùng nguồn nội dung. Kiểm tra `localStorage` xác nhận khóa `study-historia-standalone-v1` lưu đủ hai nhân vật với đúng tên; sau khi tải lại trang, dữ liệu vẫn được khôi phục.
+
+Luồng parser đã được kiểm tra ở mức giao diện với các trường bắt buộc `name`, `sourceName`, `sourceUrl`, `summary`, `fragmentTotal`; `timeline` được giữ dưới dạng tùy chọn. Cơ chế dedupe theo id/tên loại bỏ bản ghi trùng kho hiện tại trước khi ghi, không ghi đè dữ liệu khác. File standalone tự chứa: không có `script src`, không có `link rel=stylesheet` và không phụ thuộc CDN/runtime/server; các URL HTTP/HTTPS còn lại chỉ là URL nguồn được người quản trị nhập hoặc placeholder trong hướng dẫn.
+
+Giới hạn môi trường: kiểm thử đã xác nhận tải tệp, validation, nhập, localStorage và reload; chưa mô phỏng trình duyệt thật trên nhiều hệ điều hành ngoài Chromium sandbox.
