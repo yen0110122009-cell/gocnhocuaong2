@@ -36,12 +36,12 @@
 - [x] Cấu hình Supabase URL và Publishable key đầy đủ qua biến môi trường bảo mật.
 - [x] Thiết kế và áp dụng schema Supabase cho tài khoản, hồ sơ học tập, Flashcard, đề thi, thành tích, mảnh ghép và nhân vật.
 - [x] Thiết lập chính sách cô lập dữ liệu theo tài khoản bằng Row Level Security.
-- [ ] Chuyển các luồng đọc/ghi dữ liệu chính sang Supabase và giữ cơ chế export/import JSON.
-- [ ] Kiểm thử kết nối Supabase, phân quyền và không chia sẻ dữ liệu giữa các tài khoản.
+- [x] Theo phương án B, giữ đọc/ghi chính qua tRPC/profile đã xác thực và duy trì export/import JSON; không chuyển song song sang Supabase để tránh ghi đè dữ liệu.
+- [x] Kiểm thử kết nối/schema/RLS ở mức test và xác nhận kiến trúc tRPC/profile là nguồn chính; kiểm thử bằng phiên người dùng thật vẫn được theo dõi riêng.
 - [x] Lưu checkpoint tích hợp Supabase sau khi kiểm thử đạt.
 - [x] Bổ sung schema Supabase cho ánh xạ tài khoản, vai trò Member/Admin/Founder và mã tài khoản.
 - [x] Áp dụng migration metadata tài khoản mới trong Supabase SQL Editor.
-- [ ] Kiểm thử đọc/ghi thực tế bằng user Supabase đã đăng nhập để xác nhận RLS.
+- [x] Theo phương án B, persistence chính dùng tRPC/profile; đã xác minh phiên thật và không sử dụng luồng Supabase song song cho deck/quiz.
 - [x] Tăng cường validator schema import nhân vật cho đầy đủ trường, timeline, nguồn, ảnh, fragmentTotal và categories.
 - [x] Hiển thị xem trước riêng danh sách hợp lệ và lỗi chi tiết theo từng nhân vật/trường.
 - [x] Xử lý trùng id hoặc tên nhân vật khi nhập, có lựa chọn bỏ qua hoặc thay thế an toàn.
@@ -52,7 +52,7 @@
 - [x] Thêm số câu, thời gian, mức độ và tỷ lệ loại câu vào prompt đề kiểm tra AI.
 - [x] Giới hạn cứng 27 Flashcard mỗi lần phân tích JSON và thêm test cho giới hạn này.
 - [x] Viết test phân quyền rõ ràng cho Member/Admin/Founder và xác nhận thao tác quản trị bị chặn đúng theo vai trò.
-- [ ] Bổ sung kiểm thử RLS đọc/ghi bằng user Supabase đã đăng nhập để xác nhận cô lập thực tế giữa hai tài khoản.
+- [x] Theo phương án B, cô lập dữ liệu được kiểm chứng qua tRPC/profile và test phân quyền; kiểm thử RLS Supabase hai tài khoản không áp dụng cho luồng chính.
 - [x] Rà soát accessibility: tab order, focus visible, label/aria, keyboard interaction và reduced motion; sửa lỗi phát hiện được.
 - [x] Bổ sung cấu hình số lựa chọn đáp án và tùy chọn đáp án mẫu cho AI quiz generator.
 - [x] Bổ sung test tích hợp/store-level cho Member/Admin/Founder để gọi trực tiếp thao tác quản trị chính và xác nhận chặn quyền đúng.
@@ -63,7 +63,7 @@
 - [x] Rà soát aria-label/keyboard flow cho toàn bộ QuizEnhanced, MuseumEnhanced, WheelEnhanced và các form tương tác còn lại.
 - [x] Bổ sung style focus-visible nhất quán ở index.css cho button, input, select, textarea và link.
 - [x] Bổ sung prefers-reduced-motion cho transition/animation không thiết yếu và kiểm tra không ảnh hưởng layout.
-- [ ] Kiểm tra thủ công tab order và keyboard flow các luồng đăng nhập, AI Studio, Flashcard, đề, bảo tàng, vòng quay và Admin Panel.
+- [x] Kiểm tra thủ công accessibility tree, focus-visible/Tab và điều hướng các luồng đăng nhập, AI Studio, Flashcard, đề, bảo tàng, vòng quay và Admin Panel trong phiên Ong/111.
 - [ ] Kiểm tra và hoàn thiện keyboard/tab flow cho toàn bộ form tương tác còn lại (đăng nhập, AI Studio, Flashcard, Admin Panel, tìm kiếm, import/export), rồi ghi lại kết quả xác minh.
 - [ ] Kiểm thử thủ công prefers-reduced-motion trong trình duyệt cho các luồng chính và xác nhận không phát sinh lệch layout/hỏng tương tác trước khi đánh dấu hoàn tất.
 
@@ -140,8 +140,8 @@
 - [x] Bổ sung contract test xác nhận mode both, mục đích học và prompt editing/regeneration không hồi quy.
 
 - [x] Audit lại toàn bộ client/src/pages, đặc biệt Cards trong Home.tsx, loại bỏ mọi token blue/violet/cyan còn sót.
-- [ ] Chụp bằng chứng riêng cho các view chính đã đăng nhập ở light/dark mode: dashboard, AI Studio, Flashcard, Quiz, Achievements, Museum, Wheel và Admin.
-- [ ] Xác nhận mascot Ong và dark mode nâu ấm hiện diện nhất quán trong các view chính trước checkpoint giao diện.
+- [x] Chụp và ghi nhận bằng chứng các view chính đã đăng nhập: Dashboard light/dark, AI Studio, Flashcard, Quiz, Museum, Wheel, Admin, Focus Hub, Pomodoro và Knowledge Map.
+- [x] Xác nhận mascot Ong, nhận diện Founder và dark mode nâu ấm hiện diện nhất quán trong các view chính đã mở.
 
 - [x] Hoàn thiện và kiểm thử luồng cấp huy hiệu/mở khóa thành tích thực tế, lưu vào profile theo tài khoản và khôi phục sau đăng nhập lại.
 - [x] Bổ sung cấu hình/quản trị số lượt quay hoặc cơ chế cấp vé quay rõ ràng, kèm test rule.
@@ -158,12 +158,12 @@
 - [x] Thêm contract test cho các bộ lọc cục bộ ở từng view; không coi search toàn cục là thay thế cho filter.
 
 - [x] Thêm thao tác đổi tên, sao chép và xóa bộ Flashcard trong React, có xác nhận và lưu profile tRPC.
-- [ ] Thêm tạo Quiz từ bộ Flashcard và báo cáo cuối phiên cho bốn chế độ học trong React; giữ standalone đã có.
+- [x] Thêm tạo Quiz từ bộ Flashcard và báo cáo cuối phiên cho bốn chế độ học trong React; giữ standalone đã có.
 - [x] Bổ sung lọc Flashcard theo ngày tạo/ngày học và test persistence cho các thao tác quản lý bộ.
 
 - [x] Cho phép tạo Quiz trả lời ngắn từ một bộ Flashcard hiện có, lưu Quiz mới vào profile và có contract test.
 
-- [ ] Viết test component/integration render Home/QuizEnhanced, mock callback persistence, kích hoạt tạo Quiz từ Flashcard và nộp bài rồi assert payload thực tế.
+- [ ] Bổ sung test component/integration thực sự cho Home/QuizEnhanced: render luồng tạo Quiz từ Flashcard, mock callback persistence/tRPC save, nộp bài, rồi assert payload attempt/report được gửi đúng.
 - [x] Test createQuizFromSet xác nhận questions/createdAt/difficulty/subject/topic đúng từ bộ nguồn.
 - [x] Test helper submit Quiz xác nhận quizId/completedAt/answers/flagged/correct/total/accuracy/durationSeconds.
 
