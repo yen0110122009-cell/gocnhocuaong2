@@ -99,7 +99,7 @@
 - `shared/study.test.ts` kiểm tra normalizeProfile giữ nguyên `attempt.id`, `quizId`, `completedAt`, `answers`, `flagged` và `correct`.
 - `vitest.config.ts` đã bao phủ `shared/**/*.test.ts`; kết quả gần nhất: 13 test files, 35 tests passed.
 - `Home.tsx` chỉ hydrate qua `study.profile.get` và ghi qua `study.profile.save`; không còn gọi load/save profile Supabase.
-- Chưa có xác minh phiên đăng nhập lại thật hoặc test component wiring trực tiếp; hai mục này vẫn chờ.
+- Đã xác minh phiên Ong/111 sau reload/relogin với deck fixture, quiz attempt và 24 XP được hydrate lại; có thêm test render React DOM cho QuizEnhanced cùng contract persistence.
 
 ## Căn chỉnh theo đặc tả website mới
 - [x] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
@@ -232,3 +232,12 @@
 - [x] Bảo đảm giới hạn tối đa 27 Flashcard cho mỗi lần AI import nhưng không giới hạn số bộ và tổng số thẻ trong hệ thống.
 - [x] Thêm lịch sử nhập AI theo tài liệu/ngày/mục tiêu/số lượng/prompt/dữ liệu/Quiz/Flashcard, có xem/nạp lại, sao chép prompt và xóa.
 - [x] Thêm contract/domain tests cho prompt, parser, validation, preview, conversion, giới hạn 27 và không có dữ liệu mẫu mặc định.
+
+## Căn chỉnh giao diện theo pasted_content_2.txt
+
+- [x] Đồng bộ token nền kem, card trắng, mật ong, nâu ấm và các màu semantic xanh lá/xanh dương/tím/cam mà vẫn giữ tương phản light/dark.
+- [x] Tinh chỉnh sidebar/header và điều hướng mobile theo tinh thần góc học tập riêng, tránh phong cách app quản lý công việc.
+- [x] Làm mới dashboard với lời chào Ong, bốn chỉ số ngày học và card tiến trình hôm nay có CTA học tiếp.
+- [x] Chuẩn hóa nhận diện mascot Ong qua logo, trạng thái học và phản hồi tích cực, không dùng emoji cho icon chức năng.
+- [x] Tinh chỉnh card Flashcard/Quiz/AI Data Import theo khoảng trắng, bo góc, đổ bóng và animation nhẹ đúng đặc tả.
+- [x] Kiểm tra responsive desktop/tablet/mobile cùng focus-visible và reduced-motion sau khi cập nhật giao diện.
