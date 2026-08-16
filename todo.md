@@ -361,3 +361,4 @@
 - [x] TypeScript sạch; 32 file với 94 test passed; screenshot mobile không overflow ở màn hình đăng nhập.
 - [x] Đã ghi nhận giới hạn: preview hiện không có phiên đăng nhập nên chưa chụp được màn hình Pomodoro sau đăng nhập trong môi trường này.
 - [x] Kiểm tra bản giao diện đúng trên GitHub/dự án hiện tại và xuất lại standalone HTML theo đúng giao diện Góc nhỏ của Ong.
+- [x] Sửa lỗi tên thành viên và mật khẩu trong đăng nhập standalone; kiểm thử tạo tài khoản, đăng nhập lại và localStorage.
