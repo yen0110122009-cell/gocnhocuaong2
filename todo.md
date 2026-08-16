@@ -139,7 +139,7 @@
 - [x] Cho phép chỉnh sửa trực tiếp prompt trước khi sao chép hoặc tạo tài liệu, kèm nút tạo lại prompt từ các trường biểu mẫu.
 - [x] Bổ sung contract test xác nhận mode both, mục đích học và prompt editing/regeneration không hồi quy.
 
-- [ ] Audit lại toàn bộ client/src/pages, đặc biệt Cards trong Home.tsx, loại bỏ mọi token blue/violet/cyan còn sót.
+- [x] Audit lại toàn bộ client/src/pages, đặc biệt Cards trong Home.tsx, loại bỏ mọi token blue/violet/cyan còn sót.
 - [ ] Chụp bằng chứng riêng cho các view chính đã đăng nhập ở light/dark mode: dashboard, AI Studio, Flashcard, Quiz, Achievements, Museum, Wheel và Admin.
 - [ ] Xác nhận mascot Ong và dark mode nâu ấm hiện diện nhất quán trong các view chính trước checkpoint giao diện.
 
