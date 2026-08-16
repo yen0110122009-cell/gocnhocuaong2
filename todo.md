@@ -181,5 +181,5 @@
 - [x] Thêm contract test cho Cards React xác nhận selector flip/choice/write/rapid, lựa chọn trắc nghiệm, đồng hồ tốc độ, báo cáo phiên và nút học lại.
 
 - [x] Nối và kiểm thử quy tắc thưởng mảnh ghép đầy đủ cho Wheel và các activity khác ngoài Flashcard/Quiz/Achievement bằng test end-to-end.
-- [ ] Bổ sung/kiểm chứng code/test cho hiệu ứng mở khóa thành tích, ghép mảnh và hoàn thành bài theo accessible + reduced-motion ở các view liên quan.
+- [x] Bổ sung/kiểm chứng code/test cho hiệu ứng mở khóa thành tích, ghép mảnh và hoàn thành bài theo accessible + reduced-motion ở các view liên quan.
 - [x] Hoàn thiện Flashcard write mode bằng chấm đáp án thực sự; rapid mode có giới hạn thời gian, trạng thái kết thúc và báo cáo cuối phiên; thêm test cho cả 4 mode.

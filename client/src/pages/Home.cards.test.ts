@@ -25,6 +25,8 @@ describe("Cards React study modes", () => {
     expect(source).toContain("Báo cáo phiên");
     expect(source).toContain("Học lại phiên");
     expect(source).toContain("applyStudyActivityRewards");
+    expect(source).toContain("session-complete");
+    expect(source).toContain("aria-live=\"polite\"");
   });
 });
 
