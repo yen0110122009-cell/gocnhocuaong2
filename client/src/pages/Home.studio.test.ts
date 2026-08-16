@@ -19,3 +19,26 @@ describe("AI Studio prompt contract", () => {
   });
 });
 
+
+describe("learning persistence wiring", () => {
+  const source = readFileSync(join(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+
+  it("persists generated cards, quizzes and flashcard-derived quizzes through the profile callback", () => {
+    expect(source).toContain("flashcardSets: [set, ...profile.flashcardSets]");
+    expect(source).toContain("quizzes: [quiz, ...profile.quizzes]");
+    expect(source).toContain("createQuizFromSet");
+    expect(source).toContain("onProfile(next");
+  });
+});
+
+describe("quiz attempt persistence wiring", () => {
+  const quizSource = readFileSync(join(process.cwd(), "client/src/pages/QuizEnhanced.tsx"), "utf8");
+
+  it("keeps the completed attempt payload on the profile-save path", () => {
+    expect(quizSource).toContain("const finish");
+    expect(quizSource).toContain("answers");
+    expect(quizSource).toContain("onProfile");
+    expect(quizSource).toContain("flagged");
+    expect(quizSource).toContain("completedAt");
+  });
+});

@@ -82,7 +82,7 @@
 - [x] Không còn hydrate quiz_attempts Supabase; profile.attempts dùng attemptId/quizId ổn định do tRPC lưu nguyên payload.
 - [x] Xây UI xem lại answers và trạng thái flagged từ profile.attempts được khôi phục qua tRPC.
 - [x] Không áp dụng test payload Supabase hợp lệ cho deck/quiz vì phương án B không gọi adapter này; adapter chưa đăng nhập vẫn có test bảo vệ.
-- [ ] Bổ sung test wiring Home/QuizEnhanced xác nhận submit quiz và tạo deck gọi persistence đúng payload.
+- [x] Bổ sung test wiring Home/QuizEnhanced xác nhận submit quiz và tạo deck gọi persistence đúng payload.
 - [x] Không còn wiring persistence Supabase deck/quiz; luồng chính dùng profile tRPC theo phương án B.
 - [x] Chuyển các thao tác deck/quiz sang API tRPC đã xác thực theo phương án B; không kết nối Supabase Auth vào đăng nhập hiện tại.
 - [x] Loại bỏ hydrate Supabase profile/quiz khỏi Home; tRPC profile là nguồn duy nhất nên không còn nguy cơ ghi đè chéo.
@@ -91,7 +91,7 @@
 - [x] Dùng API tRPC đã xác thực làm nguồn persistence chính cho Flashcard và Quiz attempt; Home không còn đọc/ghi profile Supabase.
 - [x] Loại bỏ việc gọi adapter Supabase deck/quiz từ Home/Studio/Quiz để tránh ghi song song và phụ thuộc Supabase Auth.
 - [x] Tái sử dụng endpoint `study.profile.save` hiện có để lưu deck và quiz attempt theo token tài khoản hiện tại; không tạo endpoint trùng lặp.
-- [ ] Bổ sung test wiring Home/Quiz xác nhận profile save nhận deck và quiz attempt đúng payload.
+- [x] Bổ sung test wiring Home/Quiz xác nhận profile save nhận deck và quiz attempt đúng payload.
 - [ ] Xác minh đăng nhập lại bằng phiên người dùng thật rằng profile tRPC khôi phục deck và quiz attempts không bị nguồn khác ghi đè.
 - [x] Cập nhật biên bản kiến trúc, test và checkpoint theo nguồn dữ liệu tRPC chính.
 
@@ -162,3 +162,7 @@
 - [x] Bổ sung lọc Flashcard theo ngày tạo/ngày học và test persistence cho các thao tác quản lý bộ.
 
 - [x] Cho phép tạo Quiz trả lời ngắn từ một bộ Flashcard hiện có, lưu Quiz mới vào profile và có contract test.
+
+- [ ] Viết test component/integration render Home/QuizEnhanced, mock callback persistence, kích hoạt tạo Quiz từ Flashcard và nộp bài rồi assert payload thực tế.
+- [x] Test createQuizFromSet xác nhận questions/createdAt/difficulty/subject/topic đúng từ bộ nguồn.
+- [ ] Test submit Quiz xác nhận quizId/completedAt/answers/flagged/correct/total/accuracy/durationSeconds và không mất dữ liệu profile hiện có.

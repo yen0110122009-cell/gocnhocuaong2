@@ -55,6 +55,6 @@ describe("flashcard to quiz", () => {
     const source = read("client/src/pages/Home.tsx");
     expect(source).toContain("Tạo đề từ bộ Flashcard");
     expect(source).toContain("createQuizFromSet");
-    expect(source).toContain("questions: QuizQuestion[]");
+    expect(source).toContain("createQuizFromFlashcardSet");
   });
 });
