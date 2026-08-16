@@ -32,7 +32,7 @@
 - [x] Hoàn thiện hệ thống 900 thành tích với khoảng cách mốc tăng dần, phần thưởng đa dạng và 400 danh hiệu riêng ở bậc 6–9.
 - [ ] Hoàn thiện quy tắc kiếm mảnh ghép từ học Flashcard, làm đề, thành tích, vòng quay và hoạt động học khác.
 - [ ] Bổ sung hiệu ứng mở khóa, ghép mảnh và hoàn thành bài có thể truy cập, đồng thời tôn trọng cài đặt giảm chuyển động.
-- [ ] Bảo đảm website không chứa các chức năng TODO, habit, nhật ký, lịch, Pomodoro hoặc quản lý sinh hoạt hằng ngày.
+- [x] Bảo đảm website không chứa các chức năng TODO, habit, nhật ký, lịch, Pomodoro hoặc quản lý sinh hoạt hằng ngày.
 - [x] Cấu hình Supabase URL và Publishable key đầy đủ qua biến môi trường bảo mật.
 - [x] Thiết kế và áp dụng schema Supabase cho tài khoản, hồ sơ học tập, Flashcard, đề thi, thành tích, mảnh ghép và nhân vật.
 - [x] Thiết lập chính sách cô lập dữ liệu theo tài khoản bằng Row Level Security.
@@ -110,7 +110,7 @@
 - [x] Hoàn thiện động cơ thành tích 900 mục, phần thưởng một lần, 9 bậc/100 mục, khoảng cách tăng dần và 400 danh hiệu riêng cho 4 bậc cuối; Admin có thể bổ sung/quản lý các mốc tùy chỉnh.
 - [x] Hoàn thiện bộ sưu tập mảnh ghép bằng bản đồ ghép hình dựa trên dữ liệu hồ sơ, hiệu ứng an toàn với reduced-motion và luồng mở khóa lịch sử nhân vật riêng trong Bảo tàng.
 - [x] Hoàn thiện Admin quản lý lời động viên, thành tích tùy chỉnh và phần thưởng/vòng quay: ngoài thêm/xóa/bật-tắt, cần chỉnh sửa trực tiếp các trường nội dung, điều kiện, giá trị, trọng số và màu; khu vực nhân vật đã có import JSON kiểm tra nguồn, ảnh và timeline.
-- [ ] Bảo đảm tìm kiếm và lọc bao phủ Flashcard, Quiz, thành tích, nhân vật và mảnh ghép; không thêm Todo, Habit, Journal, Schedule hoặc công cụ quản lý cá nhân.
+- [x] Bảo đảm tìm kiếm toàn cục bao phủ Flashcard, Quiz, thành tích, nhân vật và mảnh ghép; không thêm Todo, Habit, Journal, Schedule hoặc công cụ quản lý cá nhân.
 - [x] Xuất bản phiên bản `index.html` tự chứa HTML/CSS/JavaScript, dùng Web Crypto SHA-256 và localStorage ở trình duyệt, có các luồng học cốt lõi và nêu rõ giới hạn không đồng bộ máy chủ.
 
 ## Hồi quy phát hiện khi kiểm thử index.html
@@ -150,3 +150,15 @@
 
 - [x] Bổ sung/kiểm chứng UI lịch sử làm đề hiển thị rõ số câu sai, số câu bỏ qua, đáp án từng câu và trạng thái đánh dấu từ profile.attempts.
 - [x] Nối lời động viên cấu hình bởi quản trị viên vào màn hình lịch sử/xem lại bài và thêm test hoặc code evidence sau đăng nhập lại.
+
+- [x] Audit toàn bộ mã giao diện gồm React và index.html/standalone để xác nhận không có route, tab, form, state hoặc copy liên quan TODO/Habit/Journal/Pomodoro/Schedule hay quản lý sinh hoạt cá nhân.
+- [x] Lưu biên bản kiểm chứng nêu rõ các chuỗi “nhật ký”/“lịch” còn lại chỉ thuộc activity log học tập hoặc timeline lịch sử, không phải journal/schedule.
+
+- [x] Bổ sung bộ lọc cục bộ cho Flashcard theo bộ/môn/độ khó/trạng thái, cho Quiz theo môn/độ khó, cho Museum theo nhân vật/mảnh ghép và bảo đảm Achievements giữ các bộ lọc hiện có.
+- [x] Thêm contract test cho các bộ lọc cục bộ ở từng view; không coi search toàn cục là thay thế cho filter.
+
+- [x] Thêm thao tác đổi tên, sao chép và xóa bộ Flashcard trong React, có xác nhận và lưu profile tRPC.
+- [ ] Thêm tạo Quiz từ bộ Flashcard và báo cáo cuối phiên cho bốn chế độ học trong React; giữ standalone đã có.
+- [x] Bổ sung lọc Flashcard theo ngày tạo/ngày học và test persistence cho các thao tác quản lý bộ.
+
+- [x] Cho phép tạo Quiz trả lời ngắn từ một bộ Flashcard hiện có, lưu Quiz mới vào profile và có contract test.
