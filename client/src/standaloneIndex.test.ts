@@ -42,6 +42,10 @@ describe("index.html standalone learning contracts", () => {
     expect(standalone).toContain("window._achDifficulty");
     expect(standalone).toContain("window._achFragmentOnly");
     expect(standalone).not.toContain(".slice(0,120)");
+    expect(standalone).toContain('id="studio-file"');
+    expect(standalone).toContain("application/pdf");
+    expect(standalone).toContain("file.text()");
+    expect(standalone).toContain("Tệp đính kèm");
   });
 
   it("discloses the standalone local-storage limitation to the learner", () => {

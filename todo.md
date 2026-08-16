@@ -129,3 +129,6 @@
 - [x] Bổ sung metadata tiến trình theo từng thành tích, ngày mở khóa và animation mở khóa; hiển thị an toàn mà không thay đổi profile cũ.
 - [x] Tạo ý nghĩa thực sự khác nhau cho 400 danh hiệu và kiểm thử uniqueness của ý nghĩa cùng điều kiện tăng dần.
 - [x] Đưa bộ lọc độ khó và có mảnh ghép vào standalone, đồng bộ với React.
+
+- [x] Bổ sung chọn tệp TXT/MD/PDF trong AI Studio React và standalone; TXT/MD được đọc trực tiếp, tên PDF được đưa vào prompt và có contract test.
+- [ ] Nâng cấp xử lý PDF phía server/LLM để trích xuất nội dung PDF thật sự thay vì chỉ truyền tên tệp trong prompt.
