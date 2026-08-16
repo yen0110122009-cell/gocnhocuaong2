@@ -65,7 +65,7 @@
 - [x] Bổ sung prefers-reduced-motion cho transition/animation không thiết yếu và kiểm tra không ảnh hưởng layout.
 - [x] Kiểm tra thủ công accessibility tree, focus-visible/Tab và điều hướng các luồng đăng nhập, AI Studio, Flashcard, đề, bảo tàng, vòng quay và Admin Panel trong phiên Ong/111.
 - [x] Kiểm tra và ghi lại keyboard/tab flow cho đăng nhập, AI Studio, Flashcard, Admin Panel, tìm kiếm và import/export; focus-visible/nhãn điều khiển đã được quan sát trong phiên Ong/111.
-- [ ] Khóa reduced-motion bằng CSS media query và contract tests cho các luồng chính; giao diện đã được kiểm tra không lệch layout qua preview, còn emulation media-query trực tiếp phụ thuộc công cụ trình duyệt.
+- [x] Khóa reduced-motion bằng CSS media query và contract tests cho các luồng chính; đã kiểm tra stylesheet/Preview, và ghi rõ media emulation trực tiếp không khả dụng trong công cụ hiện tại.
 
 ## Accessibility verification notes
 - QuizEnhanced: đã thêm nhãn cho chọn đề, câu trả lời, nút trước/tiếp/nộp, chuyển câu và đánh dấu.
@@ -216,5 +216,5 @@
 
 ## Final handoff follow-up
 
-- [ ] Lưu checkpoint/final handoff mới sau QuizEnhanced.render.test.ts, import React cho SSR render test, manual notes và todo cập nhật; ghi version id bàn giao.
-- [ ] Giữ minh bạch rằng reduced-motion đã được kiểm tra qua CSS/Preview và contract test; media emulation trực tiếp chưa được thực hiện nếu công cụ không hỗ trợ.
+- [x] Lưu checkpoint/final handoff mới sau QuizEnhanced.render.test.ts, import React cho SSR render test, manual notes và todo cập nhật; version handoff: 22c77d0e.
+- [x] Giữ minh bạch rằng reduced-motion đã được kiểm tra qua CSS/Preview và contract test; media emulation trực tiếp chưa được thực hiện vì công cụ không hỗ trợ.
