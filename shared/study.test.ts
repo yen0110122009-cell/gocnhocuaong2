@@ -27,4 +27,12 @@ describe("Study Historia learning state", () => {
     const normalized = normalizeProfile({ attempts: [{ id: "attempt-1", quizId: "quiz-1", completedAt: "2026-08-16T00:00:00.000Z", correct: 2, total: 3, accuracy: 67, durationSeconds: 42, answers: [{ questionId: "q1", answer: "A", flagged: true, correct: false }] }] });
     expect(normalized.attempts).toEqual([{ id: "attempt-1", quizId: "quiz-1", completedAt: "2026-08-16T00:00:00.000Z", correct: 2, total: 3, accuracy: 67, durationSeconds: 42, answers: [{ questionId: "q1", answer: "A", flagged: true, correct: false }] }]);
   });
+
+  it("preserves valid learning activity and discards malformed activity safely", () => {
+    const normalized = normalizeProfile({ studyActivity: [
+      { id: "activity-1", occurredAt: "2026-08-16T00:00:00.000Z", kind: "quiz", quantity: 8, durationSeconds: 600, xpEarned: 84, correct: 7, total: 8 },
+      { id: "broken", kind: "reading" },
+    ] });
+    expect(normalized.studyActivity).toEqual([{ id: "activity-1", occurredAt: "2026-08-16T00:00:00.000Z", kind: "quiz", quantity: 8, durationSeconds: 600, xpEarned: 84, correct: 7, total: 8 }]);
+  });
 });

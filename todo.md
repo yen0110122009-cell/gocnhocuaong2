@@ -94,3 +94,28 @@
 - [ ] Bổ sung test wiring Home/Quiz xác nhận profile save nhận deck và quiz attempt đúng payload.
 - [ ] Xác minh đăng nhập lại bằng phiên người dùng thật rằng profile tRPC khôi phục deck và quiz attempts không bị nguồn khác ghi đè.
 - [x] Cập nhật biên bản kiến trúc, test và checkpoint theo nguồn dữ liệu tRPC chính.
+
+## Persistence verification evidence
+- `shared/study.test.ts` kiểm tra normalizeProfile giữ nguyên `attempt.id`, `quizId`, `completedAt`, `answers`, `flagged` và `correct`.
+- `vitest.config.ts` đã bao phủ `shared/**/*.test.ts`; kết quả gần nhất: 13 test files, 35 tests passed.
+- `Home.tsx` chỉ hydrate qua `study.profile.get` và ghi qua `study.profile.save`; không còn gọi load/save profile Supabase.
+- Chưa có xác minh phiên đăng nhập lại thật hoặc test component wiring trực tiếp; hai mục này vẫn chờ.
+
+## Căn chỉnh theo đặc tả website mới
+- [ ] Hoàn tất hệ thống thị giác không gian học tập ấm áp: thay các điểm nhấn xanh/tím/cyan còn sót ở toàn bộ view đã đăng nhập bằng kem–mật ong–nâu, dark mode nâu ấm và mascot Ong tối giản; cần screenshot/biên bản cho từng view chính.
+- [ ] Hoàn thiện AI Studio theo luồng nhập yêu cầu, mục đích học, tài liệu/dán văn bản, prompt có thể sao chép/tạo lại/chỉnh sửa và chọn tạo Flashcard, Quiz hoặc cả hai.
+- [ ] Bổ sung quản lý bộ Flashcard: lọc theo môn/chủ đề/ngày, đổi tên, sao chép, xóa, tạo đề từ bộ và bốn chế độ học có báo cáo cuối phiên.
+- [x] Hoàn thiện kết quả đề độc lập với điểm theo thang 10, đúng/sai/bỏ qua, giải thích, gợi ý làm lại và tạo Flashcard từ các câu sai; đã kiểm thử báo cáo, tạo bộ ôn lại và nút Làm lại khởi tạo phiên mới đúng đề.
+- [x] Xây trang Tiến trình từ nhật ký hoạt động thật: lượt học ngày/tuần, thời lượng Quiz đã ghi nhận, độ chính xác 7 ngày và tổng Flashcard/Quiz/XP; không tạo số liệu giả cho dữ liệu chưa được lưu.
+- [x] Hoàn thiện động cơ thành tích 900 mục, phần thưởng một lần, 9 bậc/100 mục, khoảng cách tăng dần và 400 danh hiệu riêng cho 4 bậc cuối; Admin có thể bổ sung/quản lý các mốc tùy chỉnh.
+- [x] Hoàn thiện bộ sưu tập mảnh ghép bằng bản đồ ghép hình dựa trên dữ liệu hồ sơ, hiệu ứng an toàn với reduced-motion và luồng mở khóa lịch sử nhân vật riêng trong Bảo tàng.
+- [ ] Hoàn thiện Admin quản lý lời động viên, thành tích tùy chỉnh và phần thưởng/vòng quay: ngoài thêm/xóa/bật-tắt, cần chỉnh sửa trực tiếp các trường nội dung, điều kiện, giá trị, trọng số và màu; khu vực nhân vật đã có import JSON kiểm tra nguồn, ảnh và timeline.
+- [ ] Bảo đảm tìm kiếm và lọc bao phủ Flashcard, Quiz, thành tích, nhân vật và mảnh ghép; không thêm Todo, Habit, Journal, Schedule hoặc công cụ quản lý cá nhân.
+- [x] Xuất bản phiên bản `index.html` tự chứa HTML/CSS/JavaScript, dùng Web Crypto SHA-256 và localStorage ở trình duyệt, có các luồng học cốt lõi và nêu rõ giới hạn không đồng bộ máy chủ.
+
+## Hồi quy phát hiện khi kiểm thử index.html
+- [x] Sửa luồng nộp Quiz trong index.html để render báo cáo kết quả sau khi ghi attempt; đã xác minh từ nhập JSON Flashcard, tạo đề, chọn đáp án đến báo cáo 5.0/10 và giải thích từng câu.
+- [x] Hoàn tất kiểm chứng hành vi hai nút Làm lại và Tạo Flashcard từ câu sai trong báo cáo Quiz của index.html bằng thao tác trực tiếp.
+- [x] Bổ sung test hồi quy cho index.html xác nhận event binding của cả hai nút báo cáo Quiz, không chỉ sự tồn tại của helper.
+- [x] Thêm kiểm thử hồi quy hợp đồng cho index.html: Quiz render kết quả, học lại câu sai, bốn chế độ Flashcard và thông báo lưu trữ cục bộ (4 kiểm thử).
+- [x] Thêm kiểm thử hồi quy hợp đồng cho index.html: Quiz render kết quả, học lại câu sai, bốn chế độ Flashcard và thông báo lưu trữ cục bộ (mục trùng, đã hoàn thành tại dòng trên).
