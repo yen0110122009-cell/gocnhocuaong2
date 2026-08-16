@@ -260,3 +260,9 @@
 - [x] Xử lý nhân vật trùng id/tên với lựa chọn bỏ qua hoặc thay thế, không làm mất dữ liệu khác.
 - [x] Lưu toàn bộ nhân vật hợp lệ vào localStorage, cập nhật Bảo tàng và hỗ trợ xuất lại JSON.
 - [x] Kiểm thử trực tiếp bằng file:// với dữ liệu nhiều nhân vật và bàn giao tệp standalone cập nhật.
+
+
+## Đổi nhận diện thành Góc nhỏ của Ong
+- [x] Đổi tên trang hiển thị thành “Góc nhỏ của Ong” ở website chính và bản standalone.
+- [x] Cập nhật title/favicon/logo để dùng icon Ong nhất quán, không phá responsive hoặc dark mode.
+- [x] Kiểm tra tiêu đề trình duyệt, logo/header và bản standalone sau reload; lưu checkpoint bàn giao.
