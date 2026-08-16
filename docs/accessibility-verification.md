@@ -17,3 +17,7 @@ Ngày kiểm tra: 2026-08-16.
 ## Còn cần xác minh thủ công
 
 Cần một phiên đăng nhập thật để kiểm tra tab order end-to-end trên AI Studio, Flashcard, Quiz, Museum, Wheel và Admin Panel; đồng thời cần bật `prefers-reduced-motion` trong trình duyệt để xác nhận trực quan không lệch layout. Cần user Supabase thật để kiểm tra đọc/ghi và RLS giữa hai tài khoản.
+
+## Kiểm tra responsive bổ sung
+
+Preview ở viewport 375×812 hiển thị form đăng nhập vừa khung, không tràn ngang; các trường nhập và nút đăng nhập giữ thứ tự trực quan rõ ràng. Đây là kiểm tra layout thông thường, chưa thay thế cho kiểm tra trình duyệt với `prefers-reduced-motion` bật và kiểm tra keyboard end-to-end sau đăng nhập.
