@@ -130,5 +130,5 @@
 - [x] Tạo ý nghĩa thực sự khác nhau cho 400 danh hiệu và kiểm thử uniqueness của ý nghĩa cùng điều kiện tăng dần.
 - [x] Đưa bộ lọc độ khó và có mảnh ghép vào standalone, đồng bộ với React.
 
-- [x] Bổ sung chọn tệp TXT/MD/PDF trong AI Studio React và standalone; TXT/MD được đọc trực tiếp, tên PDF được đưa vào prompt và có contract test.
-- [ ] Nâng cấp xử lý PDF phía server/LLM để trích xuất nội dung PDF thật sự thay vì chỉ truyền tên tệp trong prompt.
+- [x] Bổ sung chọn tệp TXT/MD/PDF trong AI Studio React và standalone; TXT/MD được đọc trực tiếp, PDF được gửi server qua storage/file_url để LLM trích xuất và có contract test.
+- [x] Nâng cấp xử lý PDF phía server/LLM để trích xuất nội dung PDF thật sự thay vì chỉ truyền tên tệp trong prompt.

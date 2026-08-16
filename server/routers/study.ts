@@ -15,6 +15,7 @@ import {
   updateAccountForToken,
 } from "../studyStore";
 import { storagePut } from "../storage";
+import { invokeLLM } from "../_core/llm";
 import { publicProcedure, router } from "../_core/trpc";
 
 function asTrpcError(error: unknown): never {
@@ -48,6 +49,35 @@ export const studyRouter = router({
     }),
     import: publicProcedure.input(tokenInput.extend({ profile: z.unknown() })).mutation(async ({ input }) => {
       try { return await saveProfileForToken(input.token, input.profile); } catch (error) { return asTrpcError(error); }
+    }),
+  }),
+  ai: router({
+    generateFromDocument: publicProcedure.input(tokenInput.extend({
+      mode: z.enum(["cards", "quiz"]),
+      prompt: z.string().min(20).max(30000),
+      fileName: z.string().max(160).optional(),
+      contentType: z.enum(["text/plain", "text/markdown", "application/pdf"]).optional(),
+      dataUrl: z.string().max(7_000_000).optional(),
+    })).mutation(async ({ input }) => {
+      try {
+        const { account } = await getStudySession(input.token);
+        const parts: Array<{ type: "text"; text: string } | { type: "file_url"; file_url: { url: string; mime_type: "application/pdf" } }> = [{ type: "text", text: input.prompt }];
+        if (input.dataUrl && input.fileName && input.contentType) {
+          const match = input.dataUrl.match(/^data:([^;]+);base64,([A-Za-z0-9+/=]+)$/);
+          if (!match || match[1] !== input.contentType) throw new Error("Dữ liệu tệp không hợp lệ.");
+          const bytes = Buffer.from(match[2], "base64");
+          if (bytes.length > 5 * 1024 * 1024) throw new Error("Tệp tài liệu tối đa 5 MB.");
+          const safeName = input.fileName.replace(/[^a-zA-Z0-9._-]/g, "-");
+          const stored = await storagePut(`study-historia/documents/${account.id}/${Date.now()}-${safeName}`, bytes, input.contentType);
+          if (input.contentType === "application/pdf") parts.push({ type: "file_url", file_url: { url: stored.url, mime_type: "application/pdf" } });
+          else parts.push({ type: "text", text: `Nội dung tệp ${input.fileName}:\\n${bytes.toString("utf8").slice(0, 120000)}` });
+        }
+        const schema = input.mode === "cards" ? { type: "object", properties: { cards: { type: "array", maxItems: 27, items: { type: "object", properties: { front: { type: "string" }, back: { type: "string" }, note: { type: "string" } }, required: ["front", "back"], additionalProperties: false } } }, required: ["cards"], additionalProperties: false } : { type: "object", properties: { questions: { type: "array", maxItems: 27, items: { type: "object", properties: { type: { type: "string", enum: ["multiple", "boolean", "short"] }, prompt: { type: "string" }, options: { type: "array", items: { type: "string" } }, answer: { type: "string" }, explanation: { type: "string" } }, required: ["type", "prompt", "answer"], additionalProperties: false } } }, required: ["questions"], additionalProperties: false };
+        const response = await invokeLLM({ messages: [{ role: "system", content: "Bạn là trợ lý biên soạn học tập lịch sử bằng tiếng Việt. Chỉ trả về JSON đúng schema, không thêm markdown." }, { role: "user", content: parts }], response_format: { type: "json_schema", json_schema: { name: input.mode === "cards" ? "flashcards" : "quiz", strict: true, schema } }, maxTokens: 6000 });
+        const content = response.choices?.[0]?.message?.content;
+        const text = typeof content === "string" ? content : JSON.stringify(content ?? {});
+        return { content: text, mode: input.mode };
+      } catch (error) { return asTrpcError(error); }
     }),
   }),
   config: router({
