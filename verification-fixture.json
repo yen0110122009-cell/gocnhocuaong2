@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "xp": 24,
+    "level": 1,
+    "flashcardSets": [
+      {
+        "id": "fixture-set-111",
+        "title": "Fixture phục hồi 111",
+        "subject": "Lịch sử Việt Nam",
+        "topic": "Kiểm tra persistence",
+        "difficulty": "Cơ bản",
+        "createdAt": "2026-08-16T00:00:00.000Z",
+        "studyCount": 1,
+        "cards": [
+          {
+            "id": "fixture-card-111",
+            "front": "Kinh đô đầu tiên của nhà Lý là gì?",
+            "back": "Thăng Long",
+            "status": "learning",
+            "starred": true
+          }
+        ]
+      }
+    ],
+    "quizzes": [
+      {
+        "id": "fixture-quiz-111",
+        "title": "Quiz phục hồi 111",
+        "subject": "Lịch sử Việt Nam",
+        "topic": "Kiểm tra persistence",
+        "difficulty": "Cơ bản",
+        "durationMinutes": 5,
+        "createdAt": "2026-08-16T00:00:00.000Z",
+        "questions": [
+          {
+            "id": "fixture-question-111",
+            "type": "short",
+            "prompt": "Kinh đô nhà Lý?",
+            "answer": "Thăng Long",
+            "explanation": "Fixture kiểm tra khôi phục."
+          }
+        ]
+      }
+    ],
+    "attempts": [
+      {
+        "id": "fixture-attempt-111",
+        "quizId": "fixture-quiz-111",
+        "completedAt": "2026-08-16T00:05:00.000Z",
+        "correct": 1,
+        "total": 1,
+        "accuracy": 1,
+        "durationSeconds": 42,
+        "answers": ["Thăng Long"]
+      }
+    ],
+    "studyActivity": [],
+    "fragments": {},
+    "unlockedAchievementIds": [],
+    "ownedBadges": [],
+    "activeTitle": null,
+    "wheelTickets": 0,
+    "inventory": [],
+    "achievementUnlockDates": {},
+    "soundEnabled": true,
+    "theme": "light",
+    "lastActivityAt": null,
+    "currentStreak": 0,
+    "bestStreak": 0,
+    "streakShields": 0
+  }
+}

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { CheckCircle2, ChevronLeft, ChevronRight, Clock3, Flag } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { applyStudyActivityRewards, type AppConfig, type ProfileState, type Quiz, type QuizQuestion } from "../../../shared/study";
 import { buildQuizAttempt } from "../../../shared/quizPersistence";

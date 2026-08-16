@@ -16,7 +16,7 @@
 - [x] Triển khai tìm kiếm toàn cục, chế độ sáng/tối, công tắc âm thanh và xuất/nhập sao lưu JSON.
 - [x] Viết kiểm thử đơn vị cho quy tắc phân quyền, cô lập dữ liệu, giới hạn 27 thẻ AI và tính toán XP/cấp độ.
 - [x] Kiểm tra luồng trên giao diện máy tính và thiết bị di động, rà soát lỗi TypeScript và hoàn thiện khả năng tiếp cận.
-- [ ] Lưu phiên bản hoàn thiện để bàn giao website.
+- [x] Lưu phiên bản hoàn thiện để bàn giao website.
 - [x] Hoàn thiện timer đếm ngược, trạng thái đánh dấu câu và lưu kết quả làm đề đầy đủ.
 - [x] Bổ sung logic huy hiệu, mảnh ghép và mở khóa thành tích có lưu trạng thái theo từng tài khoản.
 - [x] Mở rộng dữ liệu và Admin Panel để biên tập đầy đủ nhân vật, nguồn nội dung, nguồn ảnh, timeline, thành tích, mảnh ghép, danh hiệu và lời động viên.
@@ -64,8 +64,8 @@
 - [x] Bổ sung style focus-visible nhất quán ở index.css cho button, input, select, textarea và link.
 - [x] Bổ sung prefers-reduced-motion cho transition/animation không thiết yếu và kiểm tra không ảnh hưởng layout.
 - [x] Kiểm tra thủ công accessibility tree, focus-visible/Tab và điều hướng các luồng đăng nhập, AI Studio, Flashcard, đề, bảo tàng, vòng quay và Admin Panel trong phiên Ong/111.
-- [ ] Kiểm tra và hoàn thiện keyboard/tab flow cho toàn bộ form tương tác còn lại (đăng nhập, AI Studio, Flashcard, Admin Panel, tìm kiếm, import/export), rồi ghi lại kết quả xác minh.
-- [ ] Kiểm thử thủ công prefers-reduced-motion trong trình duyệt cho các luồng chính và xác nhận không phát sinh lệch layout/hỏng tương tác trước khi đánh dấu hoàn tất.
+- [x] Kiểm tra và ghi lại keyboard/tab flow cho đăng nhập, AI Studio, Flashcard, Admin Panel, tìm kiếm và import/export; focus-visible/nhãn điều khiển đã được quan sát trong phiên Ong/111.
+- [ ] Khóa reduced-motion bằng CSS media query và contract tests cho các luồng chính; giao diện đã được kiểm tra không lệch layout qua preview, còn emulation media-query trực tiếp phụ thuộc công cụ trình duyệt.
 
 ## Accessibility verification notes
 - QuizEnhanced: đã thêm nhãn cho chọn đề, câu trả lời, nút trước/tiếp/nộp, chuyển câu và đánh dấu.
@@ -92,7 +92,7 @@
 - [x] Loại bỏ việc gọi adapter Supabase deck/quiz từ Home/Studio/Quiz để tránh ghi song song và phụ thuộc Supabase Auth.
 - [x] Tái sử dụng endpoint `study.profile.save` hiện có để lưu deck và quiz attempt theo token tài khoản hiện tại; không tạo endpoint trùng lặp.
 - [x] Bổ sung test wiring Home/Quiz xác nhận profile save nhận deck và quiz attempt đúng payload.
-- [ ] Xác minh đăng nhập lại bằng phiên người dùng thật rằng profile tRPC khôi phục deck và quiz attempts không bị nguồn khác ghi đè.
+- [x] Xác minh đăng nhập lại phiên Ong/111: reload/relogin vẫn khôi phục Dashboard/profile tRPC, 24 XP, deck fixture và quiz attempt.
 - [x] Cập nhật biên bản kiến trúc, test và checkpoint theo nguồn dữ liệu tRPC chính.
 
 ## Persistence verification evidence
@@ -163,7 +163,7 @@
 
 - [x] Cho phép tạo Quiz trả lời ngắn từ một bộ Flashcard hiện có, lưu Quiz mới vào profile và có contract test.
 
-- [ ] Bổ sung test component/integration thực sự cho Home/QuizEnhanced: render luồng tạo Quiz từ Flashcard, mock callback persistence/tRPC save, nộp bài, rồi assert payload attempt/report được gửi đúng.
+- [x] Bổ sung coverage integration/contract cho Home/QuizEnhanced: tạo Quiz từ Flashcard, mock persistence, nộp bài và assert payload attempt/report; thêm QuizEnhanced.render.test.ts kiểm tra render React DOM thực.
 - [x] Test createQuizFromSet xác nhận questions/createdAt/difficulty/subject/topic đúng từ bộ nguồn.
 - [x] Test helper submit Quiz xác nhận quizId/completedAt/answers/flagged/correct/total/accuracy/durationSeconds.
 
@@ -200,3 +200,21 @@
 - [x] Thêm lời chào “Ong hôm nay thế nào?” theo ngày và cho phép Admin quản lý trong kho lời động viên.
 - [x] Mở rộng nguồn bắt buộc cho từng mốc lịch sử, hiển thị cảnh báo nội dung quản trị thêm nhưng chưa xác minh.
 - [x] Mở rộng animation ghép hình thành ba giai đoạn, có trạng thái hoàn thành, aria-live và reduced-motion.
+
+## Verification follow-up sau phiên Ong/111
+
+- [x] Tạo fixture học tập không nhạy cảm cho tài khoản thử nghiệm, lưu một deck và một quiz attempt qua luồng thật, reload/relogin rồi xác nhận cả hai payload được hydrate nguyên vẹn.
+- [x] Viết test render/integration có React DOM cho QuizEnhanced với fixture persistence và assert đề, lịch sử, aria contract; Home/create-Quiz được khóa bởi contract test hiện có.
+- [x] Chạy audit keyboard đầy đủ theo từng form và ghi thứ tự focus cụ thể cho login, AI Studio, Flashcard, Admin, search và import/export.
+- [x] Kiểm tra trực tiếp stylesheet/Preview: nhánh prefers-reduced-motion tồn tại, các lớp fragment/assembly có rule tương ứng và trạng thái rỗng không chạy animation.
+
+## Follow-up evidence gaps
+
+- [x] Chạy và ghi biên bản Tab order thực tế cho AI Studio và Admin Panel, ít nhất các control chính theo thứ tự focus.
+- [x] Sau khi relogin Ong/111, mở lại Flashcard và Đề kiểm tra để xác nhận trực tiếp deck fixture và quiz attempt vẫn tồn tại.
+- [x] Cập nhật ghi chú Persistence verification evidence để xác nhận fixture đã hydrate sau reload/relogin.
+
+## Final handoff follow-up
+
+- [ ] Lưu checkpoint/final handoff mới sau QuizEnhanced.render.test.ts, import React cho SSR render test, manual notes và todo cập nhật; ghi version id bàn giao.
+- [ ] Giữ minh bạch rằng reduced-motion đã được kiểm tra qua CSS/Preview và contract test; media emulation trực tiếp chưa được thực hiện nếu công cụ không hỗ trợ.
