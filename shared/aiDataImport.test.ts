@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildExternalAiPrompt, convertImportToFlashcards, convertImportToQuiz, parseExternalAiData, validateExternalAiData } from "./aiDataImport";
+import { buildExternalAiPrompt, buildWrongAnswerDeepPrompt, convertImportToFlashcards, convertImportToQuiz, parseExternalAiData, validateExternalAiData } from "./aiDataImport";
 
 describe("AI Data Import external workflow", () => {
   it("creates a prompt that delegates document reading to an external AI", () => {
@@ -7,6 +7,15 @@ describe("AI Data Import external workflow", () => {
     expect(prompt).toContain("chỉ sử dụng thông tin có trong tài liệu");
     expect(prompt).toContain("đề kiểm tra và Flashcard");
     expect(prompt).toContain("Chỉ trả về JSON");
+  });
+
+  it("builds a source-aware deep review prompt from wrong answers", () => {
+    const prompt = buildWrongAnswerDeepPrompt([{ questionId: "q1", question: "Ai lãnh đạo?", answer: "A", userAnswer: "B", explanation: "Theo tài liệu" }], { subject: "Lịch sử", topic: "Nhà Trần" });
+    expect(prompt).toContain("questionId");
+    expect(prompt).toContain("correctAnswer");
+    expect(prompt).toContain("learnerAnswer");
+    expect(prompt).toContain("needsVerification=true");
+    expect(prompt).toContain("Nhà Trần");
   });
 
   it("parses normalized JSON and QUESTION blocks", () => {

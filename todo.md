@@ -320,3 +320,11 @@
 - [x] Cập nhật prompt AI hai lớp: bộ câu hỏi + dữ liệu giải thích sâu; thiếu căn cứ phải đánh dấu cần xác minh, không tự bịa.
 - [x] Tạo giao diện chọn chế độ và điều hướng riêng, không gộp đề giấy với đề online.
 - [x] Viết test cho mode, payload giải thích, timer đề giấy, trạng thái chắc chắn và persistence lịch sử.
+
+
+## Chuỗi mở rộng sau hệ thống Làm đề: 4 → 3 → 2
+- [x] Hoàn thiện các khoảng trống theo đặc tả Làm đề và tài liệu vận hành dành cho AI/lập trình viên.
+- [x] Thêm prompt và schema giải thích sâu riêng cho các câu sai sau phiên đề.
+- [x] Thêm luồng tạo, xem, lưu và dùng lại giải thích sâu AI từ câu sai.
+- [x] Thêm biểu đồ tiến bộ theo chế độ Làm đề và theo chủ đề/môn học dựa trên dữ liệu lịch sử thật.
+- [x] Viết test, kiểm tra responsive/accessibility và lưu checkpoint cho chuỗi thay đổi.

@@ -73,6 +73,59 @@ export function buildExternalAiPrompt(options: AiImportOptions): string {
   ].filter(Boolean).join("\n\n");
 }
 
+export type WrongAnswerDeepResult = {
+  questionId: string;
+  whyWrong: string;
+  knowledgeGap: string;
+  correctThinking: string[];
+  commonMistake: string;
+  retryQuestion: string;
+  retryAnswer: string;
+  source: string;
+  needsVerification: boolean;
+};
+
+export type WrongAnswerReviewInput = {
+  questionId: string;
+  question: string;
+  answer: string;
+  userAnswer?: string;
+  explanation?: string;
+  source?: string;
+};
+
+export function buildWrongAnswerDeepPrompt(items: WrongAnswerReviewInput[], context?: { subject?: string; topic?: string }): string {
+  const payload = items.map((item) => ({
+    questionId: item.questionId,
+    question: item.question,
+    correctAnswer: item.answer,
+    learnerAnswer: item.userAnswer ?? "Không có đáp án",
+    existingExplanation: item.explanation ?? "",
+    source: item.source ?? "Chưa cung cấp",
+  }));
+  return [
+    "Bạn là AI hỗ trợ sửa lỗi học tập. Chỉ phân tích các câu sai được cung cấp, không tự thêm câu hỏi và không thay đổi đáp án chuẩn.",
+    "Với mỗi questionId, hãy giải thích vì sao đáp án của người học chưa đúng, chỉ ra lỗi suy luận, kiến thức nền còn thiếu, cách suy nghĩ đúng theo từng bước và một câu hỏi biến thể để kiểm tra lại.",
+    "Giữ nguyên correctAnswer. Nếu không đủ nguồn hoặc có khả năng tranh luận, đặt needsVerification=true và ghi rõ phần cần xác minh; tuyệt đối không bịa dữ kiện lịch sử.",
+    "Chỉ trả về JSON hợp lệ theo schema {\"reviews\":[{\"questionId\":\"...\",\"whyWrong\":\"...\",\"knowledgeGap\":\"...\",\"correctThinking\":[\"...\"],\"commonMistake\":\"...\",\"retryQuestion\":\"...\",\"retryAnswer\":\"...\",\"source\":\"...\",\"needsVerification\":false}]}.",
+    `Môn: ${context?.subject?.trim() || "theo câu hỏi"}. Chủ đề: ${context?.topic?.trim() || "theo câu hỏi"}.`,
+    JSON.stringify(payload, null, 2),
+  ].join("\n\n");
+}
+
+export function parseWrongAnswerDeepData(raw: string): WrongAnswerDeepResult[] {
+  const parsed = parseJsonCandidate(raw);
+  const source = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as { reviews?: unknown }).reviews : parsed;
+  if (!Array.isArray(source)) return [];
+  return source.flatMap((value) => {
+    if (!value || typeof value !== "object") return [];
+    const item = value as Record<string, unknown>;
+    const questionId = String(item.questionId ?? "").trim();
+    if (!questionId) return [];
+    return [{ questionId, whyWrong: String(item.whyWrong ?? ""), knowledgeGap: String(item.knowledgeGap ?? ""), correctThinking: Array.isArray(item.correctThinking) ? item.correctThinking.map(String) : [], commonMistake: String(item.commonMistake ?? ""), retryQuestion: String(item.retryQuestion ?? ""), retryAnswer: String(item.retryAnswer ?? ""), source: String(item.source ?? "Chưa cung cấp"), needsVerification: item.needsVerification === true }];
+  });
+}
+
 function parseJsonCandidate(raw: string): unknown {
   const trimmed = raw.trim().replace(/^```(?:json)?/i, "").replace(/```$/i, "").trim();
   try { return JSON.parse(trimmed); } catch { /* try the first JSON object/array below */ }

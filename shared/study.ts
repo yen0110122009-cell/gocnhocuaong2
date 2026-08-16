@@ -32,6 +32,24 @@ export type DeepExplanation = {
   needsVerification?: boolean;
 };
 
+export type WrongAnswerReview = {
+  id: string;
+  attemptId: string;
+  questionId: string;
+  question: string;
+  learnerAnswer: string;
+  correctAnswer: string;
+  whyWrong: string;
+  knowledgeGap: string;
+  correctThinking: string[];
+  commonMistake: string;
+  retryQuestion: string;
+  retryAnswer: string;
+  source: string;
+  needsVerification: boolean;
+  createdAt: string;
+};
+
 export type QuizQuestion = {
   id: string;
   type: "multiple" | "boolean" | "short";
@@ -263,6 +281,7 @@ export type ProfileState = {
   aiImportHistory: AiImportRecord[];
   pomodoroHistory: PomodoroSession[];
   paperQuizSessions?: PaperQuizSession[];
+  wrongAnswerReviews: WrongAnswerReview[];
   characterProgress: Record<string, CharacterProgress>;
 };
 
@@ -339,6 +358,7 @@ export const emptyProfile = (): ProfileState => ({
   streakShields: 0,
   aiImportHistory: [],
   pomodoroHistory: [],
+  wrongAnswerReviews: [],
   characterProgress: {},
 });
 
@@ -588,6 +608,7 @@ export function normalizeProfile(value: unknown): ProfileState {
     characterProgress: source.characterProgress && typeof source.characterProgress === "object" ? Object.fromEntries(Object.entries(source.characterProgress).flatMap(([characterId, value]) => { const item = value && typeof value === "object" ? (value as Partial<CharacterProgress>) : {}; if (!characterId) return []; const collected = Array.isArray(item.collectedPieceIds) ? item.collectedPieceIds.map(String) : []; const used = Array.isArray(item.usedPieceIds) ? item.usedPieceIds.map(String) : []; const status: CharacterUnlockStatus = item.status === "unlocked" || item.status === "ready" || item.status === "assembling" ? item.status : collected.length ? "assembling" : "locked"; return [[characterId, { characterId, collectedPieceIds: Array.from(new Set(collected)), usedPieceIds: Array.from(new Set(used)), status, assembledAt: item.assembledAt ? String(item.assembledAt) : null, unlockedAt: item.unlockedAt ? String(item.unlockedAt) : null } as CharacterProgress]]; })) : {},
     pomodoroHistory: Array.isArray(source.pomodoroHistory) ? source.pomodoroHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<PomodoroSession>) : null; if (!item?.id) return []; return [{ id: String(item.id), startedAt: String(item.startedAt ?? new Date(0).toISOString()), endedAt: String(item.endedAt ?? new Date(0).toISOString()), durationMinutes: Math.max(1, Number(item.durationMinutes) || 1), subject: String(item.subject ?? ""), topic: String(item.topic ?? ""), sessionNumber: Math.max(1, Number(item.sessionNumber) || 1), totalSessions: Math.max(1, Number(item.totalSessions) || 1), mode: item.mode === "shortBreak" || item.mode === "longBreak" ? item.mode : "focus", status: item.status === "abandoned" || item.status === "skipped" ? item.status : "completed" }]; }) : [],
     aiImportHistory: Array.isArray(source.aiImportHistory) ? source.aiImportHistory.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<AiImportRecord>) : null; if (!item?.id || !item.title) return []; return [{ id: String(item.id), title: String(item.title), createdAt: String(item.createdAt ?? new Date(0).toISOString()), target: item.target === "quiz" || item.target === "both" || item.target === "practice" ? item.target : "flashcards", questionCount: Math.max(0, Number(item.questionCount) || 0), flashcardCount: Math.max(0, Number(item.flashcardCount) || 0), prompt: String(item.prompt ?? ""), rawData: String(item.rawData ?? ""), quizId: item.quizId ? String(item.quizId) : undefined, flashcardSetId: item.flashcardSetId ? String(item.flashcardSetId) : undefined }]; }) : [],
+    wrongAnswerReviews: Array.isArray(source.wrongAnswerReviews) ? source.wrongAnswerReviews.flatMap((value) => { const item = value && typeof value === "object" ? (value as Partial<WrongAnswerReview>) : null; if (!item?.id || !item.attemptId || !item.questionId) return []; return [{ id: String(item.id), attemptId: String(item.attemptId), questionId: String(item.questionId), question: String(item.question ?? ""), learnerAnswer: String(item.learnerAnswer ?? ""), correctAnswer: String(item.correctAnswer ?? ""), whyWrong: String(item.whyWrong ?? ""), knowledgeGap: String(item.knowledgeGap ?? ""), correctThinking: Array.isArray(item.correctThinking) ? item.correctThinking.map(String) : [], commonMistake: String(item.commonMistake ?? ""), retryQuestion: String(item.retryQuestion ?? ""), retryAnswer: String(item.retryAnswer ?? ""), source: String(item.source ?? "Chưa cung cấp"), needsVerification: item.needsVerification === true, createdAt: String(item.createdAt ?? new Date(0).toISOString()) }]; }) : [],
   };
   merged.level = levelForXp(merged.xp);
   return merged;
