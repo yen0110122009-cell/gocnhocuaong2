@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyAchievementRewards, applyStudyActivityRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile } from "./study";
+import { applyAchievementRewards, applyStudyActivityRewards, computedAchievements, emptyAppConfig, emptyProfile, generateAchievements, levelForXp, normalizeProfile, validateGeneratedCards, validateGeneratedQuestions } from "./study";
 
 describe("Study Historia learning state", () => {
   it("generates exactly 900 structured achievements", () => {
@@ -93,6 +93,34 @@ describe("Study Historia learning state", () => {
     expect(duplicate.added).toBe(false);
     expect(duplicate.profile.xp).toBe(30);
     expect(duplicate.profile.fragments.general).toBe(2);
+  });
+
+  it("tracks a calm learning streak and grants a capped shield at seven days", () => {
+    let profile = emptyProfile();
+    for (let day = 1; day <= 7; day += 1) {
+      const occurredAt = `2026-08-${String(day).padStart(2, "0")}T03:00:00.000Z`;
+      profile = applyStudyActivityRewards(profile, { id: `streak-${day}`, occurredAt, kind: "flashcard", quantity: 10, durationSeconds: 60, xpEarned: 5 }, emptyAppConfig()).profile;
+    }
+    expect(profile.currentStreak).toBe(7);
+    expect(profile.bestStreak).toBe(7);
+    expect(profile.streakShields).toBe(1);
+    const protectedDay = applyStudyActivityRewards(profile, { id: "streak-protected", occurredAt: "2026-08-09T03:00:00.000Z", kind: "flashcard", quantity: 10, durationSeconds: 60, xpEarned: 5 }, emptyAppConfig()).profile;
+    expect(protectedDay.currentStreak).toBe(8);
+    expect(protectedDay.streakShields).toBe(0);
+  });
+
+  it("caps activity fragment rewards per day", () => {
+    const config = { ...emptyAppConfig(), dailyFragmentCap: 3 };
+    const first = applyStudyActivityRewards(emptyProfile(), { id: "cap-1", occurredAt: "2026-08-16T01:00:00.000Z", kind: "flashcard" as const, quantity: 20, durationSeconds: 60, xpEarned: 1 }, config).profile;
+    const second = applyStudyActivityRewards(first, { id: "cap-2", occurredAt: "2026-08-16T02:00:00.000Z", kind: "quiz" as const, quantity: 20, durationSeconds: 60, xpEarned: 1 }, config).profile;
+    expect(first.fragments.general).toBe(2);
+    expect(second.fragments.general).toBe(3);
+  });
+
+  it("validates AI-generated cards and questions before import", () => {
+    expect(validateGeneratedCards([{ front: "", back: "Đáp án" }]).valid).toBe(false);
+    expect(validateGeneratedQuestions([{ type: "multiple", prompt: "Câu hỏi", options: ["A", "B"], answer: "C" }]).errors).toContain("Câu 1 có đáp án không nằm trong lựa chọn.");
+    expect(validateGeneratedQuestions([{ type: "short", prompt: "Câu hỏi", answer: "Đáp án" }]).warnings).toHaveLength(1);
   });
 
   it("awards wheel fragment activity idempotently", () => {

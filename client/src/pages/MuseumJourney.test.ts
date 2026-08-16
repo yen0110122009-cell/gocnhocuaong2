@@ -9,6 +9,8 @@ describe("Museum fragment accessibility effects", () => {
     expect(source).toContain('aria-live="polite"');
     expect(source).toContain("achievement-card--unlocked");
     expect(source).toContain("mảnh ghép đã thu thập");
+    expect(source).toContain("fragment-assembly--${stage}");
+    expect(source).toContain("Giai đoạn 3 · Hoàn thành");
   });
 
   it("defines reduced-motion-safe unlock and completion effects", () => {
@@ -16,6 +18,8 @@ describe("Museum fragment accessibility effects", () => {
     expect(css).toContain("@media (prefers-reduced-motion: no-preference)");
     expect(css).toContain("achievement-unlock");
     expect(css).toContain("session-complete");
+    expect(css).toContain("fragment-assemble");
+    expect(css).toContain("fragment-complete");
     expect(css).toContain("prefers-reduced-motion: reduce");
   });
 });

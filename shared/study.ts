@@ -131,6 +131,7 @@ export type AppConfig = {
   encouragements: Encouragement[];
   wheelRewards: WheelReward[];
   wheelTicketsPerAchievement: number;
+  dailyFragmentCap: number;
   achievementOverrides: AchievementOverride[];
   customAchievements: CustomAchievement[];
   updatedAt: string;
@@ -153,6 +154,9 @@ export type ProfileState = {
   soundEnabled: boolean;
   theme: "light" | "dark";
   lastActivityAt: string | null;
+  currentStreak: number;
+  bestStreak: number;
+  streakShields: number;
 };
 
 export type StudyAccount = {
@@ -210,6 +214,9 @@ export const emptyProfile = (): ProfileState => ({
   soundEnabled: true,
   theme: "light",
   lastActivityAt: null,
+  currentStreak: 0,
+  bestStreak: 0,
+  streakShields: 0,
 });
 
 export const emptyAppConfig = (): AppConfig => ({
@@ -217,6 +224,7 @@ export const emptyAppConfig = (): AppConfig => ({
   encouragements: [],
   wheelRewards: [],
   wheelTicketsPerAchievement: 1,
+  dailyFragmentCap: 10,
   achievementOverrides: [],
   customAchievements: [],
   updatedAt: new Date().toISOString(),
@@ -353,6 +361,24 @@ export function computedAchievements(profile: ProfileState, config: AppConfig): 
   return [...standard, ...customs];
 }
 
+export type GeneratedValidation = { valid: boolean; errors: string[]; warnings: string[] };
+
+export function validateGeneratedCards(cards: Array<{ front?: string; back?: string }>): GeneratedValidation {
+  const errors: string[] = []; const warnings: string[] = [];
+  if (!cards.length) errors.push("Chưa có Flashcard hợp lệ.");
+  if (cards.length > 27) warnings.push("Nội dung sẽ được giới hạn ở 27 Flashcard.");
+  cards.forEach((card, index) => { if (!String(card.front ?? "").trim()) errors.push(`Flashcard ${index + 1} thiếu mặt trước.`); if (!String(card.back ?? "").trim()) errors.push(`Flashcard ${index + 1} thiếu mặt sau.`); });
+  return { valid: errors.length === 0, errors, warnings };
+}
+
+export function validateGeneratedQuestions(questions: Array<{ type?: string; prompt?: string; options?: string[]; answer?: string; explanation?: string }>): GeneratedValidation {
+  const errors: string[] = []; const warnings: string[] = [];
+  if (!questions.length) errors.push("Chưa có câu hỏi hợp lệ.");
+  questions.forEach((question, index) => { const label = `Câu ${index + 1}`; const prompt = String(question.prompt ?? "").trim(); const answer = String(question.answer ?? "").trim(); if (!prompt) errors.push(`${label} thiếu nội dung.`); if (!answer) errors.push(`${label} thiếu đáp án.`); if (question.type === "multiple") { const options = (question.options ?? []).map(String).map((item) => item.trim()).filter(Boolean); if (options.length < 2) errors.push(`${label} trắc nghiệm phải có ít nhất 2 lựa chọn.`); if (answer && options.length && !options.includes(answer)) errors.push(`${label} có đáp án không nằm trong lựa chọn.`); } if (question.type === "boolean" && !["true", "false", "đúng", "sai"].includes(answer.toLowerCase())) errors.push(`${label} đúng/sai phải có đáp án Đúng hoặc Sai.`); });
+  if (questions.some((question) => !question.explanation?.trim?.())) warnings.push("Một số câu chưa có giải thích; hãy xem lại trước khi lưu.");
+  return { valid: errors.length === 0, errors, warnings };
+}
+
 export function applyAchievementRewards(profile: ProfileState, config: AppConfig) {
   const newlyUnlocked = computedAchievements(profile, config).filter(
     (achievement) => !profile.unlockedAchievementIds.includes(achievement.id),
@@ -375,15 +401,36 @@ export function applyAchievementRewards(profile: ProfileState, config: AppConfig
   return { profile: next, newlyUnlocked };
 }
 
+export function updateStudyStreak(profile: ProfileState, occurredAt: string) {
+  const dayKey = (value: string) => new Date(value).toISOString().slice(0, 10);
+  const currentKey = dayKey(occurredAt);
+  const lastKey = profile.lastActivityAt ? dayKey(profile.lastActivityAt) : null;
+  if (lastKey === currentKey) return profile;
+  const previous = profile.currentStreak ?? 0;
+  const gap = lastKey ? Math.round((Date.parse(`${currentKey}T00:00:00.000Z`) - Date.parse(`${lastKey}T00:00:00.000Z`)) / 86400000) : 0;
+  const continued = gap === 1 ? previous + 1 : gap === 2 && (profile.streakShields ?? 0) > 0 ? previous + 1 : 1;
+  const shields = gap === 2 && (profile.streakShields ?? 0) > 0 ? (profile.streakShields ?? 0) - 1 : profile.streakShields ?? 0;
+  return { ...profile, currentStreak: continued, bestStreak: Math.max(profile.bestStreak ?? 0, continued), streakShields: shields };
+}
+
+function nextStreakShield(profile: ProfileState, occurredAt: string) {
+  const streaked = updateStudyStreak(profile, occurredAt);
+  return streaked.currentStreak > 0 && streaked.currentStreak % 7 === 0 ? Math.min(3, streaked.streakShields + 1) : streaked.streakShields;
+}
+
 export function applyStudyActivityRewards(profile: ProfileState, activity: StudyActivity, config: AppConfig) {
   if (profile.studyActivity.some((item) => item.id === activity.id)) return { profile, added: false, newlyUnlocked: [] as Achievement[] };
   const quantity = Math.max(0, Math.floor(activity.quantity));
   const xpEarned = Math.max(0, Math.floor(activity.xpEarned));
-  const fragmentReward = Math.max(0, Math.floor(quantity / 10));
+  const rawFragmentReward = Math.max(0, Math.floor(quantity / 10));
+  const dayKey = activity.occurredAt.slice(0, 10);
+  const fragmentsToday = profile.studyActivity.filter((item) => item.occurredAt.slice(0, 10) === dayKey).reduce((sum, item) => sum + Math.max(0, Math.floor(item.quantity / 10)), 0);
+  const fragmentReward = Math.max(0, Math.min(rawFragmentReward, Math.max(0, Number(config.dailyFragmentCap ?? 10) - fragmentsToday)));
   const next: ProfileState = {
-    ...profile,
+    ...updateStudyStreak(profile, activity.occurredAt),
     xp: profile.xp + xpEarned,
     level: levelForXp(profile.xp + xpEarned),
+    streakShields: nextStreakShield(profile, activity.occurredAt),
     studyActivity: [...profile.studyActivity, { ...activity, quantity, xpEarned }],
     fragments: fragmentReward ? { ...profile.fragments, general: (profile.fragments.general ?? 0) + fragmentReward } : profile.fragments,
     lastActivityAt: activity.occurredAt,
@@ -408,6 +455,9 @@ export function normalizeProfile(value: unknown): ProfileState {
     ownedBadges: Array.isArray(source.ownedBadges) ? source.ownedBadges : [],
     inventory: Array.isArray(source.inventory) ? source.inventory : [],
     achievementUnlockDates: source.achievementUnlockDates && typeof source.achievementUnlockDates === "object" ? source.achievementUnlockDates : {},
+    currentStreak: Math.max(0, Number(source.currentStreak) || 0),
+    bestStreak: Math.max(0, Number(source.bestStreak) || 0),
+    streakShields: Math.max(0, Math.min(3, Number(source.streakShields) || 0)),
   };
   merged.level = levelForXp(merged.xp);
   return merged;

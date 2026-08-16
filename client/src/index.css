@@ -103,10 +103,17 @@
   to { opacity: 1; transform: scale(1) rotate(0); }
 }
 
-.achievement-card--unlocked, .session-complete { transition: transform var(--motion-standard) var(--ease-out), box-shadow var(--motion-standard) var(--ease-out); }
+.achievement-card--unlocked, .session-complete, .fragment-assembly { transition: transform var(--motion-standard) var(--ease-out), box-shadow var(--motion-standard) var(--ease-out); }
+.fragment-assembly--collecting { box-shadow: inset 0 0 0 1px rgba(180, 120, 40, .08); }
+.fragment-assembly--assembling { box-shadow: inset 0 0 0 2px rgba(180, 120, 40, .16); }
+.fragment-assembly--complete { box-shadow: 0 16px 34px rgba(180, 120, 40, .16); }
 @media (prefers-reduced-motion: no-preference) {
   .achievement-card--unlocked { animation: achievement-unlock 520ms var(--ease-out) both; }
+  .fragment-assembly--assembling { animation: fragment-assemble 360ms var(--ease-out) both; }
+  .fragment-assembly--complete { animation: fragment-complete 520ms var(--ease-out) both; }
   .session-complete { animation: session-complete 360ms var(--ease-out) both; }
 }
+@keyframes fragment-assemble { from { opacity: .72; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fragment-complete { from { transform: scale(.99); } to { transform: scale(1); } }
 @keyframes achievement-unlock { from { opacity: .72; transform: translateY(4px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes session-complete { from { opacity: .82; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }

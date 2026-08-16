@@ -12,7 +12,8 @@ describe("global learning search", () => {
     expect(source).toContain("Mảnh ghép · ${x.name}");
   });
 
-  it("does not add personal productivity destinations", () => {
-    expect(source).not.toMatch(/Todo|Habit|Journal|Pomodoro|Schedule/);
+  it("adds the requested Pomodoro study destination without unrelated productivity tools", () => {
+    expect(source).toContain("Pomodoro");
+    expect(source).not.toMatch(/Todo|Habit|Journal|Schedule/);
   });
 });

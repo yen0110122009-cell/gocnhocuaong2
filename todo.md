@@ -183,3 +183,20 @@
 - [x] Nối và kiểm thử quy tắc thưởng mảnh ghép đầy đủ cho Wheel và các activity khác ngoài Flashcard/Quiz/Achievement bằng test end-to-end.
 - [x] Bổ sung/kiểm chứng code/test cho hiệu ứng mở khóa thành tích, ghép mảnh và hoàn thành bài theo accessible + reduced-motion ở các view liên quan.
 - [x] Hoàn thiện Flashcard write mode bằng chấm đáp án thực sự; rapid mode có giới hạn thời gian, trạng thái kết thúc và báo cáo cuối phiên; thêm test cho cả 4 mode.
+
+## Yêu cầu bổ sung từ pasted_content_4.txt
+
+- [x] Thêm khu “Ôn lại những phần Ong chưa chắc”, ưu tiên câu sai, thẻ thường xuyên chưa nhớ, câu đúng mất nhiều thời gian và chủ đề điểm thấp.
+- [x] Thêm nút “Học 10 phút” tạo mini-session giới hạn gồm Flashcard, trắc nghiệm, đúng/sai và trả lời ngắn, có ghi nhận tiến trình.
+- [x] Bổ sung chuỗi ngày học theo hướng không gây áp lực, thông điệp quay lại tích cực và cơ chế bảo vệ chuỗi hợp lý.
+- [x] Mở rộng “Kho mảnh ghép” tổng hợp mảnh đang có, đã sử dụng, còn thiếu và nhân vật gần hoàn thành.
+- [x] Thiết lập giới hạn mảnh ghép hợp lý theo ngày và ghi nhận các nguồn thưởng hợp lệ ngoài thành tích, gồm ôn lỗi sai, chủ đề và thử thách.
+- [x] Xây dựng hệ thống Pomodoro riêng với preset/tùy chỉnh phiên, nghỉ, tự động chuyển, âm thanh, âm lượng và lưu cấu hình yêu thích.
+- [x] Thêm “Bản đồ kiến thức” theo môn/chủ đề với trạng thái chắc, cần ôn, chưa chắc và chưa học, liên kết sang Flashcard/Quiz.
+- [x] Bổ sung bước xem trước/kiểm tra dữ liệu AI trước khi cho phép tạo Flashcard hoặc Quiz, gồm chủ đề, loại câu, đáp án, giải thích và cảnh báo không chắc chắn.
+- [x] Bổ sung kiểm tra đáp án AI, phát hiện lựa chọn/đáp án không hợp lệ trước khi nhập vào hệ thống.
+- [x] Thêm lịch sử học theo tài liệu/nguồn, gồm số Flashcard, số đề, số lần làm, điểm cao nhất/trung bình và câu sai nhiều.
+- [x] Thêm chế độ “Tôi sắp kiểm tra” để ưu tiên nội dung yếu, câu sai, thẻ chưa nhớ và nội dung gần đây chưa ôn theo số ngày còn lại.
+- [x] Thêm lời chào “Ong hôm nay thế nào?” theo ngày và cho phép Admin quản lý trong kho lời động viên.
+- [x] Mở rộng nguồn bắt buộc cho từng mốc lịch sử, hiển thị cảnh báo nội dung quản trị thêm nhưng chưa xác minh.
+- [x] Mở rộng animation ghép hình thành ba giai đoạn, có trạng thái hoàn thành, aria-live và reduced-motion.
