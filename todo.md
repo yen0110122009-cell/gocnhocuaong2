@@ -266,3 +266,9 @@
 - [x] Đổi tên trang hiển thị thành “Góc nhỏ của Ong” ở website chính và bản standalone.
 - [x] Cập nhật title/favicon/logo để dùng icon Ong nhất quán, không phá responsive hoặc dark mode.
 - [x] Kiểm tra tiêu đề trình duyệt, logo/header và bản standalone sau reload; lưu checkpoint bàn giao.
+
+
+## Ẩn mã quản trị khỏi giao diện đăng nhập
+- [x] Loại bỏ mọi hướng dẫn hiển thị mã 111 khỏi website chính và bản standalone.
+- [x] Thay placeholder và thông báo đăng nhập bằng “Nhập mã thành viên được cấp”.
+- [x] Rà soát chuỗi hiển thị, chạy test và lưu checkpoint sau khi xác nhận không còn lộ mã quản trị.
