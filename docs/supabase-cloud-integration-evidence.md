@@ -23,3 +23,18 @@ The full-suite stall is treated as a test-runner/network lifecycle issue rather 
 ## Security note
 
 No secret value is stored in this evidence file, source tree, Git history, or committed artifacts.
+
+## Follow-up after timeout hardening
+
+A shared `AbortController` helper with a 10-second request timeout was added to both cloud integration tests. After the change:
+
+| Check | Result |
+|---|---|
+| Targeted connection + RLS with cloud credentials | 2/2 passed |
+| Full Vitest suite with cloud credentials | 34 files passed; 100 tests passed; process exit 0; 1.54 seconds |
+| Local suite without cloud credentials | 32 files passed, 2 skipped; 98 passed, 2 skipped |
+| TypeScript check | Passed |
+| `DATABASE_URL` | Unset; migration apply and `drizzle-kit check` cannot run against a database |
+| Authenticated RLS credentials | Not supplied; no user account was created and no production data was modified |
+
+The earlier full-suite stall was eliminated after adding request cancellation and rerunning with the cloud credentials. The cloud result above is the completed authoritative full-suite result for this follow-up.

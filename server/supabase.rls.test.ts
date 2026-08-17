@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { fetchSupabaseWithTimeout } from "./supabaseTestUtils";
 
 const hasSupabaseCredentials = Boolean(process.env.VITE_SUPABASE_URL && process.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 
@@ -7,7 +8,7 @@ describe("Supabase RLS baseline", () => {
     const url = process.env.VITE_SUPABASE_URL as string;
     const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
-    const response = await fetch(`${url}/rest/v1/study_accounts?select=user_id,account_code,role`, {
+    const response = await fetchSupabaseWithTimeout(`${url}/rest/v1/study_accounts?select=user_id,account_code,role`, {
       headers: { apikey: key as string },
     });
     expect(response.status).toBe(200);
