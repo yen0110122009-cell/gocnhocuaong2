@@ -18,6 +18,7 @@ import { storagePut } from "../storage";
 import { invokeLLM } from "../_core/llm";
 import { publicProcedure, router } from "../_core/trpc";
 import { achievementCatalogRows, titleCatalogRows, validateMasterCatalog } from "../../shared/masterBuild";
+import { adjustPieceBalanceForToken, getPieceBalanceForToken } from "../pieceLedger";
 
 function asTrpcError(error: unknown): never {
   throw new TRPCError({ code: "BAD_REQUEST", message: error instanceof Error ? error.message : "Không thể xử lý yêu cầu." });
@@ -59,6 +60,22 @@ export const studyRouter = router({
       const validation = validateMasterCatalog(achievements, titles);
       if (!validation.valid) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: validation.errors.join(" ") });
       return { achievements, titles, counts: { achievements: achievements.length, titles: titles.length } };
+    }),
+    ledgerBalance: publicProcedure.input(tokenInput.extend({ pieceTypeId: z.string().min(1).max(96) })).query(async ({ input }) => {
+      try { return await getPieceBalanceForToken(input.token, input.pieceTypeId); } catch (error) { return asTrpcError(error); }
+    }),
+    ledgerAdjust: publicProcedure.input(tokenInput.extend({
+      accountId: z.string().uuid(),
+      pieceTypeId: z.string().min(1).max(96),
+      delta: z.number().int().refine((value) => value !== 0, "Delta không được bằng 0."),
+      kind: z.string().min(1).max(32),
+      idempotencyKey: z.string().min(1).max(160),
+      referenceType: z.string().max(64).optional(),
+      referenceId: z.string().max(128).optional(),
+      metadata: z.record(z.string(), z.unknown()).optional(),
+      reason: z.string().min(1).max(2000),
+    })).mutation(async ({ input }) => {
+      try { return await adjustPieceBalanceForToken(input.token, input); } catch (error) { return asTrpcError(error); }
     }),
   }),
   ai: router({
