@@ -262,8 +262,8 @@
 - [x] Kiểm thử trực tiếp bằng file:// với dữ liệu nhiều nhân vật và bàn giao tệp standalone cập nhật.
 
 
-## Đổi nhận diện thành Góc nhỏ của Ong
-- [x] Đổi tên trang hiển thị thành “Góc nhỏ của Ong” ở website chính và bản standalone.
+## Đổi nhận diện thành Góc học tập của Ong
+- [x] Đổi tên trang hiển thị thành “Góc học tập của Ong” ở website chính và bản standalone.
 - [x] Cập nhật title/favicon/logo để dùng icon Ong nhất quán, không phá responsive hoặc dark mode.
 - [x] Kiểm tra tiêu đề trình duyệt, logo/header và bản standalone sau reload; lưu checkpoint bàn giao.
 
@@ -360,4 +360,4 @@
 - [x] Đã bổ sung Audio Center, tùy chọn âm báo, thống kê/lịch sử và responsive mobile.
 - [x] TypeScript sạch; 32 file với 94 test passed; screenshot mobile không overflow ở màn hình đăng nhập.
 - [x] Đã ghi nhận giới hạn: preview hiện không có phiên đăng nhập nên chưa chụp được màn hình Pomodoro sau đăng nhập trong môi trường này.
-- [ ] Kiểm tra bản giao diện đúng trên GitHub/dự án hiện tại và xuất lại standalone HTML theo đúng giao diện Góc nhỏ của Ong.
+- [ ] Kiểm tra bản giao diện đúng trên GitHub/dự án hiện tại và xuất lại standalone HTML theo đúng giao diện Góc học tập của Ong.
