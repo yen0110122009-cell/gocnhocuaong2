@@ -15,6 +15,20 @@
       "when": 1786846112961,
       "tag": "0001_remarkable_stone_men",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1786934324088,
+      "tag": "0002_nebulous_jean_grey",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1786934346839,
+      "tag": "0003_lethal_redwing",
+      "breakpoints": true
     }
   ]
 }

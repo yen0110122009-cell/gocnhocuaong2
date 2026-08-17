@@ -17,6 +17,7 @@ import {
 import { storagePut } from "../storage";
 import { invokeLLM } from "../_core/llm";
 import { publicProcedure, router } from "../_core/trpc";
+import { achievementCatalogRows, titleCatalogRows, validateMasterCatalog } from "../../shared/masterBuild";
 
 function asTrpcError(error: unknown): never {
   throw new TRPCError({ code: "BAD_REQUEST", message: error instanceof Error ? error.message : "Không thể xử lý yêu cầu." });
@@ -49,6 +50,15 @@ export const studyRouter = router({
     }),
     import: publicProcedure.input(tokenInput.extend({ profile: z.unknown() })).mutation(async ({ input }) => {
       try { return await saveProfileForToken(input.token, input.profile); } catch (error) { return asTrpcError(error); }
+    }),
+  }),
+  master: router({
+    catalog: publicProcedure.query(() => {
+      const achievements = achievementCatalogRows();
+      const titles = titleCatalogRows();
+      const validation = validateMasterCatalog(achievements, titles);
+      if (!validation.valid) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: validation.errors.join(" ") });
+      return { achievements, titles, counts: { achievements: achievements.length, titles: titles.length } };
     }),
   }),
   ai: router({
